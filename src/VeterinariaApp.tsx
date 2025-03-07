@@ -1,59 +1,43 @@
-import React, { useEffect, useState } from "react";
-import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
+import 'react-native-gesture-handler';
+import React, {useEffect, useState} from "react";
+import {NavigationContainer} from "@react-navigation/native";
 import * as SecureStore from "expo-secure-store";
-import { HomeScreen } from "./presentation/HomeScreen";
-import { LoginScreen } from "./presentation/LoginScreen";
-
-type RootStackParams = {
-  Login: undefined;
-  Home: undefined;
-};
-
-const Stack = createStackNavigator<RootStackParams>();
+import {ApplicationProvider, IconRegistry} from '@ui-kitten/components'
+import {LoginProvider} from "./presentation/providers/LoginProvider";
+import MyDrawerNavigator from "./presentation/navigation/MyDrawerNavigator";
+import * as eva from "@eva-design/eva";
+import {EvaIconsPack} from "@ui-kitten/eva-icons";
+import {ActivityIndicator, Text, View} from "react-native";
+import {useAuth} from "./presentation/components/hooks/useAuth";
+import {LoginScreen} from "./presentation/screens";
 
 export const VeterinariaApp = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    const checkToken = async () => {
-      const token = await SecureStore.getItemAsync("authToken");
-      if (token) {
-        setIsAuthenticated(true);
-      }
-      setIsLoading(false);
-    };
+    const {isAuthenticated, isLoading} =useAuth();
 
-    checkToken();
-  }, []);
+    useEffect(() => {
+        console.log('isLoading:', isLoading, 'isAuthenticated:', isAuthenticated);
+    }, [isLoading, isAuthenticated]);
 
-  if (isLoading) {
-    return null; // Muestra una pantalla de carga mientras verifica el token
-  }
-
-  return (
-    <>
-      <NavigationContainer>
-        <Stack.Navigator id={undefined}>
-        
-
-          {isAuthenticated ? (
-            <Stack.Screen
-              name="Home"
-              component={HomeScreen}
-              options={{ title: "Inicio" }}
-            />
-          ) : (
-            <Stack.Screen
-              name="Login"
-              component={LoginScreen}
-              options={{ title: "Iniciar Sesión" }}
-            />
-          )}
-
-        </Stack.Navigator>
-      </NavigationContainer>
-    </>
-  );
+    if (isLoading) {
+        console.log('Mostrando ActivityIndicator');
+        return (
+            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                <ActivityIndicator size="large" color="#eb10a2" />
+            </View>
+        );
+    }
+    console.log('Renderizando contenido principal, isAuthenticated:', isAuthenticated);
+    return (
+        <>
+            <IconRegistry icons={EvaIconsPack}/>
+            <ApplicationProvider {...eva} theme={eva.light}>
+                <NavigationContainer>
+                    <LoginProvider>
+                        {isAuthenticated ? <MyDrawerNavigator /> : <LoginScreen />}
+                    </LoginProvider>
+                </NavigationContainer>
+            </ApplicationProvider>
+        </>
+    );
 }
