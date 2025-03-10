@@ -5,6 +5,8 @@ import {Alert} from "react-native";
 import * as SecureStore from "expo-secure-store";
 
 const returnOwnerAccessed = (data: OwnerResponse) => {
+
+    const token = data.token;
     const owner: OwnerModel = {
         id: data.owner.id,
         names: data.owner.names,
@@ -18,29 +20,17 @@ const returnOwnerAccessed = (data: OwnerResponse) => {
         emergency_contact: data.owner.emergency_contact,
     };
     return {
-       ownerAccessed: owner,
+        ownerAccessed: owner,
+        ownerToken: token,
     }
 }
 
-export const ownerLogin = async (email:string,password:string) => {
-    try{
+export const ownerLogin = async (email: string, password: string) => {
+    try {
         const {data} = await apiZooloMascotas.post<OwnerResponse>("/login-app", {email, password});
-        const {token, owner} = data;
-
-        //Guardamos el token de manera segura con SecureStore
-        await SecureStore.setItemAsync("authToken",token);
-
-        //Configuramos Axios con el token par futura solicitudes
-        apiZooloMascotas.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-
-        console.log("Usuario Authenticated successfully",owner);
-        console.log("Token",token);
-        return returnOwnerAccessed({token,owner}).ownerAccessed;
-    }
-    catch(error){
-        // Alert.alert("Error:", "Credenciales incorrectas o problema en la red");
-        // console.log(error.response ? error.response.data : error.message);
-        // return null;
+        const {ownerToken,ownerAccessed} =returnOwnerAccessed(data);
+        return ({ownerToken,ownerAccessed});
+    } catch (error) {
 
         if (error.response) {
             // El backend respondió con un error (ej: 401, 404)
@@ -54,6 +44,6 @@ export const ownerLogin = async (email:string,password:string) => {
 }
 
 // Obtener el token para realizar cualquier solicitud Authenticada
-export const getAuthToken= async ()=>{
+export const getAuthToken = async () => {
     return await SecureStore.getItemAsync("authToken");
 }

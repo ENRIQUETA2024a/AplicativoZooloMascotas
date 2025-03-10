@@ -1,6 +1,6 @@
 import {OwnerModel} from "../../domain/models/OwnerModel";
 import {create} from "zustand";
-import {ownerLogin} from "./owner.login";
+import {getAuthToken, ownerLogin} from "./owner.login";
 
 type LoginStatus = "authenticated" | "unauthenticated" | "loading";
 import * as SecureStore from "expo-secure-store";
@@ -19,14 +19,28 @@ export const useLoginStore = create<OwnerLoginState>()((set, get) => ({
     status: "loading", //Estado inicial
     owner: undefined,//No hay dueño autenticado
     login: async (email: string, password: string) => {
-        const respuesta = await ownerLogin(email, password);
+        const {ownerToken, ownerAccessed} = await ownerLogin(email, password);
         //
-        if (!respuesta) {
+        if (ownerAccessed) {
+            //Guardamos el token de manera segura con SecureStore
+            await SecureStore.setItemAsync("authToken",ownerToken);
+            //Configuramos Axios con el token par futura solicitudes
+            apiZooloMascotas.defaults.headers.common['Authorization'] = `Bearer ${ownerToken}`;
+            //Actualizamos el estado
+            set({status: "authenticated",owner:ownerAccessed});
+
+            console.log("✅ Login Exitoso, nuevo estado ZUSTAND:", get().status); // Estado
+            console.log("✅ Token Generado:", ownerToken); // Token
+            return true;
+        }
+        else {
             set({status: "unauthenticated", owner: undefined});
             return false;
         }
-        set({status: "authenticated", owner: respuesta});
-        return true;
+
+
+
+
     },
     checkAuth: async () => {
         const token = await SecureStore.getItemAsync("authToken");
@@ -41,6 +55,7 @@ export const useLoginStore = create<OwnerLoginState>()((set, get) => ({
         await SecureStore.deleteItemAsync("authToken"); // Eliminamos el token de Secure Store
         apiZooloMascotas.defaults.headers.common["Authorization"] = "";
         set({status: "unauthenticated", owner: undefined});
-        console.log("Cerrando Sesion");
+        console.log("❌ Estado al LOGOUT: ", get().status)
+        console.log("❌ Token Generado: ", getAuthToken() )
     }
 }))

@@ -8,15 +8,17 @@ export const useAuth = () => {
     useEffect(() => {
         const checkToken = async () => {
             try {
+                //await SecureStore.deleteItemAsync("authToken"); #TODO para eliminar el LOGIN QUE SE TENIA
                 console.log('Verificando token...');
                 const token = await SecureStore.getItemAsync("authToken");
-                console.log('Token encontrado:', token ? 'Sí' : 'No');
-                if (token) {
+                if (token && token.trim().length > 0) {
+                    console.log('Token válido encontrado:', token);
                     setIsAuthenticated(true);
                 }
             } catch (error) {
                 console.error("Error verificando el token:", error);
-            } finally {
+                setIsAuthenticated(false);
+            }finally {
                 setIsLoading(false);
             }
         };

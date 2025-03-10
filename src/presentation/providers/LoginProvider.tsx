@@ -22,27 +22,25 @@ export const LoginProvider = ({children}: PropsWithChildren) => {
                 console.error("Error en la autenticación:", error);
             } finally {
                 setAppReady(true);
-                SplashScreen.hideAsync(); // Ocultamos el SplashScreen
             }
-        }
+        };
         initAuth();
-        //Verificamos si hay una sesion activa al iniciar el aplicativo
     }, []);
 
 
     useEffect(() => {
-        if (!appReady || status === "loading") return; //Esperamos hasta que el estado este definido
+        if (!appReady || status === "loading") return; // Esperar hasta que la app esté lista
         navigation.reset({
             index: 0,
-            routes: [{name: status === 'authenticated' ? "HomeScreen" : 'LoginScreen'}],
-        })
-        SplashScreen.hideAsync(); // Ocultamos el SplashScreen
-    }, [status,appReady]);
+            routes: [{name: status === "authenticated" ? "HomeScreen" : "LoginScreen"}],
+        });
+        SplashScreen.hideAsync(); // Ocultamos el SplashScreen solo cuando ya se tomó una decisión
+    }, [status, appReady]);
 
-    if(!appReady){
+    if (!appReady || status === "loading") {
         return (
-            <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-                <ActivityIndicator size="large" color="#10d5eb" />
+            <View style={{flex: 1, justifyContent: "center", alignItems: "center"}}>
+                <ActivityIndicator size="large" color="#10d5eb"/>
             </View>
         );
     }
