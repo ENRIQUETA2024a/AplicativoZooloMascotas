@@ -1,15 +1,15 @@
-import {OwnerModel} from "../../domain/models/OwnerModel";
 import {create} from "zustand";
-import {getAuthToken, ownerLogin} from "./owner.login";
+import {getAuthToken, ownerLoginActions} from "./ownerLoginActions";
 
 type LoginStatus = "authenticated" | "unauthenticated" | "loading";
 import * as SecureStore from "expo-secure-store";
 import {apiZooloMascotas} from "../../config/api/apiZooloMascotas";
+import {Owner} from "../../core";
 
 // TODO creamos interface para manejar propiedades del login
 export interface OwnerLoginState {
     status: LoginStatus;
-    owner?: OwnerModel;
+    owner?: Owner;
     login: (email: string, password: string) => Promise<boolean>;
     logout: () => Promise<void>;
     checkAuth: () => Promise<void>; // Funcion para verificar la autenticacion
@@ -19,7 +19,7 @@ export const useLoginStore = create<OwnerLoginState>()((set, get) => ({
     status: "loading", //Estado inicial
     owner: undefined,//No hay dueño autenticado
     login: async (email: string, password: string) => {
-        const {ownerToken, ownerAccessed} = await ownerLogin(email, password);
+        const {ownerToken, ownerAccessed} = await ownerLoginActions(email, password);
         //
         if (ownerAccessed) {
             //Guardamos el token de manera segura con SecureStore

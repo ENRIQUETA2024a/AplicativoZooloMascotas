@@ -1,13 +1,14 @@
 import {apiZooloMascotas} from '../../config/api/apiZooloMascotas'
-import {OwnerResponse} from "../../infraestructure/interfaces/owner.response";
-import {OwnerModel} from "../../domain/models/OwnerModel";
 import {Alert} from "react-native";
 import * as SecureStore from "expo-secure-store";
+import {Owner, OwnerApiResponse} from "../../core";
 
-const returnOwnerAccessed = (data: OwnerResponse) => {
+const returnOwnerAccessed = (data: OwnerApiResponse
+) => {
 
     const token = data.token;
-    const owner: OwnerModel = {
+    const owner: Owner
+        = {
         id: data.owner.id,
         names: data.owner.names,
         surnames: data.owner.surnames,
@@ -25,9 +26,9 @@ const returnOwnerAccessed = (data: OwnerResponse) => {
     }
 }
 
-export const ownerLogin = async (email: string, password: string) => {
+export const ownerLoginActions = async (email: string, password: string) => {
     try {
-        const {data} = await apiZooloMascotas.post<OwnerResponse>("/login-app", {email, password});
+        const {data} = await apiZooloMascotas.post<OwnerApiResponse>("/login-app", {email, password});
         const {ownerToken,ownerAccessed} =returnOwnerAccessed(data);
         return ({ownerToken,ownerAccessed});
     } catch (error) {

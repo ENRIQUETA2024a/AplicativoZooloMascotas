@@ -1,6 +1,6 @@
 import {useState} from "react";
 import {Alert, Image, ScrollView, StyleSheet, useWindowDimensions} from "react-native";
-import {useLoginStore} from "../../../actions/owners/login.state";
+import {useLoginStore} from "../../../actions/owners/ownerLoginState";
 import {Button, Icon, Input, Layout, Text} from "@ui-kitten/components";
 import {MyIcon} from "../../components/ui/MyIcon";
 

@@ -8,18 +8,8 @@ import * as eva from "@eva-design/eva";
 import {EvaIconsPack} from "@ui-kitten/eva-icons";
 import {ActivityIndicator,  View} from "react-native";
 import {useAuth} from "./presentation/components/hooks/useAuth";
-import {LoginScreen} from "./presentation/screens";
-import {MyRootStackScreens} from "./presentation/navigation/ScreenNavigations";
-
-
-// export const navigate = (name: keyof MyRootStackScreens, params?: MyRootStackScreens[typeof name]) => {
-//     if (navigationRef.isReady()) {
-//         navigationRef.navigate(name, params);
-//     }
-// };
 
 export const VeterinariaApp = () => {
-
 
     const {isAuthenticated, isLoading} =useAuth();
 

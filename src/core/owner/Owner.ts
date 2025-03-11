@@ -1,4 +1,5 @@
-export interface OwnerModel {
+// interfaz del Modelo
+export interface Owner {
     id: number;
     names: string;
     surnames: string;

@@ -1,8 +1,8 @@
 import {PropsWithChildren, useEffect, useState} from "react";
 import {useNavigation} from "@react-navigation/native";
 import {StackNavigationProp} from "@react-navigation/stack";
-import {MyRootStackScreens} from "../navigation/ScreenNavigations";
-import {useLoginStore} from "../../actions/owners/login.state";
+import {MyRootStackScreens} from "../navigation/MyRootStackScreens";
+import {useLoginStore} from "../../actions/owners/ownerLoginState";
 import * as SplashScreen from "expo-splash-screen";
 import {ActivityIndicator, View} from "react-native";
 
@@ -32,7 +32,7 @@ export const LoginProvider = ({children}: PropsWithChildren) => {
         if (!appReady || status === "loading") return; // Esperar hasta que la app esté lista
         navigation.reset({
             index: 0,
-            routes: [{name: status === "authenticated" ? "HomeScreen" : "LoginScreen"}],
+            routes: [{name: status === "authenticated" ? "OwnerHomeScreen" : "LoginScreen"}],
         });
         SplashScreen.hideAsync(); // Ocultamos el SplashScreen solo cuando ya se tomó una decisión
     }, [status, appReady]);

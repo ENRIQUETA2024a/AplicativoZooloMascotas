@@ -10,7 +10,7 @@ import {MyIcon} from "../components/ui/MyIcon";
 import {MyStackNavigator} from "./MyStackNavigator";
 import {DrawerActions, useNavigation} from "@react-navigation/native";
 import {useSafeAreaInsets} from "react-native-safe-area-context";
-import {useLoginStore} from "../../actions/owners/login.state";
+import {useLoginStore} from "../../actions/owners/ownerLoginState";
 
 const Drawer = createDrawerNavigator();
 
