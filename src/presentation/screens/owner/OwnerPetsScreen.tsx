@@ -1,8 +1,8 @@
-import {useLoginStore} from "../../../actions/owners/ownerLoginState";
-import {useState, useEffect} from "react";
-import {getOwnerPets} from "../../../actions/owners/ownerPetsActions";
-import {ActivityIndicator, FlatList, Text, View} from "react-native";
-import {MyCustomLayout} from "../../components/ui/MyCustomLayout";
+import {useLoginStore,getOwnerPets} from "../../../actions";
+import React, {useState, useEffect} from "react";
+import { Text, View} from "react-native";
+import {PetList} from "../../components/pet/PetList";
+import {MyActivityIndicator} from "../../components/ui/MyActivityIndicator";
 
 export const OwnerPetsScreen = () => {
     const {owner} = useLoginStore();
@@ -19,13 +19,17 @@ export const OwnerPetsScreen = () => {
         fetchPets();
     }, []);
 
-
+    if (loading) {
+        return (
+           <MyActivityIndicator />
+        );
+    }
 
     return (
-        <MyCustomLayout>
-            <Text>Mascotas de {owner?.names}</Text>
-            <Text> {JSON.stringify(pets)} </Text>
-        </MyCustomLayout>
+        <View>
+            <Text>Mascotas de {owner && owner?.names}</Text>
+            <PetList pets={pets} />
+        </View>
 
     );
 

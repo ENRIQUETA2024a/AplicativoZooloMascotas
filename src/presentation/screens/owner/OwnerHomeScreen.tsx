@@ -13,13 +13,7 @@ export const OwnerHomeScreen = ({ navigation }) => {
     return (
         <MyCustomLayout>
             <View>
-                <Text>Bienvenido OwnerHomeScreen 2025 -- 99</Text>
-                <Text> {owner.names} </Text>
-
-                <OwnerPetsScreen />
-
-
-
+                 <OwnerPetsScreen />
                 <Button title="Cerrar Sesión" onPress={logout} />
             </View>
         </MyCustomLayout>

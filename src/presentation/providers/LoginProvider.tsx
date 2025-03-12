@@ -1,10 +1,10 @@
-import {PropsWithChildren, useEffect, useState} from "react";
+import React, {PropsWithChildren, useEffect, useState} from "react";
 import {useNavigation} from "@react-navigation/native";
 import {StackNavigationProp} from "@react-navigation/stack";
 import {MyRootStackScreens} from "../navigation/MyRootStackScreens";
 import {useLoginStore} from "../../actions/owners/ownerLoginState";
 import * as SplashScreen from "expo-splash-screen";
-import {ActivityIndicator, View} from "react-native";
+import {MyActivityIndicator} from "../components/ui/MyActivityIndicator";
 
 SplashScreen.preventAutoHideAsync(); // Mantener el splash hasta que la app esté lista
 
@@ -39,9 +39,7 @@ export const LoginProvider = ({children}: PropsWithChildren) => {
 
     if (!appReady || status === "loading") {
         return (
-            <View style={{flex: 1, justifyContent: "center", alignItems: "center"}}>
-                <ActivityIndicator size="large" color="#10d5eb"/>
-            </View>
+            <MyActivityIndicator/>
         );
     }
 

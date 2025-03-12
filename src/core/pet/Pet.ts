@@ -1,6 +1,6 @@
 //Model que la app usa internamente, basado en una interfaz (PetApiResponse)
 export interface Pet {
-    birth_date:    Date;
+    birth_date:    string;
     breed:         string;
     color:         string;
     gender:        string;

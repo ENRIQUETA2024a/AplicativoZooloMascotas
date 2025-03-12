@@ -46,5 +46,11 @@ export const ownerLoginActions = async (email: string, password: string) => {
 
 // Obtener el token para realizar cualquier solicitud Authenticada
 export const getAuthToken = async () => {
-    return await SecureStore.getItemAsync("authToken");
+    try {
+        const token = await SecureStore.getItemAsync("authToken");
+        return token || null; // Retorna null si no hay token
+    } catch (error) {
+        console.error("❌ Error obteniendo el token:", error);
+        return null; // Retorna null si hay un error
+    }
 }

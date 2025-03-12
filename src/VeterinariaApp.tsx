@@ -1,13 +1,13 @@
 import 'react-native-gesture-handler';
 import React, {useEffect} from "react";
-import {createNavigationContainerRef, NavigationContainer} from "@react-navigation/native";
+import { NavigationContainer} from "@react-navigation/native";
 import {ApplicationProvider, IconRegistry} from '@ui-kitten/components'
 import {LoginProvider} from "./presentation/providers/LoginProvider";
 import MyDrawerNavigator from "./presentation/navigation/MyDrawerNavigator";
 import * as eva from "@eva-design/eva";
 import {EvaIconsPack} from "@ui-kitten/eva-icons";
-import {ActivityIndicator,  View} from "react-native";
 import {useAuth} from "./presentation/components/hooks/useAuth";
+import {MyActivityIndicator} from "./presentation/components/ui/MyActivityIndicator";
 
 export const VeterinariaApp = () => {
 
@@ -18,11 +18,8 @@ export const VeterinariaApp = () => {
     }, [isLoading, isAuthenticated]);
 
     if (isLoading) {
-        console.log('Cargando aplicación...');
         return (
-            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                <ActivityIndicator size="large" color="#eb10a2" />
-            </View>
+            <MyActivityIndicator />
         );
     }
     console.log('Renderizando contenido principal,s isAuthenticated:', isAuthenticated);
