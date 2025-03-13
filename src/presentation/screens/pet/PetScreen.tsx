@@ -1,10 +1,10 @@
-import {useLoginStore,getOwnerPets} from "../../../actions";
-import React, {useState, useEffect} from "react";
-import { Text, View} from "react-native";
-import {PetList} from "../../components/pet/PetList";
+import {Text, View} from "react-native";
+import {getOwnerPets, useLoginStore} from "../../../actions";
+import React, {useEffect, useState} from "react";
 import {MyActivityIndicator} from "../../components/ui/MyActivityIndicator";
+import {PetList} from "../../components/pet/PetList";
 
-export const OwnerPetsScreen = () => {
+export const PetScreen = () =>{
     const {owner} = useLoginStore();
     const [pets, setPets] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -21,16 +21,14 @@ export const OwnerPetsScreen = () => {
 
     if (loading) {
         return (
-           <MyActivityIndicator />
+            <MyActivityIndicator />
         );
     }
 
     return (
         <View>
-            <Text>Mascotas de {owner && owner?.names}</Text>
             <PetList pets={pets} />
         </View>
 
     );
-
 }

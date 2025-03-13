@@ -7,8 +7,14 @@ import {
     NavigationProp,
     useNavigation,
 } from "@react-navigation/native";
-import {HomeScreen, LoginScreen} from "../screens/";
-import {OwnerHomeScreen, PetDetailsScreen} from "../screens/";
+import {
+    AppointmentPetListScreen,
+    HomeScreen,
+    LoginScreen,
+    OwnerHomeScreen, PetDetailsScreen,
+    PetScreen,
+    SurgeryPetListScreen
+} from "../screens/";
 
 const Stack = createStackNavigator<MyRootStackScreens>();
 export const MyStackNavigator = () => {
@@ -53,9 +59,26 @@ export const MyStackNavigator = () => {
                     ),
                 }}
 
-            />{/*Pantalla detalles de la mascota*/}
+            />
+            {/*Pantalla Pets*/}
+            <Stack.Screen
+                name="PetScreen"
+                component={PetScreen}
+                options={{headerShown: false}}
+            />
+
+            {/*Pantalla detalles de la mascota*/}
             <Stack.Screen name="PetDetailsScreen" component={PetDetailsScreen}
                           options={{title: "Detalles de mascota"}}/>
+
+
+            {/*Pantalla Listado de Citas de Mascota*/}
+            <Stack.Screen name="AppointmentPetListScreen" component={AppointmentPetListScreen}
+                          options={{title: "Listado de Citas"}}/>
+
+            {/*Pantalla Listado de Citas de Mascota*/}
+            <Stack.Screen name="SurgeryPetListScreen" component={SurgeryPetListScreen}
+                          options={{title: "Listado de Cirugias"}}/>
         </Stack.Navigator>
     );
 };

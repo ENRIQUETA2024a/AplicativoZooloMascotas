@@ -1,30 +1,28 @@
-import {Pet} from "../../core/pet/Pet";
+import {Surgery} from "../../core/surgeries/Surgery";
 import {getAuthToken} from "../owners/ownerLoginActions";
 import {apiZooloMascotas} from "../../config/api/apiZooloMascotas";
-import {PetApiMapper} from "../../core/pet/PetApiMapper";
+import {SurgeryApiMapper} from "../../core/surgeries/SurgeryApiMapper";
 
 
-export const getPetById = async(petId:number):Promise<Pet | null> =>{
-    try{
+export const getSurgeriesByPetId = async (petId: number): Promise<Surgery[]> => {
+    try {
         //Obtenemos el token almacenado en secureStore
         const token = await getAuthToken();
-        if(!token) {
+        if (!token) {
             console.warn("No hay token disponible");
             return null; //  Retornamos para evitar que la app se rompa
         }
-
         //Configuramos las headers con el token
         const config = {
             headers: {Authorization: `Bearer ${token}`},
             Accept: "application/json",
         }
-
-        const {data} = await apiZooloMascotas.get(`/pets/${petId}`,config);
-        const pet = PetApiMapper.mapApiResponseToModel(data);
-        return pet;
-    }
-    catch (error) {
-        console.error(`❌ Error obteniendo las masrcotas del Owner ID ${petId}:`, error);
+        const {data} = await apiZooloMascotas.get(`/pets/${petId}/surgeries`, config);
+        const surgeries = data.map((surge) => (SurgeryApiMapper.mapApiResponseToModel(surge)))
+        console.log(surgeries);
+        return surgeries;
+    } catch (error) {
+        console.error(`❌ Error obteniendo las cirugias del Pet ID ${petId}:`, error);
         // Si el error viene de Axios, muestra la respuesta del servidor
         if (error.response) {
             console.error("📌 Código de estado:", error.response.status);
@@ -32,7 +30,9 @@ export const getPetById = async(petId:number):Promise<Pet | null> =>{
         } else {
             console.error("📌 Error general:", error.message);
         }
-        //  Devolvemos un array vacío para evitar que la app se rompa
-        return null;
+        //  Devolvemos un array vacío para evitar que la app no se rompa
+        return [];
     }
+
+
 }

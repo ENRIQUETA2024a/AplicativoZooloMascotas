@@ -1,19 +1,17 @@
 import React from 'react';
-import { View, Text, Button } from 'react-native';
-import {useLoginStore} from "../../../actions/owners/ownerLoginState";
+import { View, Button } from 'react-native';
 import {MyCustomLayout} from "../../components/ui/MyCustomLayout";
-import {OwnerPetsScreen} from "./OwnerPetsScreen";
+import {useLoginStore} from "../../../actions";
+import {PetScreen} from "../pet/PetScreen";
 
 
 export const OwnerHomeScreen = ({ navigation }) => {
-//    const estado = navigation.getParam("estado");
-    const {logout,owner } = useLoginStore();
-
+    const {logout } = useLoginStore();
 
     return (
         <MyCustomLayout>
             <View>
-                 <OwnerPetsScreen />
+                 <PetScreen />
                 <Button title="Cerrar Sesión" onPress={logout} />
             </View>
         </MyCustomLayout>
