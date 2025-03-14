@@ -13,30 +13,16 @@ import {
     LoginScreen,
     OwnerHomeScreen, PetDetailsScreen,
     PetScreen,
-    SurgeryPetListScreen
+    SurgeryPetListScreen,
+    VaccinePetListScreen
 } from "../screens/";
+
 
 const Stack = createStackNavigator<MyRootStackScreens>();
 export const MyStackNavigator = () => {
     const navigation = useNavigation<NavigationProp<MyRootStackScreens>>();
     return (
         <Stack.Navigator>
-            {/*Pantalla Home - Eliinar Luego*/}
-            <Stack.Screen
-                name="HomeScreen"
-                component={HomeScreen}
-                options={{
-                    title: "Menu",
-                    headerLeft: () => (
-                        <MaterialCommunityIcons
-                            name="card-account-details"
-                            size={25}
-                            style={{marginLeft: 20}}
-                            onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())}
-                        />
-                    ),
-                }}
-            />
             {/*Pantalla Login*/}
             <Stack.Screen
                 name="LoginScreen"
@@ -49,14 +35,14 @@ export const MyStackNavigator = () => {
                 component={OwnerHomeScreen}
                 options={{
                     title: "Menu",
-                    headerLeft: () => (
-                        <MaterialCommunityIcons
-                            name="card-account-details"
-                            size={25}
-                            style={{marginLeft: 20}}
-                            onPress={() => navigation.dispatch(DrawerActions.toggleDrawer)}
-                        />
-                    ),
+                    // headerLeft: () => (
+                    //     <MaterialCommunityIcons
+                    //         name="card-account-details"
+                    //         size={25}
+                    //         style={{marginLeft: 20}}
+                    //         onPress={() => navigation.dispatch(DrawerActions.toggleDrawer)}
+                    //     />
+                    // ),
                 }}
 
             />
@@ -79,6 +65,10 @@ export const MyStackNavigator = () => {
             {/*Pantalla Listado de Citas de Mascota*/}
             <Stack.Screen name="SurgeryPetListScreen" component={SurgeryPetListScreen}
                           options={{title: "Listado de Cirugias"}}/>
+
+            {/*Pantalla Listado de VACUNAS de Mascota*/}
+            <Stack.Screen name="VaccinePetListScreen" component={VaccinePetListScreen}
+                          options={{title: "Listado de Vacunas"}}/>
         </Stack.Navigator>
     );
 };

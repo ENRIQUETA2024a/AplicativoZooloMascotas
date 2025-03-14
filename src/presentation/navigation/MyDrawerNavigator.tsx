@@ -4,132 +4,270 @@ import {
     DrawerContentComponentProps,
     DrawerContentScrollView,
 } from "@react-navigation/drawer";
-import {Image, StyleSheet} from "react-native";
-import {Button, Input, Layout, Text} from "@ui-kitten/components";
-import {MyIcon} from "../components/ui/MyIcon";
-import {MyStackNavigator} from "./MyStackNavigator";
-import {DrawerActions, useNavigation} from "@react-navigation/native";
-import {useSafeAreaInsets} from "react-native-safe-area-context";
-import {useLoginStore} from "../../actions";
-
+import { StyleSheet, View } from "react-native";
+import { Button, Icon, Layout, Text } from "@ui-kitten/components";
+import { MyStackNavigator } from "./MyStackNavigator";
+import { DrawerActions, useNavigation } from "@react-navigation/native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useOwnerLoginStore } from "../../actions";
 
 const Drawer = createDrawerNavigator();
 
 export default function MyDrawerNavigator() {
-
     return (
         <Drawer.Navigator
-                          drawerContent={(props) => <CustomDrawerContent {...props} />}
-                          screenOptions={{
-                              drawerType: "slide",
-                              headerShown: false,
-                              drawerActiveBackgroundColor: "grey",
-                              drawerActiveTintColor: "white",
-                              drawerInactiveBackgroundColor: "white",
-                              drawerItemStyle: {
-                                  borderRadius: 100,
-                                  paddingHorizontal: 20,
-                              },
-                              swipeEnabled: false,
-                          }}
+            drawerContent={(props) => <CustomDrawerContent {...props} />}
+            screenOptions={{
+                drawerType: "slide",
+                headerShown: false,
+                drawerActiveBackgroundColor: "#4CAF50", // Verde para el ítem activo
+                drawerActiveTintColor: "#FFF",
+                drawerInactiveBackgroundColor: "#FFF",
+                drawerInactiveTintColor: "#2E3A59",
+                drawerItemStyle: {
+                    borderRadius: 15,
+                    paddingHorizontal: 15,
+                    marginVertical: 5,
+                },
+                swipeEnabled: true, // Habilitado para mejor UX en móviles
+                drawerStyle: {
+                    backgroundColor: "#F9FAFB", // Fondo claro para el drawer
+                    width: 280, // Ancho más cómodo
+                },
+            }}
         >
-
-            <Drawer.Screen name="MyStackNavigator" component={MyStackNavigator}/>
+            <Drawer.Screen
+                name="MyStackNavigator"
+                component={MyStackNavigator}
+                options={{
+                    drawerLabel: "Inicio",
+                    drawerIcon: ({ color }) => (
+                        <Icon name="home-outline" style={styles.drawerIcon} fill={color} />
+                    ),
+                }}
+            />
         </Drawer.Navigator>
     );
 }
 
 const CustomDrawerContent = (props: DrawerContentComponentProps) => {
-
-    const {logout, owner} = useLoginStore();
+    const { logout, owner } = useOwnerLoginStore();
     const navigation = useNavigation();
-    const {top} = useSafeAreaInsets()
+    const { top } = useSafeAreaInsets();
+
     return (
-        <DrawerContentScrollView style={{marginTop: 10}}>
-            <Layout style={style.imageContainer}>
-                {/*<Image source={{uri: user && user.photo}} style={style.image} defaultSource={require('../../assets/user_icon.png')}  />*/}
+        <DrawerContentScrollView
+            style={styles.scrollContainer}
+            contentContainerStyle={styles.contentContainer}
+        >
+            {/* Encabezado */}
+            <Layout style={[styles.header, { paddingTop: top + 15 }]}>
+                <View style={styles.avatarContainer}>
+                    <Icon name="person" style={styles.avatarIcon} fill="#FFF" />
+                </View>
+                <Text category="h6" style={styles.userName}>
+                    {owner ? `${owner.names} ${owner.surnames}` : "Usuario"}
+                </Text>
+                <Text category="s1" appearance="hint" style={styles.userEmail}>
+                    {owner?.email || "No disponible"}
+                </Text>
             </Layout>
-            <Layout style={style.userContainer}>
-                <Input
-                    label="Nombre"
-                    style={style.userData}
-                    value={owner && (owner.names)}
-                    keyboardType="default"
-                    multiline
-                    accessoryLeft={<MyIcon name="person-outline"/>}
-                    disabled
+
+            {/* Opciones de navegación */}
+            <Layout style={styles.navSection}>
+                {props.state.routes.map((route, index) => (
+                    <Button
+                        key={route.key}
+                        style={[
+                            styles.navItem,
+                            props.state.index === index && styles.navItemActive,
+                        ]}
+                        appearance="filled"
+                        accessoryLeft={
+                            <Icon
+                                name="home-outline"
+                                style={styles.navIcon}
+                                fill={props.state.index === index ? "#FFF" : "#8F9BB3"}
+                            />
+                        }
+                        status={"primary"}
+                        onPress={() => props.navigation.navigate(route.name)}
+                    >
+                        {/*{props.descriptors[route.key].options.drawerLabel || route.name}*/}
+                        Inicio
+                    </Button>
+                ))}
+            </Layout>
+
+            {/* Sección de datos */}
+            <Layout style={styles.dataSection}>
+                <DataItem
+                    label="Tipo de Documento"
+                    value={owner?.type_document || "No especificado"}
+                    icon="file-text-outline"
                 />
-                <Input
-                    label="Correo"
-                    style={style.userData}
-                    value={owner && owner.email}
-                    keyboardType="email-address"
-                    accessoryLeft={<MyIcon name="email-outline"/>}
-                    disabled
+                <DataItem
+                    label="N° Documento"
+                    value={owner?.n_document || "No especificado"}
+                    icon="hash-outline"
                 />
-                <Input
-                    label="Direccion"
-                    style={style.userData}
-                    value={owner && owner.address}
-                    multiline
-                    accessoryLeft={<MyIcon name="map-outline"/>}
-                    disabled
+                <DataItem
+                    label="Dirección"
+                    value={owner?.address || "No especificada"}
+                    icon="map-outline"
                 />
-                <Input
-                    label="Numero"
-                    style={style.userData}
-                    value={owner && owner.phone}
-                    multiline
-                    keyboardType="numeric"
-                    accessoryLeft={<MyIcon name="phone-outline"/>}
-                    disabled
+                <DataItem
+                    label="Teléfono"
+                    value={owner?.phone || "No especificado"}
+                    icon="phone-outline"
+                />
+                <DataItem
+                    label="Contacto de Emergencia"
+                    value={owner?.emergency_contact || "No especificado"}
+                    icon="alert-circle-outline"
                 />
             </Layout>
 
-            <Layout>
+            {/* Footer con botón de cerrar sesión */}
+            <Layout style={styles.footer}>
                 <Button
-                    style={{
-                        ...style.userContainer,
-                        marginTop: top,
-                    }}
+                    style={styles.logoutButton}
                     status="danger"
-                    appearance="ghost"
+                    appearance="filled"
+                    accessoryLeft={<Icon name="log-out-outline" style={styles.buttonIcon} />}
                     onPress={() => {
-                        logout(), navigation.dispatch(DrawerActions.closeDrawer);
+                        logout();
+                        navigation.dispatch(DrawerActions.closeDrawer());
                     }}
                 >
                     Cerrar Sesión
                 </Button>
             </Layout>
-
-            {/* lista de menus
-       <DrawerItemList {...props} /> */}
         </DrawerContentScrollView>
     );
 };
 
-const style = StyleSheet.create({
-    nameText: {
-        fontStyle: "normal",
-        fontWeight: "bold",
-        marginTop: 15,
-        marginLeft: 15,
+// Componente reutilizable para mostrar datos
+const DataItem = ({ label, value, icon }: { label: string; value: string; icon: string }) => (
+    <View style={styles.dataItem}>
+        <Icon name={icon} style={styles.dataIcon} fill="#8F9BB3" />
+        <View style={styles.dataTextContainer}>
+            <Text category="label" appearance="hint" style={styles.dataLabel}>
+                {label}
+            </Text>
+            <Text style={styles.dataValue}>{value}</Text>
+        </View>
+    </View>
+);
+
+const styles = StyleSheet.create({
+    scrollContainer: {
+        backgroundColor: "#F9FAFB",
     },
-    imageContainer: {
-        height: 150,
-        //backgroundColor: "green",
+    contentContainer: {
+        flexGrow: 1,
+    },
+    header: {
+        backgroundColor: "#4CAF50",
+        padding: 20,
         alignItems: "center",
+       borderRadius:20
+
+        // borderBottomLeftRadius: 20,
+        // borderBottomRightRadius: 20,
     },
-    image: {
-        width: 150,
-        height: 150,
-        borderColor: "black",
-        borderRadius: 75,
-        backgroundColor: "grey",
+    avatarContainer: {
+        width: 80,
+        height: 80,
+        borderRadius: 40,
+        backgroundColor: "#388E3C",
+        justifyContent: "center",
+        alignItems: "center",
+        marginBottom: 10,
     },
-    userContainer: {
-        flexDirection: "column",
+    avatarIcon: {
+        width: 50,
+        height: 50,
+    },
+    userName: {
+        color: "#FFF",
+        fontWeight: "bold",
+        fontSize: 18,
+        marginBottom: 5,
+    },
+    userEmail: {
+        color: "#E8F5E9",
+        fontSize: 14,
+    },
+    navSection: {
+        paddingVertical: 10,
+        paddingHorizontal: 10,
+    },
+    navItem: {
+        borderRadius: 15,
+        marginVertical: 5,
+        paddingVertical: 10,
+        justifyContent: "flex-start",
+    },
+    navItemActive: {
+//         backgroundColor: "#4CAF50",
+    },
+    navIcon: {
+        width: 24,
+        height: 24,
+        marginRight: 10,
+    },
+    dataSection: {
+        padding: 15,
+        backgroundColor: "#FFF",
+        marginTop: 10,
         marginHorizontal: 10,
+        borderRadius: 15,
+        elevation: 2,
+        shadowColor: "#000",
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 4,
     },
-    userData: {},
+    dataItem: {
+        flexDirection: "row",
+        alignItems: "center",
+        paddingVertical: 10,
+        borderBottomWidth: 1,
+        borderBottomColor: "#E8ECEF",
+    },
+    dataIcon: {
+        width: 24,
+        height: 24,
+        marginRight: 10,
+    },
+    dataTextContainer: {
+        flex: 1,
+    },
+    dataLabel: {
+        fontSize: 12,
+        color: "#8F9BB3",
+    },
+    dataValue: {
+        fontSize: 16,
+        color: "#2E3A59",
+        fontWeight: "500",
+    },
+    footer: {
+        padding: 15,
+        marginTop: "auto",
+    },
+    logoutButton: {
+        borderRadius: 15,
+        paddingVertical: 10,
+    },
+    buttonIcon: {
+        width: 20,
+        height: 20,
+        marginRight: 5,
+    },
+    drawerIcon: {
+        width: 24,
+        height: 24,
+    },
 });

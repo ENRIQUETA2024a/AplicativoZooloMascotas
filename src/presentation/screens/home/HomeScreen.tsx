@@ -1,10 +1,9 @@
 import React from 'react';
 import { View, Text, Button } from 'react-native';
-import {useLoginStore} from "../../../actions/owners/ownerLoginState";
+import {useOwnerLoginStore} from "../../../actions";
 
 export const HomeScreen = ({ navigation }) => {
-//    const estado = navigation.getParam("estado");
-    const {logout } = useLoginStore();
+    const {logout } = useOwnerLoginStore();
 
     return (
         <View>

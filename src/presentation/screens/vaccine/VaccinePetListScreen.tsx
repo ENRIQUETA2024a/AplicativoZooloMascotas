@@ -1,42 +1,43 @@
-import {ScrollView, StyleSheet, Text, View} from "react-native";
 import {RouteProp, useRoute} from "@react-navigation/native";
-import {useEffect, useState} from "react";
-import {getSurgeriesByPetId} from "../../../actions";
-import {MyActivityIndicator} from "../../components/ui/MyActivityIndicator";
 import {MyRootStackScreens} from "../../navigation/MyRootStackScreens";
-import {SurgeryPetCard} from "../../components/surgery/SurgeryPetCard";
+import {useEffect, useState} from "react";
+import {MyActivityIndicator} from "../../components/ui/MyActivityIndicator";
+import {ScrollView, StyleSheet, Text} from "react-native";
+import {getVaccinationsByPetId} from "../../../actions/vaccine/vaccinesListActions";
+import {VaccinePetCard} from "../../components/vaccine/VaccinePetCard";
+
 
 type PetDetailsScreenRouteProp = RouteProp<MyRootStackScreens, "PetDetailsScreen">
 
-export const SurgeryPetListScreen = () => {
+export const VaccinePetListScreen=() =>{
+
     const route = useRoute<PetDetailsScreenRouteProp>();
     const {idPet} = route.params;
-    const [surgeries, setSurgery] = useState([]);
+    const [vaccines, setVaccine] = useState([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const fetchSurgeries = async () => {
+        const fetchVaccines = async () => {
             try {
-                const petData = await getSurgeriesByPetId(idPet);
-                setSurgery(petData);
+                const petData = await getVaccinationsByPetId(idPet);
+                setVaccine(petData);
             } catch (error) {
-                console.error("Error al obtener las cirugias:", error);
+                console.error("Error al obtener las vacunas:", error);
             } finally {
                 setLoading(false);
             }
         };
 
-        fetchSurgeries();
+        fetchVaccines();
     }, [idPet]);
 
     if (loading) return <MyActivityIndicator/>;
-    if (!surgeries) return <Text>No se encontró cirugias</Text>;
-
+    if (!vaccines) return <Text>No se encontró vacunas</Text>;
 
     return (
         <ScrollView contentContainerStyle={styles.container}>
-            {surgeries.map((surgery, index) => (
-                <SurgeryPetCard key={index} surgery={surgery}/>
+            {vaccines.map((vaccine, index) => (
+                <VaccinePetCard key={index} vaccine={vaccine} />
             ))}
         </ScrollView>
     )

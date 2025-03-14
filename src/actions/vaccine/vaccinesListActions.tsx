@@ -1,10 +1,9 @@
-import {Surgery} from "../../core/surgeries/Surgery";
+import {Vaccine, VaccineApiMapper} from "../../core";
 import {getAuthToken} from "../owners/ownerLoginActions";
 import {apiZooloMascotas} from "../../config/api/apiZooloMascotas";
-import {SurgeryApiMapper} from "../../core/surgeries/SurgeryApiMapper";
 
 
-export const getSurgeriesByPetId = async (petId: number): Promise<Surgery[]> => {
+export const getVaccinationsByPetId = async (petId: number): Promise<Vaccine[]> => {
     try {
         //Obtenemos el token almacenado en secureStore
         const token = await getAuthToken();
@@ -17,11 +16,11 @@ export const getSurgeriesByPetId = async (petId: number): Promise<Surgery[]> => 
             headers: {Authorization: `Bearer ${token}`},
             Accept: "application/json",
         }
-        const {data} = await apiZooloMascotas.get(`/pets/${petId}/surgeries`, config);
-        const surgeries = data.map((surge) => (SurgeryApiMapper.mapApiResponseToModel(surge)))
-        return surgeries;
+        const {data} = await apiZooloMascotas.get(`/pets/${petId}/vaccinations`, config);
+        const vaccines = data.map((vacc) => (VaccineApiMapper.mapApiResponseToModel(vacc)))
+        return vaccines;
     } catch (error) {
-        console.error(`❌ Error obteniendo las cirugias del Pet ID ${petId}:`, error);
+        console.error(`❌ Error obteniendo las vacunas del Pet ID ${petId}:`, error);
         // Si el error viene de Axios, muestra la respuesta del servidor
         if (error.response) {
             console.error("📌 Código de estado:", error.response.status);
@@ -32,6 +31,4 @@ export const getSurgeriesByPetId = async (petId: number): Promise<Surgery[]> => 
         //  Devolvemos un array vacío para evitar que la app no se rompa
         return [];
     }
-
-
 }

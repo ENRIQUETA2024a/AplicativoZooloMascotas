@@ -2,15 +2,15 @@ import React, {PropsWithChildren, useEffect, useState} from "react";
 import {useNavigation} from "@react-navigation/native";
 import {StackNavigationProp} from "@react-navigation/stack";
 import {MyRootStackScreens} from "../navigation/MyRootStackScreens";
-import {useLoginStore} from "../../actions/owners/ownerLoginState";
 import * as SplashScreen from "expo-splash-screen";
 import {MyActivityIndicator} from "../components/ui/MyActivityIndicator";
+import {useOwnerLoginStore} from "../../actions";
 
 SplashScreen.preventAutoHideAsync(); // Mantener el splash hasta que la app esté lista
 
 export const LoginProvider = ({children}: PropsWithChildren) => {
     const navigation = useNavigation<StackNavigationProp<MyRootStackScreens>>();
-    const {status, checkAuth} = useLoginStore();
+    const {status, checkAuth} = useOwnerLoginStore();
     const [appReady, setAppReady] = useState(false);
 
 

@@ -11,3 +11,5 @@ export * from './pet/PetDetailsScreen';
 export * from './appointment/AppointmentPetListScreen'
 //Surgery
 export * from './surgery/SurgeryPetListScreen'
+//Vaccines
+export * from './vaccine/VaccinePetListScreen'

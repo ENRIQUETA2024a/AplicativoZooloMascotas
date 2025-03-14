@@ -1,6 +1,6 @@
 import { Card, Icon, Text } from "@ui-kitten/components";
 import { StyleSheet, View } from "react-native";
-import { Surgery } from "../../../core/surgeries/Surgery";
+import {Surgery} from "../../../core";
 
 interface Props {
     surgery: Surgery;

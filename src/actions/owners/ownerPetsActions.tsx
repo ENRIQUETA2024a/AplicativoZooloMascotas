@@ -1,8 +1,7 @@
 import {getAuthToken} from "./ownerLoginActions";
 import {apiZooloMascotas} from "../../config/api/apiZooloMascotas";
-import {PetAPIResponse} from "../../core/pet/PetApiResponse";
-import {PetApiMapper} from "../../core/pet/PetApiMapper";
 import {Pet} from "../../core/pet/Pet";
+import {PetApiMapper, PetAPIResponse} from "../../core";
 
 
 export const getOwnerPets = async (ownerId: number):Promise<Pet[]>=>{

@@ -1,11 +1,11 @@
 import {Text, View} from "react-native";
-import {getOwnerPets, useLoginStore} from "../../../actions";
+import {getOwnerPets, useOwnerLoginStore} from "../../../actions";
 import React, {useEffect, useState} from "react";
 import {MyActivityIndicator} from "../../components/ui/MyActivityIndicator";
 import {PetList} from "../../components/pet/PetList";
 
 export const PetScreen = () =>{
-    const {owner} = useLoginStore();
+    const {owner} = useOwnerLoginStore();
     const [pets, setPets] = useState([]);
     const [loading, setLoading] = useState(true);
 
