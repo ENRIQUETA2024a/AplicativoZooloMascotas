@@ -13,5 +13,27 @@ export interface UserApiResponse {
         type_document?: string
         n_document?: string;
         gender: string;
-    }
+    };
+    role: string;
+}
+
+export interface UserDashboardApiResponse {
+    id: number;
+    name: string;
+    surname: string;
+    email: string;
+    phone: string;
+    role_id: number;
+    avatar: string;
+    created_at: string;
+    role: RoleApiResponse;
+}
+
+export interface RoleApiResponse {
+    id: number;
+    name: string;
+}
+
+export interface UserListApiResponse{
+    users: UserDashboardApiResponse[]
 }

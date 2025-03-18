@@ -1,9 +1,9 @@
 import React from 'react';
 import { View, Text, Button } from 'react-native';
-import {useOwnerLoginStore} from "../../../actions";
+import {useUserLoginStore} from "../../../actions";
 
 export const HomeScreen = ({ navigation }) => {
-    const {logout } = useOwnerLoginStore();
+    const {logout } = useUserLoginStore();
 
     return (
         <View>

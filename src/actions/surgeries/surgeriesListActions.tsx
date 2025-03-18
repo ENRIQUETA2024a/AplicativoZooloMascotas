@@ -1,13 +1,11 @@
-import {Surgery} from "../../core/surgeries/Surgery";
-import {getAuthToken} from "../owners/ownerLoginActions";
 import {apiZooloMascotas} from "../../config/api/apiZooloMascotas";
-import {SurgeryApiMapper} from "../../core/surgeries/SurgeryApiMapper";
-
+import {getAuthToken} from "../user/userLoginActions";
+import {Surgery, SurgeryApiMapper} from "../../core";
 
 export const getSurgeriesByPetId = async (petId: number): Promise<Surgery[]> => {
     try {
         //Obtenemos el token almacenado en secureStore
-        const token = await getAuthToken();
+        const {token} = await getAuthToken();
         if (!token) {
             console.warn("No hay token disponible");
             return null; //  Retornamos para evitar que la app se rompa

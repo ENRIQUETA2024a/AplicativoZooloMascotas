@@ -13,3 +13,12 @@ export * from './appointment/AppointmentPetListScreen'
 export * from './surgery/SurgeryPetListScreen'
 //Vaccines
 export * from './vaccine/VaccinePetListScreen'
+
+//User
+export * from './user/UserHomeScreen'
+
+//Accesos por ROLE
+export * from './role/SuperAdminScreen'
+export * from './role/AsistenteScreen'
+export * from './role/VeterinarioScreen'
+export * from './role/RecepcionScreen'

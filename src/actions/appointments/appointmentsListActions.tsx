@@ -1,13 +1,12 @@
-import {Appointment} from "../../core/appointment/Appointment";
-import {getAuthToken} from "../owners/ownerLoginActions";
 import {apiZooloMascotas} from "../../config/api/apiZooloMascotas";
-import {AppointmentApiMapper} from "../../core/appointment/AppointmentApiMapper";
+import {Appointment, AppointmentApiMapper} from "../../core";
+import {getAuthToken} from "../user/userLoginActions";
 
 
 export const getAppointmentsByPetId = async (petId: number): Promise<Appointment[]> => {
     try {
         //Obtenemos el token almacenado en secureStore
-        const token = await getAuthToken();
+        const {token} = await getAuthToken();
         if (!token) {
             console.warn("No hay token disponible");
             return null; //  Retornamos para evitar que la app se rompa

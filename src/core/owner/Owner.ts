@@ -10,4 +10,5 @@ export interface Owner {
     address: string;
     city: string;
     emergency_contact: string;
+    avatar: string;
 }

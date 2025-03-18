@@ -3,11 +3,12 @@ import { Alert, Image, ScrollView, StyleSheet} from "react-native";
 import { Button, Icon, Input, Layout, Text } from "@ui-kitten/components";
 import { MyIcon } from "../../components/ui/MyIcon";
 import { MyActivityIndicator } from "../../components/ui/MyActivityIndicator";
-import { useOwnerLoginStore } from "../../../actions";
+import {useUserLoginStore} from "../../../actions";
+//import { useOwnerLoginStore } from "../../../actions";
 
 export const LoginScreen = () => {
     const Logo = require("../../../assets/LogoZooloMascotas.png");
-    const { login } = useOwnerLoginStore();
+    const { login } = useUserLoginStore();
     const [passwordView, setPasswordView] = useState(false);
     const [imageLoaded, setImageLoaded] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -15,7 +16,7 @@ export const LoginScreen = () => {
     const toggleSecureEntry = () => setPasswordView((prev) => !prev);
 
     const [form, setForm] = useState({
-        email: "Demo1@gmail.com",
+        email: "hmora@gmail.com",
         password: "123456",
     });
 

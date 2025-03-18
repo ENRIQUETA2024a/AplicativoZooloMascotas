@@ -1,20 +1,18 @@
 import React from "react";
 import {createStackNavigator} from "@react-navigation/stack";
 import {MyRootStackScreens} from "./MyRootStackScreens";
-import {MaterialCommunityIcons} from "@expo/vector-icons";
 import {
-    DrawerActions,
     NavigationProp,
     useNavigation,
 } from "@react-navigation/native";
 import {
-    AppointmentPetListScreen,
+    AppointmentPetListScreen, AsistenteScreen,
     HomeScreen,
     LoginScreen,
     OwnerHomeScreen, PetDetailsScreen,
-    PetScreen,
-    SurgeryPetListScreen,
-    VaccinePetListScreen
+    PetScreen, RecepcionScreen, SuperAdminScreen,
+    SurgeryPetListScreen, UserHomeScreen,
+    VaccinePetListScreen, VeterinarioScreen
 } from "../screens/";
 
 
@@ -34,7 +32,7 @@ export const MyStackNavigator = () => {
                 name="OwnerHomeScreen"
                 component={OwnerHomeScreen}
                 options={{
-                    title: "Menu",
+                    title: "Menu Dueño",
                     // headerLeft: () => (
                     //     <MaterialCommunityIcons
                     //         name="card-account-details"
@@ -45,6 +43,15 @@ export const MyStackNavigator = () => {
                     // ),
                 }}
 
+            />
+
+            {/*Pantalla del User*/}
+            <Stack.Screen
+                name="UserHomeScreen"
+                component={UserHomeScreen}
+                options={{
+                    title: "Menu User",
+                }}
             />
             {/*Pantalla Pets*/}
             <Stack.Screen
@@ -62,13 +69,29 @@ export const MyStackNavigator = () => {
             <Stack.Screen name="AppointmentPetListScreen" component={AppointmentPetListScreen}
                           options={{title: "Listado de Citas"}}/>
 
-            {/*Pantalla Listado de Citas de Mascota*/}
+            {/*Pantalla Listado de Cirguias de Mascota*/}
             <Stack.Screen name="SurgeryPetListScreen" component={SurgeryPetListScreen}
                           options={{title: "Listado de Cirugias"}}/>
 
             {/*Pantalla Listado de VACUNAS de Mascota*/}
             <Stack.Screen name="VaccinePetListScreen" component={VaccinePetListScreen}
                           options={{title: "Listado de Vacunas"}}/>
+
+
+            {/*Accesos por rol*/}
+            <Stack.Screen name="SuperAdminScreen" component={SuperAdminScreen}
+                          options={{title: "SuperAdminScreen"}}/>
+
+            <Stack.Screen name="VeterinarioScreen" component={VeterinarioScreen}
+                          options={{title: "VeterinarioScreen"}}/>
+
+            <Stack.Screen name="AsistenteScreen" component={AsistenteScreen}
+                          options={{title: "AsistenteScreen"}}/>
+
+            <Stack.Screen name="RecepcionScreen" component={RecepcionScreen}
+                          options={{title: "RecepcionScreen"}}/>
+
+
         </Stack.Navigator>
     );
 };

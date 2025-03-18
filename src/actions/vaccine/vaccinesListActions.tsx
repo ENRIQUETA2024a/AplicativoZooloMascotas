@@ -1,12 +1,12 @@
 import {Vaccine, VaccineApiMapper} from "../../core";
-import {getAuthToken} from "../owners/ownerLoginActions";
 import {apiZooloMascotas} from "../../config/api/apiZooloMascotas";
+import {getAuthToken} from "../user/userLoginActions";
 
 
 export const getVaccinationsByPetId = async (petId: number): Promise<Vaccine[]> => {
     try {
         //Obtenemos el token almacenado en secureStore
-        const token = await getAuthToken();
+        const {token} = await getAuthToken();
         if (!token) {
             console.warn("No hay token disponible");
             return null; //  Retornamos para evitar que la app se rompa

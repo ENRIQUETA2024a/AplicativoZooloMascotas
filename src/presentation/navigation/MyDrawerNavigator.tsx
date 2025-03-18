@@ -9,7 +9,8 @@ import { Button, Icon, Layout, Text } from "@ui-kitten/components";
 import { MyStackNavigator } from "./MyStackNavigator";
 import { DrawerActions, useNavigation } from "@react-navigation/native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { useOwnerLoginStore } from "../../actions";
+import {useUserLoginStore} from "../../actions";
+//import { useOwnerLoginStore } from "../../actions";
 
 const Drawer = createDrawerNavigator();
 
@@ -51,7 +52,7 @@ export default function MyDrawerNavigator() {
 }
 
 const CustomDrawerContent = (props: DrawerContentComponentProps) => {
-    const { logout, owner } = useOwnerLoginStore();
+    const { logout, user,userType } = useUserLoginStore();
     const navigation = useNavigation();
     const { top } = useSafeAreaInsets();
 
@@ -66,10 +67,10 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
                     <Icon name="person" style={styles.avatarIcon} fill="#FFF" />
                 </View>
                 <Text category="h6" style={styles.userName}>
-                    {owner ? `${owner.names} ${owner.surnames}` : "Usuario"}
+                    {user ? `${user.names} ${user.surnames}` : "Usuario"}
                 </Text>
                 <Text category="s1" appearance="hint" style={styles.userEmail}>
-                    {owner?.email || "No disponible"}
+                    {user?.email || "No disponible"}
                 </Text>
             </Layout>
 
@@ -103,27 +104,27 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
             <Layout style={styles.dataSection}>
                 <DataItem
                     label="Tipo de Documento"
-                    value={owner?.type_document || "No especificado"}
+                    value={user?.type_document || "No especificado"}
                     icon="file-text-outline"
                 />
                 <DataItem
                     label="N° Documento"
-                    value={owner?.n_document || "No especificado"}
+                    value={user?.n_document || "No especificado"}
                     icon="hash-outline"
                 />
                 <DataItem
                     label="Dirección"
-                    value={owner?.address || "No especificada"}
+                    value={user?.address || "No especificada"}
                     icon="map-outline"
                 />
                 <DataItem
                     label="Teléfono"
-                    value={owner?.phone || "No especificado"}
+                    value={user?.phone || "No especificado"}
                     icon="phone-outline"
                 />
                 <DataItem
                     label="Contacto de Emergencia"
-                    value={owner?.emergency_contact || "No especificado"}
+                    value={user?.emergency_contact || "No especificado"}
                     icon="alert-circle-outline"
                 />
             </Layout>

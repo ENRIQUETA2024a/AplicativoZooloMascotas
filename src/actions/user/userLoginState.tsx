@@ -1,101 +1,75 @@
-// import {Owner, User, UserApiMapper, UserApiResponse} from "../../core";
-// import {create} from "zustand/index";
-// import {getAuthToken} from "../owners/ownerLoginActions";
-// import * as SecureStore from "expo-secure-store";
-// import {apiZooloMascotas} from "../../config/api/apiZooloMascotas";
-//
-//
-// import {Alert} from "react-native";
-//
-// type LoginStatus = "authenticated" | "unauthenticated" | "loading";
-// type UserType = "owner" | "user";
-//
-// export interface AuthState {
-//     status: LoginStatus;
-//     user?: Owner |User;
-//     userType?: UserType;
-//     login: (email: string, password: string,type: UserType) => Promise<boolean>;
-//     logout: () => Promise<void>;
-//     checkAuth: () => Promise<void>; // Funcion para ver
-// }
-//
-// export const useUserLoginStore = create<AuthState>()((set, get) => ({
-//     status: "loading", //Estado inicial
-//     user: undefined,//No hay user autenticado
-//     userType: undefined,
-//
-//     login: async (email: string, password: string,type: UserType) => {
-//         const endpoint = type ==="owner" ? "/login-app": "/user-app";
-//         const tokenKey= type ==="owner" ? "ownerAuthToken" : "userAuthToken";
-//
-//         try {
-//
-//         }
-//         catch (error){
-//             Alert.alert("Error", error.response?.data?.message || "Credenciales incorrectas");
-//         }
-//
-//
-//         const {userToken, userAccessed} = await userLoginActions(email, password);
-//         //
-//         if (userAccessed) {
-//             //Guardamos el token de manera segura con SecureStore
-//             await SecureStore.setItemAsync("authToken",userToken);
-//             //Configuramos Axios con el token par futura solicitudes
-//             apiZooloMascotas.defaults.headers.common['Authorization'] = `Bearer ${userToken}`;
-//             //Actualizamos el estado
-//             set({status: "authenticated",owner:userAccessed});
-//
-//             console.log("✅✅✅ Login Exitoso, nuevo estado ZUSTAND:", get().status); // Estado
-//             console.log("✅✅✅Token Generado:", userToken); // Token
-//             return true;
-//         }
-//         else {
-//             set({status: "unauthenticated", owner: undefined});
-//             return false;
-//         }
-//
-//
-//
-//
-//     },
-//     checkAuth: async () => {
-//         const token = await SecureStore.getItemAsync("authToken");
-//         if (token) {
-//             apiZooloMascotas.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-//             set({status: "authenticated"})
-//         } else {
-//             set({status: "unauthenticated"});
-//         }
-//     },
-//     logout: async () => {
-//         await SecureStore.deleteItemAsync("authToken"); // Eliminamos el token de Secure Store
-//         apiZooloMascotas.defaults.headers.common["Authorization"] = "";
-//         set({status: "unauthenticated", owner: undefined});
-//         console.log("❌ Estado al LOGOUT: ", get().status)
-//         console.log("❌ Token Generado: ", getAuthToken() )
-//     }
-// }))
-//
-//
-//
-//
-//
-// const userLoginActions = async (email: string, password: string) => {
-//     try {
-//         const {data} = await apiZooloMascotas.post<UserApiResponse>("/user-app", {email, password});
-//         const {userToken, userAccessed} = UserApiMapper(data);
-//         return ({userToken, userAccessed});
-//     } catch (error) {
-//
-//         if (error.response) {
-//             // El backend respondió con un error (ej: 401, 404)
-//             Alert.alert("Error", error.response.data.message || "Credenciales incorrectas");
-//         } else {
-//             // Error de red o desconexión
-//             Alert.alert("Error", "No se pudo conectar con el servidor");
-//         }
-//         return null;
-//     }
-// }
-//
+import {Owner, OwnerApiMapper, User, UserApiMapper, UserApiResponse} from "../../core";
+import {create} from "zustand/index";
+import * as SecureStore from "expo-secure-store";
+import {apiZooloMascotas} from "../../config/api/apiZooloMascotas";
+import {Alert} from "react-native";
+import {getAuthToken} from "./userLoginActions";
+import {LoginStatus, UserRole, UserType} from "./userLoginTypes";
+
+export interface AuthState {
+    status: LoginStatus;
+    user?: Owner | User;
+    userType?: UserType;
+    role?: UserRole;
+    login: (email: string, password: string) => Promise<boolean>;
+    logout: () => Promise<void>;
+    checkAuth: () => Promise<void>; // Funcion para ver
+}
+
+export const useUserLoginStore = create<AuthState>()((set, get) => ({
+    status: "loading", //Estado inicial
+    user: undefined,//No hay user autenticado
+    userType: undefined, //Aun Sin tipo de usuario
+    role: undefined, // Inicializamos sin rol
+
+    login: async (email: string, password: string) => {
+        const loginAttempts: { type: UserType; endpoint: string; tokenKey: string }[] = [
+            { type: "owner", endpoint: "/owner-login-app", tokenKey: "ownerAuthToken" },
+            { type: "user", endpoint: "/user-login-app", tokenKey: "userAuthToken" },
+        ];
+
+        for (const attempt of loginAttempts) {
+            try {
+                const { data } = await apiZooloMascotas.post(attempt.endpoint, { email, password });
+                const { userToken, userAccessed, userRole } = attempt.type === "owner" ? OwnerApiMapper(data) : UserApiMapper(data);
+
+                if (userAccessed) {
+                    await SecureStore.setItemAsync(attempt.tokenKey, userToken);
+                    apiZooloMascotas.defaults.headers.common["Authorization"] = `Bearer ${userToken}`;
+                    set({ status: "authenticated", user: userAccessed, userType: attempt.type,role: userRole });
+                    console.log(`✅ Login exitoso como ${attempt.type} Rol: ${userRole}` );
+                    return true;
+                }
+            } catch (error) {
+                console.warn(`⚠️ Falló el intento de login como ${attempt.type}`);
+            }
+        }
+
+        Alert.alert("Error", "Credenciales incorrectas");
+        set({ status: "unauthenticated", user: undefined, userType: undefined });
+        return false;
+    },
+    checkAuth: async () => {
+        const ownerToken = await SecureStore.getItemAsync("ownerAuthToken");
+        const userToken = await SecureStore.getItemAsync("userAuthToken");
+
+        if (ownerToken || userToken) {
+            const token = ownerToken || userToken
+            apiZooloMascotas.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+            set({status: "authenticated", userType: ownerToken ? "owner" : "user"});
+        } else {
+            set({status: "unauthenticated"});
+        }
+    },
+    logout: async () => {
+        await SecureStore.deleteItemAsync("ownerAuthToken");
+        await SecureStore.deleteItemAsync("userAuthToken");
+        const {token, userType} = await getAuthToken();
+        apiZooloMascotas.defaults.headers.common["Authorization"] = "";
+        set({status: "unauthenticated", user: undefined, userType: undefined});
+        console.log("❌ Estado al LOGOUT: ", get().status)
+        console.log("❌ Token Generado: ", token)
+        console.log("❌ Usuario Logeado: ", userType)
+    }
+}))
+

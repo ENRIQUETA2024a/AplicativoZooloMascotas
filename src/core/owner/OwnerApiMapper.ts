@@ -17,9 +17,12 @@ export const OwnerApiMapper = (data: OwnerApiResponse
         address: data.owner.address,
         city: data.owner.city,
         emergency_contact: data.owner.emergency_contact,
+        avatar: "",
     };
+    const role = undefined;
     return {
-        ownerAccessed: owner,
-        ownerToken: token,
+        userAccessed: owner,
+        userToken: token,
+        userRole: role,
     }
 }
