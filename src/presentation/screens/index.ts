@@ -4,6 +4,8 @@ export * from './home/HomeScreen';
 export * from './auth/LoginScreen';
 //Owner
 export * from './owner/OwnerHomeScreen';
+export * from './owner/OwnerAdminScreen';
+
 //Pets
 export * from './pet/PetScreen';
 export * from './pet/PetDetailsScreen';

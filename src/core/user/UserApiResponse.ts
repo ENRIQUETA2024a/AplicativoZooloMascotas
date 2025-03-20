@@ -26,6 +26,7 @@ export interface UserDashboardApiResponse {
     role_id: number;
     avatar: string;
     created_at: string;
+    deleted_at: string | null;
     role: RoleApiResponse;
 }
 

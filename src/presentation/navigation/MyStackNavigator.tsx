@@ -2,23 +2,19 @@ import React from "react";
 import {createStackNavigator} from "@react-navigation/stack";
 import {MyRootStackScreens} from "./MyRootStackScreens";
 import {
-    NavigationProp,
-    useNavigation,
-} from "@react-navigation/native";
-import {
     AppointmentPetListScreen, AsistenteScreen,
-    HomeScreen,
-    LoginScreen,
+    LoginScreen, OwnerAdminScreen,
     OwnerHomeScreen, PetDetailsScreen,
     PetScreen, RecepcionScreen, SuperAdminScreen,
     SurgeryPetListScreen, UserHomeScreen,
     VaccinePetListScreen, VeterinarioScreen
 } from "../screens/";
+import {UserList} from "../components/user/UserList";
+
 
 
 const Stack = createStackNavigator<MyRootStackScreens>();
 export const MyStackNavigator = () => {
-    const navigation = useNavigation<NavigationProp<MyRootStackScreens>>();
     return (
         <Stack.Navigator>
             {/*Pantalla Login*/}
@@ -42,7 +38,6 @@ export const MyStackNavigator = () => {
                     //     />
                     // ),
                 }}
-
             />
 
             {/*Pantalla del User*/}
@@ -80,7 +75,13 @@ export const MyStackNavigator = () => {
 
             {/*Accesos por rol*/}
             <Stack.Screen name="SuperAdminScreen" component={SuperAdminScreen}
-                          options={{title: "SuperAdminScreen"}}/>
+                          options={{title: "Admin"}}/>
+
+            <Stack.Screen name="OwnerAdminScreen" component={OwnerAdminScreen}
+                          options={{title: "Gestión Dueños"}}/>
+
+            <Stack.Screen name="UserList" component={UserList}
+                          options={{title: "Gestión Usuarios"}}/>
 
             <Stack.Screen name="VeterinarioScreen" component={VeterinarioScreen}
                           options={{title: "VeterinarioScreen"}}/>
@@ -90,7 +91,6 @@ export const MyStackNavigator = () => {
 
             <Stack.Screen name="RecepcionScreen" component={RecepcionScreen}
                           options={{title: "RecepcionScreen"}}/>
-
 
         </Stack.Navigator>
     );

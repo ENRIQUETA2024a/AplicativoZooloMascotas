@@ -8,21 +8,23 @@ export const useUsers = () => {
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
 
-    useEffect(() => {
-        const fetchUsers = async () => {
-            setLoading(true);
-            try {
-                const data = await getUsersForSuperAdmin();
-                setUsers(data);
-            } catch (err) {
-                setError("Error al obtener la lista de usuarios.");
-            } finally {
-                setLoading(false);
-            }
-        };
+    const fetchUsers = async () => {
+        setLoading(true);
+        try {
+            const data = await getUsersForSuperAdmin();
+            setUsers(data);
+        } catch (err) {
+            setError("Error al obtener la lista de usuarios.");
+        } finally {
+            setLoading(false);
+        }
+    };
 
+    useEffect(() => {
         fetchUsers();
     }, []);
 
-    return { users, loading, error };
+    return { users, loading, error, refreshUsers: fetchUsers };
+
+
 };

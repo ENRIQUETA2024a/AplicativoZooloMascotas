@@ -6,8 +6,8 @@ import {getAuthToken} from "../user/userLoginActions";
 export const getVaccinationsByPetId = async (petId: number): Promise<Vaccine[]> => {
     try {
         //Obtenemos el token almacenado en secureStore
-        const {token} = await getAuthToken();
-        if (!token) {
+        const {token, userType} = await getAuthToken();
+        if (userType!== "user" && !token) {
             console.warn("No hay token disponible");
             return null; //  Retornamos para evitar que la app se rompa
         }

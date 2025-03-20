@@ -4,13 +4,14 @@ import {
     DrawerContentComponentProps,
     DrawerContentScrollView,
 } from "@react-navigation/drawer";
-import { StyleSheet, View } from "react-native";
-import { Button, Icon, Layout, Text } from "@ui-kitten/components";
-import { MyStackNavigator } from "./MyStackNavigator";
-import { DrawerActions, useNavigation } from "@react-navigation/native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+import {StyleSheet, View} from "react-native";
+import {Button, Icon, Layout, Text} from "@ui-kitten/components";
+import {MyStackNavigator} from "./MyStackNavigator";
+import {DrawerActions, useNavigation} from "@react-navigation/native";
+import {useSafeAreaInsets} from "react-native-safe-area-context";
 import {useUserLoginStore} from "../../actions";
-//import { useOwnerLoginStore } from "../../actions";
+import {MyRootStackScreens} from "./MyRootStackScreens";
+import {StackNavigationProp} from "@react-navigation/stack";
 
 const Drawer = createDrawerNavigator();
 
@@ -42,8 +43,8 @@ export default function MyDrawerNavigator() {
                 component={MyStackNavigator}
                 options={{
                     drawerLabel: "Inicio",
-                    drawerIcon: ({ color }) => (
-                        <Icon name="home-outline" style={styles.drawerIcon} fill={color} />
+                    drawerIcon: ({color}) => (
+                        <Icon name="home-outline" style={styles.drawerIcon} fill={color}/>
                     ),
                 }}
             />
@@ -52,9 +53,9 @@ export default function MyDrawerNavigator() {
 }
 
 const CustomDrawerContent = (props: DrawerContentComponentProps) => {
-    const { logout, user,userType } = useUserLoginStore();
-    const navigation = useNavigation();
-    const { top } = useSafeAreaInsets();
+    const {logout, user, userType, role} = useUserLoginStore();
+    const navigation = useNavigation<StackNavigationProp<MyRootStackScreens>>();
+    const {top} = useSafeAreaInsets();
 
     return (
         <DrawerContentScrollView
@@ -62,9 +63,9 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
             contentContainerStyle={styles.contentContainer}
         >
             {/* Encabezado */}
-            <Layout style={[styles.header, { paddingTop: top + 15 }]}>
+            <Layout style={[styles.header, {paddingTop: top + 15}]}>
                 <View style={styles.avatarContainer}>
-                    <Icon name="person" style={styles.avatarIcon} fill="#FFF" />
+                    <Icon name="person" style={styles.avatarIcon} fill="#FFF"/>
                 </View>
                 <Text category="h6" style={styles.userName}>
                     {user ? `${user.names} ${user.surnames}` : "Usuario"}
@@ -91,13 +92,35 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
                                 fill={props.state.index === index ? "#FFF" : "#8F9BB3"}
                             />
                         }
-                        status={"primary"}
+                        status={"info"}
                         onPress={() => props.navigation.navigate(route.name)}
                     >
                         {/*{props.descriptors[route.key].options.drawerLabel || route.name}*/}
                         Inicio
                     </Button>
                 ))}
+
+
+                {userType === "user" && role === "Super-Admin" && (
+                    <Button
+                        style={[
+                            styles.navItem,
+                            styles.navItemActive,
+                        ]}
+                        appearance="filled"
+                        accessoryLeft={
+                            <Icon
+                                name="settings-outline"
+                                style={styles.navIcon}
+                            />
+                        }
+                        status={"warning"}
+                        onPress={() => navigation.navigate("UserList")}
+                    >
+                        Usuarios
+                    </Button>
+                )}
+
             </Layout>
 
             {/* Sección de datos */}
@@ -135,7 +158,7 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
                     style={styles.logoutButton}
                     status="danger"
                     appearance="filled"
-                    accessoryLeft={<Icon name="log-out-outline" style={styles.buttonIcon} />}
+                    accessoryLeft={<Icon name="log-out-outline" style={styles.buttonIcon}/>}
                     onPress={() => {
                         logout();
                         navigation.dispatch(DrawerActions.closeDrawer());
@@ -149,9 +172,9 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
 };
 
 // Componente reutilizable para mostrar datos
-const DataItem = ({ label, value, icon }: { label: string; value: string; icon: string }) => (
+const DataItem = ({label, value, icon}: { label: string; value: string; icon: string }) => (
     <View style={styles.dataItem}>
-        <Icon name={icon} style={styles.dataIcon} fill="#8F9BB3" />
+        <Icon name={icon} style={styles.dataIcon} fill="#8F9BB3"/>
         <View style={styles.dataTextContainer}>
             <Text category="label" appearance="hint" style={styles.dataLabel}>
                 {label}
@@ -172,7 +195,7 @@ const styles = StyleSheet.create({
         backgroundColor: "#4CAF50",
         padding: 20,
         alignItems: "center",
-       borderRadius:20
+        borderRadius: 20
 
         // borderBottomLeftRadius: 20,
         // borderBottomRightRadius: 20,
@@ -226,7 +249,7 @@ const styles = StyleSheet.create({
         borderRadius: 15,
         elevation: 2,
         shadowColor: "#000",
-        shadowOffset: { width: 0, height: 2 },
+        shadowOffset: {width: 0, height: 2},
         shadowOpacity: 0.1,
         shadowRadius: 4,
     },

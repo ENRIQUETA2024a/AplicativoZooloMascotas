@@ -29,6 +29,6 @@ export interface UserDashboard{
     role_id: number;
     avatar: string;
     created_at: string;
+    deleted_at: string | null;
     role: Role;
-    deleted_at: string;
 }

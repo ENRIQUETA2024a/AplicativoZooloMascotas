@@ -8,8 +8,8 @@ import {PetApiMapper} from "../../core";
 export const getPetById = async(petId:number):Promise<Pet | null> =>{
     try{
         //Obtenemos el token almacenado en secureStore
-        const {token} = await getAuthToken();
-        if(!token) {
+        const {token,userType} = await getAuthToken();
+        if(userType!=="user"  && !token) {
             console.warn("No hay token disponible");
             return null; //  Retornamos para evitar que la app se rompa
         }
@@ -25,7 +25,7 @@ export const getPetById = async(petId:number):Promise<Pet | null> =>{
         return pet;
     }
     catch (error) {
-        console.error(`❌ Error obteniendo las mascotas del Owner ID ${petId}:`, error);
+        console.error(`❌ Error obteniendo las mascotas getPetById del Owner ID ${petId}:`, error);
         // Si el error viene de Axios, muestra la respuesta del servidor
         if (error.response) {
             console.error("📌 Código de estado:", error.response.status);

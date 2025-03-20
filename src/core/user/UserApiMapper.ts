@@ -38,9 +38,11 @@ export const UserApiMapperForDashboard = (user: UserDashboardApiResponse) => {
         // avatar: `https://tudominio.com/storage/${user.avatar}`, // Si usas un bucket, ajusta la URL
         avatar: "S/N",
         created_at: new Date(user.created_at).toISOString(),
+        deleted_at: user.deleted_at ?  new Date(user.deleted_at).toISOString() : null,
         role: {
             id: user.role.id,
             name: user.role.name
         }
     }
 }
+

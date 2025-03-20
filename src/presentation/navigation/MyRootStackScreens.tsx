@@ -1,3 +1,4 @@
+
 export type MyRootStackScreens = {
     LoginScreen: undefined;
     HomeScreen: undefined;
@@ -9,8 +10,12 @@ export type MyRootStackScreens = {
     SurgeryPetListScreen: { idPet: number };
     VaccinePetListScreen: { idPet: number };
 
-    // Accesos por role
+    // Accesos Para el Admin
     SuperAdminScreen: undefined;
+    UserList: undefined;
+    OwnerAdminScreen:undefined;
+
+
     VeterinarioScreen: undefined;
     AsistenteScreen: undefined;
     RecepcionScreen: undefined;
