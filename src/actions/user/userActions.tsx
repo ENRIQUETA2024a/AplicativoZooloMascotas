@@ -83,7 +83,7 @@ export const destroyUser = async (id: number) => {
         const {data} = await apiZooloMascotas.delete<UserDashboardApiResponse>(`/users/${id}`, config);
         return data;
     } catch (error) {
-        console.error(`❌ Error obteniendo eliminando el usuario destroyUser: `, error);
+        console.error(`❌ Error eliminando el usuario destroyUser: `, error);
         // Si el error viene de Axios, muestra la respuesta del servidor
         if (error.response) {
             console.error("📌 Código de estado:", error.response.status);

@@ -1,136 +1,56 @@
-import React, {useEffect, useState} from "react";
+import React from "react";
 import {
     FlatList,
     Modal,
-    ScrollView,
     StyleSheet,
     View,
 } from "react-native";
-import {
-    createOwner,
-    deleteOwner,
-    getOwnerById,
-    getOwners,
-    updateOwner,
-} from "../../../actions";
 import {MyActivityIndicator} from "../../components/ui/MyActivityIndicator";
 import {Button, Card, Icon, Input, Layout, Text} from "@ui-kitten/components";
-import {OwnerCard} from "../../components/owner/OwnerCard";
 import {OwnerForm} from "../../components/owner/OwnerForm";
+import {MyListCard} from "../../components/ui/MyListCard";
+import {OwnerDashboard} from "../../../core";
+import {useOwnerActions} from "../../components";
 
 export const OwnerAdminScreen = () => {
-    const [owners, setOwners] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
-    const [selectedOwner, setSelectedOwner] = useState(null);
-    const [modalVisible, setModalVisible] = useState(false);
-    const [isEditMode, setIsEditMode] = useState(false);
-    const [form, setForm] = useState({
-        names: "",
-        surnames: "",
-        type_document: "",
-        n_document: "",
-        email: "",
-        phone: "",
-        address: "",
-        city: "",
-        emergency_contact: "",
-    });
 
-    // Cargar lista de dueños
-    const fetchOwners = async () => {
-        setLoading(true);
-        try {
-            const ownerList = await getOwners();
-            setOwners(ownerList || []);
-        } catch (err) {
-            setError("Error al cargar los dueños");
-        } finally {
-            setLoading(false);
-        }
-    };
+    const {
+        fetchOwners,
+        handleSaveOwner,
+        handleDeleteOwner,
+        handleEditOwner,
+        handleToggleActivate,
+        resetForm,
+        setForm,
+        setModalVisible,
+        setSearchQuery,
+        handleSearch,
+        //acciones
+        isEditMode,
+        owners,
+        loading, error, modalVisible,
+        form,
+        searchQuery,
 
-    useEffect(() => {
-        fetchOwners();
-    }, []);
+    } = useOwnerActions();
 
-    // Crear o actualizar dueño
-    const handleSaveOwner = async () => {
-        if (!form.names || !form.surnames || !form.type_document || !form.n_document || !form.phone) {
-            alert("Por favor, completa los campos obligatorios: Nombres, Apellidos, Tipo de Documento, Número de Documento y Teléfono.");
-            return;
-        }
-        setLoading(true);
-        try {
-            if (isEditMode) {
-                await updateOwner(selectedOwner.id, form);
-            } else {
-                await createOwner(form);
-            }
-            await fetchOwners(); // Refrescar lista
-            setModalVisible(false);
-            resetForm();
-        } catch (err) {
-            setError(`Error al ${isEditMode ? "actualizar" : "crear"} el dueño`);
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    // Eliminar dueño
-    const handleDeleteOwner = async (id) => {
-        if (confirm("¿Estás seguro de eliminar este dueño?")) {
-            setLoading(true);
-            try {
-                await deleteOwner(id);
-                await fetchOwners(); // Refrescar lista
-            } catch (err) {
-                setError("Error al eliminar el dueño");
-            } finally {
-                setLoading(false);
-            }
-        }
-    };
-
-    // Ver detalles y preparar edición
-    const handleEditOwner = async (id) => {
-        try {
-            const owner = await getOwnerById(id);
-            setSelectedOwner(owner);
-            setForm({
-                names: owner.names || "",
-                surnames: owner.surnames || "",
-                type_document: owner.type_document || "",
-                n_document: owner.n_document || "",
-                email: owner.email || "",
-                phone: owner.phone || "",
-                address: owner.address || "",
-                city: owner.city || "",
-                emergency_contact: owner.emergency_contact || "",
-            });
-            setIsEditMode(true);
-            setModalVisible(true);
-        } catch (err) {
-            setError("Error al cargar los detalles del dueño");
-        }
-    };
-
-    // Resetear formulario
-    const resetForm = () => {
-        setForm({
-            names: "",
-            surnames: "",
-            type_document: "",
-            n_document: "",
-            email: "",
-            phone: "",
-            address: "",
-            city: "",
-            emergency_contact: "",
-        });
-        setSelectedOwner(null);
-        setIsEditMode(false);
-    };
+    const renderOwnerItem = ({item}: { item: OwnerDashboard }) => (
+        <MyListCard attributes={[
+            {label: "Nombre", value: `${item.names} ${item.surnames}`, icon: "person-outline"},
+            {label: `${item.type_document}: `, value: item.n_document, icon: "file-text-outline"},
+            {label: "Email", value: item.n_document, icon: "email-outline"},
+            {label: "Celular", value: item.phone, icon: "phone-outline"},
+            {label: "Direccion", value: item.address, icon: "home-outline"},
+            {label: "City", value: item.city, icon: "navigation-2-outline"},
+            {label: "Contacto", value: item.emergency_contact, icon: "alert-circle-outline"},
+        ]}
+                    iconName={"person-outline"}
+                    onEdit={() => handleEditOwner(item.id)}
+                    onDelete={() => handleDeleteOwner(item.id)}
+                    onToggleActive={() => handleToggleActivate(item.id, !item.deleted_at)}
+                    isActive={!!item.deleted_at}
+        />
+    )
 
     if (loading) {
         return <MyActivityIndicator/>;
@@ -174,16 +94,31 @@ export const OwnerAdminScreen = () => {
                 </Button>
             </View>
 
+            {/* Campo de Búsqueda */}
+            <View style={styles.searchContainer}>
+                <Input
+                    placeholder="Buscar por nombre o apellido..."
+                    value={searchQuery}
+                    onChangeText={(text) => setSearchQuery(text)}
+                    onSubmitEditing={handleSearch} // Buscar al presionar "Enter"
+                    accessoryRight={<Icon name="search-outline"/>}
+                    style={styles.searchInput}
+                />
+                <Button
+                    style={styles.searchButton}
+                    status="primary"
+                    onPress={handleSearch}
+                >
+                    Buscar
+                </Button>
+            </View>
+
+            {/* Lista de dueños */}
+
             {/* Lista de dueños */}
             <FlatList
                 data={owners}
-                renderItem={({item}) => (
-                    <OwnerCard
-                        owner={item}
-                        onEdit={handleEditOwner}
-                        onDelete={handleDeleteOwner}
-                    />
-                )}
+                renderItem={renderOwnerItem}
                 keyExtractor={(item) => item.id.toString()}
                 contentContainerStyle={styles.listContent}
                 ListEmptyComponent={
@@ -212,6 +147,7 @@ export const OwnerAdminScreen = () => {
         </Layout>
     );
 };
+
 
 const styles = StyleSheet.create({
     container: {
@@ -261,7 +197,7 @@ const styles = StyleSheet.create({
     },
     modalCard: {
         width: "90%",
-        maxHeight: "80%",
+        maxHeight: "70%",
         padding: 20,
         borderRadius: 12,
         alignSelf: "center",
@@ -275,5 +211,23 @@ const styles = StyleSheet.create({
         color: "#1A2138",
     },
 
+    searchContainer: {
+        flexDirection: "row",
+        alignItems: "center",
+        paddingHorizontal: 15,
+        paddingVertical: 10,
+        backgroundColor: "#FFF",
+        borderBottomWidth: 1,
+        borderBottomColor: "#E8ECEF",
+    },
+    searchInput: {
+        flex: 1,
+        marginRight: 10,
+        borderRadius: 10,
+    },
+    searchButton: {
+        borderRadius: 10,
+        paddingHorizontal: 15,
+    },
 
 });

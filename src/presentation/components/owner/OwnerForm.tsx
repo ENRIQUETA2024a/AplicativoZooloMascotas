@@ -73,7 +73,7 @@ export const OwnerForm = ({
             label="Contacto de Emergencia"
             value={form.emergency_contact}
             onChangeText={(text) => onChange("emergency_contact", text)}
-            keyboardType="phone-pad"
+            keyboardType={"default"}
             style={styles.input}
         />
         <View style={styles.modalActions}>
