@@ -1,6 +1,6 @@
 import React from "react";
-import { StyleProp, StyleSheet, View, ViewStyle } from "react-native";
-import { Button, Card, Icon, Text } from "@ui-kitten/components";
+import {StyleProp, StyleSheet, View, ViewStyle} from "react-native";
+import {Button, Card, Icon, Text} from "@ui-kitten/components";
 
 interface Attribute {
     label: string;
@@ -36,18 +36,17 @@ export const MyListCard = ({
                 {/* Contenedor del Ícono Principal */}
                 {iconName && (
                     <View style={styles.iconContainer}>
-                        <Icon name={iconName} fill={!isActive ? iconColor :"#A6C1FF"} style={styles.icon}  />
+                        <Icon name={iconName} fill={!isActive ? iconColor : "#A6C1FF"} style={styles.icon}/>
                         {/* Botón Activar/Desactivar en la esquina derecha */}
                         {onToggleActive && isActive && (
                             <Button
                                 appearance="ghost"
                                 status={isActive ? "success" : "warning"}
                                 accessoryLeft={
-                                    <Icon name={isActive ? "checkmark-circle-outline" : "close-circle-outline"} />
+                                    <Icon name={isActive ? "checkmark-circle-outline" : "close-circle-outline"}/>
                                 }
                                 onPress={onToggleActive}
                                 style={styles.toggleButton}
-
                             >
                                 {/*{isActive ? "Desactivar" : "Activar"}*/}
                             </Button>
@@ -64,7 +63,7 @@ export const MyListCard = ({
                                     name={attr.icon}
                                     style={styles.attributeIcon}
                                     //fill={   attr.iconColor || iconColor}
-                                    fill={ !isActive ? iconColor : "#A6C1FF" }
+                                    fill={!isActive ? iconColor : "#A6C1FF"}
                                 />
                             )}
                             <Text category="s2" appearance="hint" style={styles.attributeLabel}>
@@ -77,7 +76,6 @@ export const MyListCard = ({
                     ))}
                 </View>
 
-
             </View>
 
             {/* Botones de Acción (Editar y Eliminar) */}
@@ -87,19 +85,19 @@ export const MyListCard = ({
                         <Button
                             appearance="ghost"
                             status={"warning"}
-                            accessoryLeft={<Icon name="edit-outline" />}
+                            accessoryLeft={<Icon name="edit-outline"/>}
                             onPress={onEdit}
                             style={styles.actionButton}
                             disabled={isActive}
                         >
-                            Editar
+                            Actualizar
                         </Button>
                     )}
                     {onDelete && (
                         <Button
                             appearance="ghost"
                             status="danger"
-                            accessoryLeft={<Icon name="trash-2-outline" />}
+                            accessoryLeft={<Icon name="trash-2-outline"/>}
                             onPress={onDelete}
                             style={styles.actionButton}
                             disabled={isActive}
@@ -121,7 +119,7 @@ const styles = StyleSheet.create({
         backgroundColor: "#FFFFFF",
         elevation: 4,
         shadowColor: "#000",
-        shadowOffset: { width: 0, height: 2 },
+        shadowOffset: {width: 0, height: 2},
         shadowOpacity: 0.1,
         shadowRadius: 8,
         marginBottom: 15,

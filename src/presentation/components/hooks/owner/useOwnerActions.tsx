@@ -10,7 +10,7 @@ import {
 import {useEffect, useState} from "react";
 import {Alert} from "react-native";
 import {OwnerDashboard} from "../../../../core";
-
+import { debounce } from "lodash";
 
 export const useOwnerActions = () => {
     const [owners, setOwners] = useState<OwnerDashboard[]>([]);
@@ -56,6 +56,7 @@ export const useOwnerActions = () => {
         try {
             const ownerList = await getOwners();
             setOwners(ownerList || []);
+            setError(null);
         } catch (err) {
             setError("Error al cargar los dueños");
         } finally {
@@ -89,8 +90,6 @@ export const useOwnerActions = () => {
 
     // Eliminar dueño
     const handleDeleteOwner = async (id) => {
-        console.log("Eliminando dueño:", id);
-
         Alert.alert("Eliminando Dueño" //Titulo
             , "¿Estás seguro de eliminar este dueño?",//Mensaje
             [
@@ -172,16 +171,16 @@ export const useOwnerActions = () => {
             return;
         }
         if (searchQuery.length < 3) {
-            alert("El término de búsqueda debe tener al menos 3 caracteres");
+           // alert("El término de búsqueda debe tener al menos 3 caracteres");
             return;
         }
 
         setLoading(true);
+        setError(null); // Limpiar errores anteriores
         try {
             const owners = await searchOwners(searchQuery);
-            if (owners.length > 0) {
-                setOwners(owners);
-            } else {
+            setOwners(owners.length > 0 ? owners : []);
+            if (owners.length === 0) {
                 setError("No se encontraron resultados");
             }
         } catch (error) {
@@ -191,8 +190,21 @@ export const useOwnerActions = () => {
         }
     }
     useEffect(() => {
-        fetchOwners();
-    }, []);
+
+        const debouncedSearch = debounce(() => {
+            if (searchQuery === "") {
+                fetchOwners();
+            } else {
+                handleSearch();
+            }
+        }, 500); // Retraso de 500ms
+
+        debouncedSearch();
+
+        return () => {
+            debouncedSearch.cancel(); // Cancelar el debounce al desmontar el componente
+        };
+    }, [searchQuery]);
 
 
     return {

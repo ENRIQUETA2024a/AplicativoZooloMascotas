@@ -73,7 +73,6 @@ export const createOwner = async (ownerData: any): Promise<boolean> => {
         };
 
         const message = await apiZooloMascotas.post<{ message: String; status: Number }>(BASE_URL, ownerData, config);
-        console.log(message);
         return true;
     } catch (error) {
         console.error(`❌ Error creando dueño: `, error);
@@ -116,7 +115,6 @@ export const deleteOwner = async (id: number): Promise<boolean> => {
             Accept: "application/json",
         };
         const {data} = await apiZooloMascotas.delete(`${BASE_URL}${id}`, config);
-        console.log(data)
         return true;
     } catch (error) {
         console.error(`❌ Error eliminando el dueño deleteOwner: `, error);
