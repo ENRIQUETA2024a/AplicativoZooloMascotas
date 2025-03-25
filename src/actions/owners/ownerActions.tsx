@@ -5,7 +5,7 @@ import {OwnerApiResponse} from "../../core/dashboard/OwnerApiResponse";
 import {OwnerApiMapperDashboard, OwnerDashboard} from "../../core";
 
 
-const BASE_URL = 'owners/';
+const BASE_URL = 'admin/owners/';
 
 // Obtener todos los dueños
 export const getOwners = async (): Promise<OwnerDashboard []> => {
