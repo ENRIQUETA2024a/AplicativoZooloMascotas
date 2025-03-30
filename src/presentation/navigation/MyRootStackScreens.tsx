@@ -14,7 +14,7 @@ export type MyRootStackScreens = {
     SuperAdminScreen: undefined;
     UserList: undefined;
     OwnerAdminScreen:undefined;
-
+    PetAdminScreen:undefined;
 
     VeterinarioScreen: undefined;
     AsistenteScreen: undefined;

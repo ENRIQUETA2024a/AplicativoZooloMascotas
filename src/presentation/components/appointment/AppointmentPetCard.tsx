@@ -1,21 +1,14 @@
 import { Card, Icon, Text } from "@ui-kitten/components";
 import { StyleSheet, View } from "react-native";
 import {Appointment} from "../../../core";
+import {formatDate} from "../../../utils/helpers";
 
 interface Props {
     appointment: Appointment;
 }
 
 export const AppointmentPetCard = ({ appointment }: Props) => {
-    // Formatear la fecha de manera más corta y legible
-    const formatDate = (date: Date, day: string) => {
-        const dateObj = new Date(date);
-        return `${day.charAt(0).toUpperCase() + day.slice(1)}, ${dateObj.toLocaleDateString("es-ES", {
-            day: "numeric",
-            month: "short", // Mes abreviado
-            year: "numeric",
-        })}`;
-    };
+
 
     // Formatear hora si está disponible
     const formatTime = () => {

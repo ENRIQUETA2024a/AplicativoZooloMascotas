@@ -38,3 +38,8 @@ export * from './dashboard/MetricApiResponse'
 export {Owner as OwnerDashboard} from './dashboard/Owner'
 export {OwnerApiResponse as OwnerApiResponseDashboard} from './dashboard/OwnerApiResponse'
 export {OwnerApiMapper as OwnerApiMapperDashboard} from './dashboard/OwnerApiMapper'
+
+// Pet SuperAdmin
+export {Pet as PetDashboard} from './dashboard/Pet'
+export {PetApiResponse as PetApiResponseDashboard} from './dashboard/PetApiResponse'
+export {PetApiMapper as PetApiMapperDashboard} from './dashboard/PetApiMapper'

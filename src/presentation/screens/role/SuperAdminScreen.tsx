@@ -3,8 +3,8 @@ import { FlatList, StyleSheet, View, TouchableOpacity } from "react-native";
 import { Button, Icon, Layout, Text } from "@ui-kitten/components";
 import {NavigationProp, useNavigation} from "@react-navigation/native";
 import { useDashboardMetrics } from "../../components/hooks/useDashboardMetrics";
-import { MyActivityIndicator } from "../../components/ui/MyActivityIndicator";
 import {MyRootStackScreens} from "../../navigation/MyRootStackScreens";
+import {MyActivityIndicator} from "../../components";
 
 export const SuperAdminScreen = () => {
     const navigation = useNavigation<NavigationProp<MyRootStackScreens>>();
@@ -46,7 +46,7 @@ export const SuperAdminScreen = () => {
     const metricData = [
         { title: "Total Usuarios", value: metrics?.total_users ?? 0, icon: "people-outline", color: "#1ABC9C",screen: "UserList" },
         { title: "Total Dueños", value: metrics?.total_owners ?? 0, icon: "person-outline", color: "#3498DB" ,screen: "OwnerAdminScreen"},
-        { title: "Total Mascotas", value: metrics?.total_pets ?? 0, icon: "behance-outline", color: "#F39C12" ,screen: ""},
+        { title: "Total Mascotas", value: metrics?.total_pets ?? 0, icon: "behance-outline", color: "#F39C12" ,screen: "PetAdminScreen"},
         { title: "Total Citas", value: metrics?.total_appointments ?? 0, icon: "calendar-outline", color: "#9B59B6",screen: "" },
         { title: "Total Cirugías", value: metrics?.total_surgeries ?? 0, icon: "scissors-outline", color: "#E74C3C" ,screen: ""},
         { title: "Citas Pagadas", value: metrics?.total_appointment_payments ?? 0, icon: "credit-card-outline", color: "#2ECC71" ,screen: ""},

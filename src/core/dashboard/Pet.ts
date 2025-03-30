@@ -4,7 +4,7 @@ export interface Pet{
     specie: string;
     name: string;
     breed: string;
-    birthDate: string;
+    birth_date: Date | null;
     gender: string;
     color: string;
     weight: string;
@@ -14,4 +14,16 @@ export interface Pet{
     deletedAt: string | null;
     owner: string;
     phone: string | null;
+}
+
+export interface PetFormI{
+    specie: string;
+    name: string;
+    breed: string;
+    birth_date: Date | null;
+    gender: string;
+    color: string;
+    weight: string;
+    photo: string;
+    medicalNotes: string;
 }

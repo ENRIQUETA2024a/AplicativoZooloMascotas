@@ -82,7 +82,7 @@ export const useOwnerActions = () => {
             setModalVisible(false);
             resetForm();
         } catch (err) {
-            setError(`Error al ${isEditMode ? "actualizar" : "crear"} el dueño`);
+            setError(`Error al ${isEditMode ? "actualizar" : "crear"} la mascota`);
         } finally {
             setLoading(false);
         }

@@ -9,6 +9,7 @@ export * from './owner/OwnerAdminScreen';
 //Pets
 export * from './pet/PetScreen';
 export * from './pet/PetDetailsScreen';
+export * from './pet/PetAdminScreen';
 //Appointment
 export * from './appointment/AppointmentPetListScreen'
 //Surgery
@@ -24,3 +25,4 @@ export * from './role/SuperAdminScreen'
 export * from './role/AsistenteScreen'
 export * from './role/VeterinarioScreen'
 export * from './role/RecepcionScreen'
+

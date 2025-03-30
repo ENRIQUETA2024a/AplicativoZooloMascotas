@@ -1,54 +1,60 @@
+import {FlatList, KeyboardAvoidingView, Modal, Platform, TouchableOpacity, View} from "react-native";
+import {usePetActions} from "../../components/hooks/pet/usePetActions";
+import {PetDashboard} from "../../../core";
+import {MyActivityIndicator, MyListCard} from "../../components";
 import React from "react";
-import {
-    FlatList,
-    StyleSheet, TouchableOpacity,
-    View, Modal,
-    KeyboardAvoidingView, Platform
-} from "react-native";
-import {Button, Card, Icon, Input, Layout, Text,} from "@ui-kitten/components";
-import {OwnerForm} from "../../components/owner/OwnerForm";
-import {OwnerDashboard} from "../../../core";
-import {MyActivityIndicator, MyListCard, useOwnerActions} from "../../components";
+import {Button, Card, Icon, Input, Layout, Text} from "@ui-kitten/components";
 import {StylesAdminScreen} from "../../styles/StylesAdminScreen";
+import {PetForm} from "../../components/pet/PetForm";
 
+export const PetAdminScreen = () => {
 
-export const OwnerAdminScreen = () => {
     const {
-        fetchOwners,
-        handleSaveOwner,
-        handleDeleteOwner,
-        handleEditOwner,
+        //acciones
+        fetchPets,
+        handleSavePets,
+        handleDeletePets,
+        handleEditPet,
         handleToggleActivate,
+
+        //form
         resetForm,
+        //setStates
         setForm,
         setModalVisible,
         setSearchQuery,
         handleSearch,
+        //States
         isEditMode,
-        owners,
+        pets,
         loading,
         error,
         modalVisible,
         form,
         searchQuery,
-    } = useOwnerActions();
+    } = usePetActions();
 
-    const renderOwnerItem = ({item}: { item: OwnerDashboard }) => (
-        <MyListCard
-            attributes={[
-                {label: "Nombre", value: `${item.names} ${item.surnames}`, icon: "person-outline"},
-                {label: `${item.type_document}: `, value: item.n_document, icon: "file-text-outline"},
-                {label: "Email", value: item.email, icon: "email-outline"},
-                {label: "Celular", value: item.phone, icon: "phone-outline"},
-                {label: "Direccion", value: item.address, icon: "home-outline"},
-                {label: "City", value: item.city, icon: "navigation-2-outline"},
-                {label: "Contacto", value: item.emergency_contact, icon: "alert-circle-outline"},
-            ]}
-            iconName={"person-outline"}
-            onEdit={() => handleEditOwner(item.id)}
-            onDelete={() => handleDeleteOwner(item.id)}
-            onToggleActive={() => handleToggleActivate(item.id, !item.deleted_at)}
-            isActive={!!item.deleted_at}
+    const renderPetItem = ({item}: { item: PetDashboard }) => (
+        <MyListCard attributes={[
+            {label: "Nombre", value: item.name, icon: "behance-outline"},
+            {label: "Especie", value: item.specie, icon: "copy-outline"},
+            {label: "Raza", value: item.breed, icon: "attach-2-outline"},
+            {label: "Fecha Nacimiento", value: new Date(item.birth_date).toLocaleDateString("es-ES"), icon: "calendar-outline"},
+            {label: "Genero", value: item.gender, icon: "cube-outline"},
+            {label: "Color", value: item.color, icon: "color-palette-outline"},
+            {label: "Peso", value: item.weight, icon: "clipboard-outline"},
+            {label: "Foto", value: item.photo, icon: "camera-outline"},
+            {label: "Notas Meditas", value: item.medicalNotes, icon: "file-text-outline"},
+            {label: "Dueño ", value: item.owner, icon: "person-done-outline"},
+            {label: "Celular ", value: item.phone, icon: "phone-call-outline"},
+        ]}
+
+                    iconName={"twitter-outline"}
+                    onEdit={() => handleEditPet(item.id)}
+                    onDelete={() => handleDeletePets(item.id)}
+                    onToggleActive={() => handleToggleActivate(item.id, !item.deletedAt)}
+                    isActive={!!item.deletedAt}
+
         />
     );
 
@@ -70,7 +76,7 @@ export const OwnerAdminScreen = () => {
                         status="danger"
                         accessoryLeft={<Icon name="refresh-outline"/>}
                         onPress={()=>{
-                            fetchOwners();
+                            fetchPets();
                             setSearchQuery("");
                         }}
                     />
@@ -107,8 +113,8 @@ export const OwnerAdminScreen = () => {
 
             {/* Lista de dueños */}
             <FlatList
-                data={owners}
-                renderItem={renderOwnerItem}
+                data={pets}
+                renderItem={renderPetItem}
                 keyExtractor={(item) => item.id.toString()}
                 contentContainerStyle={StylesAdminScreen.listContent}
                 ListEmptyComponent={
@@ -120,8 +126,8 @@ export const OwnerAdminScreen = () => {
                         />
                         <Text category="s1" appearance="hint" style={StylesAdminScreen.emptyText}>
                             {searchQuery
-                                ? "No se encontraron dueños con ese criterio"
-                                : "No hay dueños registrados aún"}
+                                ? "No se encontraron mascotas con ese criterio"
+                                : "No hay mascotas registradas aún"}
                         </Text>
                         {searchQuery && (
                             <Button
@@ -130,7 +136,7 @@ export const OwnerAdminScreen = () => {
                                 status="basic"
                                 onPress={() => {
                                     setSearchQuery('');
-                                    fetchOwners();
+                                    fetchPets();
                                 }}
                             >
                                 Mostrar todos
@@ -146,28 +152,32 @@ export const OwnerAdminScreen = () => {
                     behavior={Platform.OS === "ios" ? "padding" : "height"}
                     style={StylesAdminScreen.keyboardAvoidingContainer}
                 >
-                <View style={StylesAdminScreen.modalBackdrop}>
-                    {/* Contenedor del Modal */}
-                    <View style={StylesAdminScreen.modalContainer}>
-                        <Card disabled style={StylesAdminScreen.modalCard}>
-                            {/* Título del Modal */}
-                            <Text category="h6" style={StylesAdminScreen.modalTitle}>
-                                {isEditMode ? "Editar Dueño" : "Nuevo Dueño"}
-                            </Text>
+                    <View style={StylesAdminScreen.modalBackdrop}>
+                        {/* Contenedor del Modal */}
+                        <View style={StylesAdminScreen.modalContainer}>
+                            <Card disabled style={StylesAdminScreen.modalCard}>
+                                {/* Título del Modal */}
+                                <Text category="h6" style={StylesAdminScreen.modalTitle}>
+                                    {isEditMode ? "Editar Dueño" : "Nuevo Dueño"}
+                                </Text>
 
-                            {/* Formulario */}
-                            <OwnerForm
-                                form={form}
-                                isEditMode={isEditMode}
-                                onChange={(field, value) => setForm({ ...form, [field]: value })}
-                                onSave={handleSaveOwner}
-                                onCancel={() => setModalVisible(false)}
-                            />
-                        </Card>
+                                {/* Formulario */}
+                                <PetForm
+                                    form={form}
+                                    isEditMode={isEditMode}
+                                    onChange={(field, value) =>
+                                        setForm((prevForm) => ({ ...prevForm, [field]: value })) // Usar prevForm en lugar de form
+                                    }
+                                    onSave={handleSavePets}
+                                    onCancel={() => setModalVisible(false)}
+                                />
+                            </Card>
+                        </View>
                     </View>
-                </View>
                 </KeyboardAvoidingView>
             </Modal>
         </Layout>
-    );
-};
+    )
+}
+
+

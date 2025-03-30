@@ -170,9 +170,7 @@ export const searchOwners = async (searchQuery: string): Promise<OwnerDashboard 
 
         // Llamamos al endpoint de toggleActive
         const {data} = await apiZooloMascotas.get(`${BASE_URL}search?query=${searchQuery}`, config);
-        const owners = OwnerApiMapperDashboard.mapOwnerApiResponseToModel(data);
-        console.log(owners)
-        return owners;
+        return OwnerApiMapperDashboard.mapOwnerApiResponseToModel(data);
 
     } catch (error) {
         console.error(`❌ Error obteniendo los dueños searchQuery en searchOwners: `, error);
@@ -182,5 +180,6 @@ export const searchOwners = async (searchQuery: string): Promise<OwnerDashboard 
         } else {
             console.error("📌 Error general:", error.message);
         }
+        return [];
     }
 }

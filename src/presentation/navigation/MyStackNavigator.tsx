@@ -7,9 +7,11 @@ import {
     OwnerHomeScreen, PetDetailsScreen,
     PetScreen, RecepcionScreen, SuperAdminScreen,
     SurgeryPetListScreen, UserHomeScreen,
-    VaccinePetListScreen, VeterinarioScreen
+    VaccinePetListScreen, VeterinarioScreen,
+    PetAdminScreen
 } from "../screens/";
 import {UserList} from "../components/user/UserList";
+
 
 
 
@@ -79,6 +81,9 @@ export const MyStackNavigator = () => {
 
             <Stack.Screen name="OwnerAdminScreen" component={OwnerAdminScreen}
                           options={{title: "Gestión Dueños"}}/>
+
+            <Stack.Screen name="PetAdminScreen" component={PetAdminScreen}
+                          options={{title: "Gestión Mascotas"}}/>
 
             <Stack.Screen name="UserList" component={UserList}
                           options={{title: "Gestión Usuarios"}}/>
