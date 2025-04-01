@@ -35,11 +35,12 @@ export * from './dashboard/MetricApiMapper'
 export * from './dashboard/MetricApiResponse'
 
 // //Owner SuperAdmin
-export {Owner as OwnerDashboard} from './dashboard/Owner'
-export {OwnerApiResponse as OwnerApiResponseDashboard} from './dashboard/OwnerApiResponse'
-export {OwnerApiMapper as OwnerApiMapperDashboard} from './dashboard/OwnerApiMapper'
+export * from './dashboard/OwnerDashboard'
+export  * from './dashboard/OwnerApiResponseDashboard'
+export * from './dashboard/OwnerApiMapperDashboard'
 
 // Pet SuperAdmin
-export {Pet as PetDashboard} from './dashboard/Pet'
-export {PetApiResponse as PetApiResponseDashboard} from './dashboard/PetApiResponse'
-export {PetApiMapper as PetApiMapperDashboard} from './dashboard/PetApiMapper'
+export * from './dashboard/PetDashboard'
+export * from './dashboard/PetApiResponseDashboard'
+export * from './dashboard/PetApiMapperDashboard'
+

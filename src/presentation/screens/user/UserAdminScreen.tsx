@@ -1,63 +1,62 @@
-import React from "react";
-import {
-    FlatList,
-    TouchableOpacity,
-    View, Modal,
-    KeyboardAvoidingView, Platform
-} from "react-native";
-import {Button, Card, Icon, Input, Layout, Text,} from "@ui-kitten/components";
-import {OwnerForm} from "../../components/owner/OwnerForm";
-import {OwnerDashboard} from "../../../core";
-import {MyActivityIndicator, MyListCard, useOwnerActions} from "../../components";
+import {MyActivityIndicator, MyListCard} from "../../components";
+import {useUserActions} from "../../components/hooks/user/useUserActions";
+import {UserDashboard} from "../../../core/dashboard/UserDashboard";
 import {StylesAdminScreen} from "../../styles/StylesAdminScreen";
+import {Button, Card, Icon, Input, Layout, Text} from "@ui-kitten/components";
+import {FlatList, KeyboardAvoidingView, Modal, Platform, TouchableOpacity, View} from "react-native";
+import React from "react";
+import {UserForm} from "../../components/user/UserForm";
 
+export const UserAdminScreen = () => {
 
-export const OwnerAdminScreen = () => {
     const {
-        fetchOwners,
-        handleSaveOwner,
-        handleDeleteOwner,
-        handleEditOwner,
+        //acciones
+        fetchUsers,
+        handleSaveUsers,
+        handleDeleteUser,
+        handleEditUser,
         handleToggleActivate,
+
+        //form
         resetForm,
+        //setStates
         setForm,
         setModalVisible,
         setSearchQuery,
         handleSearch,
+        //States
         isEditMode,
-        owners,
+        users,
         loading,
         error,
         modalVisible,
         form,
         searchQuery,
-    } = useOwnerActions();
+    } = useUserActions();
 
-    const renderOwnerItem = ({item}: { item: OwnerDashboard }) => (
+
+    const renderUserItem = ({item}: { item: UserDashboard }) => (
         <MyListCard
             attributes={[
-                {label: "Nombre", value: `${item.names} ${item.surnames}`, icon: "person-outline"},
-                {label: `${item.type_document}: `, value: item.n_document, icon: "file-text-outline"},
-                {label: "Email", value: item.email, icon: "email-outline"},
-                {label: "Celular", value: item.phone, icon: "phone-outline"},
-                {label: "Direccion", value: item.address, icon: "home-outline"},
-                {label: "City", value: item.city, icon: "navigation-2-outline"},
-                {label: "Contacto", value: item.emergency_contact, icon: "alert-circle-outline"},
+                {label: "Nombre", value: item.name, icon: "camera-outline"},
+                {label: "Apellidos", value: item.surname, icon: "camera-outline"},
+                {label: "Email", value: item.email, icon: "camera-outline"},
+                {label: "Celular", value: item.phone , icon: "camera-outline"},
+                {label: "Rol", value: item.role.name , icon: "camera-outline"},
             ]}
-            iconName={"people-outline"}
-            onEdit={() => handleEditOwner(item.id)}
-            onDelete={() => handleDeleteOwner(item.id)}
+            iconName={"person-outline"}
+            onEdit={() => handleEditUser(item.id)}
+            onDelete={() => handleDeleteUser(item.id)}
             onToggleActive={() => handleToggleActivate(item.id, !item.deleted_at)}
             isActive={!!item.deleted_at}
         />
-    );
-
+    )
     if (loading) {
-        return <MyActivityIndicator/>;
+        return <MyActivityIndicator/>
     }
 
-    return (
-        <Layout style={StylesAdminScreen.container}>
+    return(
+        <Layout style={StylesAdminScreen.container} >
             {/* Mostrar errores de forma no intrusiva */}
             {error && (
                 <View style={StylesAdminScreen.inlineError}>
@@ -70,7 +69,7 @@ export const OwnerAdminScreen = () => {
                         status="danger"
                         accessoryLeft={<Icon name="refresh-outline"/>}
                         onPress={()=>{
-                            fetchOwners();
+                            fetchUsers();
                             setSearchQuery("");
                         }}
                     />
@@ -107,8 +106,8 @@ export const OwnerAdminScreen = () => {
 
             {/* Lista de dueños */}
             <FlatList
-                data={owners}
-                renderItem={renderOwnerItem}
+                data={users}
+                renderItem={renderUserItem}
                 keyExtractor={(item) => item.id.toString()}
                 contentContainerStyle={StylesAdminScreen.listContent}
                 ListEmptyComponent={
@@ -120,8 +119,8 @@ export const OwnerAdminScreen = () => {
                         />
                         <Text category="s1" appearance="hint" style={StylesAdminScreen.emptyText}>
                             {searchQuery
-                                ? "No se encontraron dueños con ese criterio"
-                                : "No hay dueños registrados aún"}
+                                ? "No se encontraron usuarios con ese criterio"
+                                : "No hay usuarios registrados aún"}
                         </Text>
                         {searchQuery && (
                             <Button
@@ -130,7 +129,7 @@ export const OwnerAdminScreen = () => {
                                 status="basic"
                                 onPress={() => {
                                     setSearchQuery('');
-                                    fetchOwners();
+                                    fetchUsers();
                                 }}
                             >
                                 Mostrar todos
@@ -146,28 +145,31 @@ export const OwnerAdminScreen = () => {
                     behavior={Platform.OS === "ios" ? "padding" : "height"}
                     style={StylesAdminScreen.keyboardAvoidingContainer}
                 >
-                <View style={StylesAdminScreen.modalBackdrop}>
-                    {/* Contenedor del Modal */}
-                    <View style={StylesAdminScreen.modalContainer}>
-                        <Card disabled style={StylesAdminScreen.modalCard}>
-                            {/* Título del Modal */}
-                            <Text category="h6" style={StylesAdminScreen.modalTitle}>
-                                {isEditMode ? "Editar Dueño" : "Nuevo Dueño"}
-                            </Text>
+                    <View style={StylesAdminScreen.modalBackdrop}>
+                        {/* Contenedor del Modal */}
+                        <View style={StylesAdminScreen.modalContainer}>
+                            <Card disabled style={StylesAdminScreen.modalCard}>
+                                {/* Título del Modal */}
+                                <Text category="h6" style={StylesAdminScreen.modalTitle}>
+                                    {isEditMode ? "Editar Usuario" : "Nuevo Usuario"}
+                                </Text>
 
-                            {/* Formulario */}
-                            <OwnerForm
-                                form={form}
-                                isEditMode={isEditMode}
-                                onChange={(field, value) => setForm({ ...form, [field]: value })}
-                                onSave={handleSaveOwner}
-                                onCancel={() => setModalVisible(false)}
-                            />
-                        </Card>
+                                {/* Formulario */}
+                                <UserForm
+                                    form={form}
+                                    isEditMode={isEditMode}
+                                    onChange={(field, value) =>
+                                        setForm((prevForm) => ({ ...prevForm, [field]: value })) // Usar prevForm en lugar de form
+                                    }
+                                    onSave={handleSaveUsers}
+                                    onCancel={() => setModalVisible(false)}
+                                />
+                            </Card>
+                        </View>
                     </View>
-                </View>
                 </KeyboardAvoidingView>
             </Modal>
+
         </Layout>
-    );
-};
+    )
+}

@@ -1,4 +1,4 @@
-export interface Owner {
+export interface OwnerDashboard {
     id: number;
     names: string;
     surnames: string;

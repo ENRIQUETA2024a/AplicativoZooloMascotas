@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { View, Text, TouchableOpacity, StyleSheet, Alert } from "react-native";
 import { UserModal } from "./UserModal";
-import { destroyUser } from "../../../actions";
+import { deleteUser } from "../../../actions";
 
 export const UserCard = ({ user, refreshUsers }) => {
     const [modalVisible, setModalVisible] = useState(false);
@@ -15,7 +15,7 @@ export const UserCard = ({ user, refreshUsers }) => {
                 style: "destructive",
                 onPress: async () => {
                     try {
-                        const deleted = await destroyUser(user.id);
+                        const deleted = await deleteUser(user.id);
                         if (deleted) {
                             refreshUsers();
                         } else {

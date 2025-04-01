@@ -1,14 +1,14 @@
-import {PetApiResponse} from "./PetApiResponse";
-import {Pet} from "./Pet";
+import {PetApiResponseDashboard} from "./PetApiResponseDashboard";
+import {PetDashboard} from "./PetDashboard";
 
-export class PetApiMapper {
-    static mapPetApiResponseToModel(petApi: PetApiResponse): Pet[]{
+export class PetApiMapperDashboard {
+    static mapPetApiResponseToModel(petApi: PetApiResponseDashboard): PetDashboard[]{
         return petApi.data.map( pet=>({
             id: pet.id,
             specie: pet.specie,
             name: pet.name,
             breed: pet.breed,
-            birthDate: pet.birthDate,
+            birth_date: pet.birth_date,
             gender: pet.gender,
             color: pet.color,
             weight: pet.weight,
@@ -20,13 +20,13 @@ export class PetApiMapper {
             phone: pet.phone
         }) )
     }
-    static mapPetModelToApiResponse(pet: Pet) {
+    static mapPetModelToApiResponse(pet: PetDashboard) {
         return {
             id: pet.id,
             specie: pet.specie,
             name: pet.name,
             breed: pet.breed,
-            birthDate: pet.birthDate,
+            birth_date: pet.birth_date,
             gender: pet.gender,
             color: pet.color,
             weight: pet.weight,

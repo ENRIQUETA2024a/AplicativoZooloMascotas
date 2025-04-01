@@ -3,7 +3,6 @@ import {FlatList, RefreshControl, StyleSheet, Text, View} from "react-native";
 import { useUsers } from "../hooks/useUsers";
 import { MyActivityIndicator } from "../ui/MyActivityIndicator";
 import { UserCard } from "./UserCard";
-import { MetricCard } from "./UserMetricCard";
 
 export const UserList = () => {
     const { users, loading, error, refreshUsers } = useUsers();

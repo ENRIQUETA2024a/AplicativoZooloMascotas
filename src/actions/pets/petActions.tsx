@@ -1,7 +1,7 @@
 import {getAuthToken} from "../user/userLoginActions";
 import {apiZooloMascotas} from "../../config/api/apiZooloMascotas";
-import {PetApiMapperDashboard, PetDashboard} from "../../core";
-import {PetApiResponse} from "../../core/dashboard/PetApiResponse";
+import {PetApiMapperDashboard, PetApiResponseDashboard, PetDashboard} from "../../core";
+
 
 const BASE_URL = 'admin/pets/';
 
@@ -18,7 +18,7 @@ export const getPets = async (): Promise<PetDashboard[]> => {
             Accept: "application/json",
         };
 
-        const {data} = await apiZooloMascotas.get<PetApiResponse>(BASE_URL, config);
+        const {data} = await apiZooloMascotas.get<PetApiResponseDashboard>(BASE_URL, config);
 
         return PetApiMapperDashboard.mapPetApiResponseToModel(data);
     } catch (error) {
@@ -51,7 +51,7 @@ export const getPetById = async (id: number): Promise<PetDashboard | null> => {
         return data;
 
     } catch (error) {
-        console.error(`❌ Error obteniendo las mascotas getPets: `, error);
+        console.error(`❌ Error obteniendo las mascotas getPetById: `, error);
         if (error.response) {
             console.error("📌 Código de estado:", error.response.status);
             console.error("📌 Respuesta del servidor:", error.response.data);

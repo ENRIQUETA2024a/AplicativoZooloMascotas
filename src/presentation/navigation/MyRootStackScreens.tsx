@@ -1,3 +1,4 @@
+import {UserAdminScreen} from "../screens/user/UserAdminScreen";
 
 export type MyRootStackScreens = {
     LoginScreen: undefined;
@@ -15,6 +16,7 @@ export type MyRootStackScreens = {
     UserList: undefined;
     OwnerAdminScreen:undefined;
     PetAdminScreen:undefined;
+    UserAdminScreen:undefined;
 
     VeterinarioScreen: undefined;
     AsistenteScreen: undefined;

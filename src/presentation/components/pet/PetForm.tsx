@@ -2,13 +2,13 @@ import React, {useState} from "react";
 import {ScrollView, StyleSheet, View } from "react-native";
 import {Button, Datepicker, Icon, Text} from "@ui-kitten/components";
 import {MyInput} from "../ui/MyInput";
-import { PetFormI} from "../../../core/dashboard/Pet";
+import {PetFormI} from "../../../core";
 
 interface Props {
     form: PetFormI;
     isEditMode: boolean;
     onChange: (field: string, value: any) => void;
-    onChangeDate:(updatedPet: PetFormI)=>void;
+    onChangeDate?:(updatedPet: PetFormI)=>void;
     onSave: () => void;
     onCancel: () => void;
     borderColorInput?: string;
@@ -17,7 +17,7 @@ interface Props {
 export const PetForm = ({onChangeDate,form, isEditMode, onChange, onSave, onCancel, borderColorInput = "#3366FF"}: Props) => {
     const [focusedField, setFocusedField] = useState("");
     const defaultBorderColorInput = "#8F9BB3";
-    const [date, setDate] = React.useState(new Date());
+    const [date, setDate] = useState(new Date());
     const handleFieldChange = (field: keyof PetFormI, value: string | Date) => {
         onChangeDate({ ...form, [field]: value });
     };

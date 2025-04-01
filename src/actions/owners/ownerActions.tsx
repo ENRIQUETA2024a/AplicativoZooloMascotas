@@ -1,9 +1,6 @@
 import {getAuthToken} from "../user/userLoginActions";
 import {apiZooloMascotas} from "../../config/api/apiZooloMascotas";
-
-import {OwnerApiResponse} from "../../core/dashboard/OwnerApiResponse";
-import {OwnerApiMapperDashboard, OwnerDashboard} from "../../core";
-
+import {OwnerApiMapperDashboard, OwnerApiResponseDashboard, OwnerDashboard} from "../../core";
 
 const BASE_URL = 'admin/owners/';
 
@@ -21,7 +18,7 @@ export const getOwners = async (): Promise<OwnerDashboard []> => {
             Accept: "application/json",
         };
 
-        const {data} = await apiZooloMascotas.get<OwnerApiResponse>(BASE_URL, config);
+        const {data} = await apiZooloMascotas.get<OwnerApiResponseDashboard>(BASE_URL, config);
         return OwnerApiMapperDashboard.mapOwnerApiResponseToModel(data);
     } catch (error) {
         console.error(`❌ Error obteniendo los dueños: `, error);

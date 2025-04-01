@@ -44,8 +44,8 @@ export const SuperAdminScreen = () => {
 
     // Datos para las métricas con validación segura
     const metricData = [
-        { title: "Total Usuarios", value: metrics?.total_users ?? 0, icon: "people-outline", color: "#1ABC9C",screen: "UserList" },
-        { title: "Total Dueños", value: metrics?.total_owners ?? 0, icon: "person-outline", color: "#3498DB" ,screen: "OwnerAdminScreen"},
+        { title: "Total Usuarios", value: metrics?.total_users ?? 0, icon: "person-outline", color: "#1ABC9C",screen: "UserAdminScreen" },
+        { title: "Total Dueños", value: metrics?.total_owners ?? 0, icon: "people-outline", color: "#3498DB" ,screen: "OwnerAdminScreen"},
         { title: "Total Mascotas", value: metrics?.total_pets ?? 0, icon: "behance-outline", color: "#F39C12" ,screen: "PetAdminScreen"},
         { title: "Total Citas", value: metrics?.total_appointments ?? 0, icon: "calendar-outline", color: "#9B59B6",screen: "" },
         { title: "Total Cirugías", value: metrics?.total_surgeries ?? 0, icon: "scissors-outline", color: "#E74C3C" ,screen: ""},

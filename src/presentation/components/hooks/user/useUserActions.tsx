@@ -1,91 +1,83 @@
 import {useEffect, useState} from "react";
-import {PetDashboard, PetFormI} from "../../../../core";
+import {UserDashboard, UserFormI} from "../../../../core/dashboard/UserDashboard";
 import {
-    deletePet,
-    getPetById,
-    getPets,
-    searchPets,
-    toggleActivatePet,
-    updatePet
-} from "../../../../actions/pets/petActions";
+    deleteUser,
+    getUserById,
+    getUsersForSuperAdmin,
+    searchUsers,
+    toggleActivateUser,
+    updateUser
+} from "../../../../actions";
 import {Alert} from "react-native";
 import {debounce} from "lodash";
 
-export const usePetActions = () => {
-    //Estados principales
-    const [pets, setPets] = useState<PetDashboard[]>([]);
+export const useUserActions = () => {
+    const [users, setUsers] = useState<UserDashboard[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [isEditMode, setIsEditMode] = useState(false);
     const [modalVisible, setModalVisible] = useState(false);
-    const [selectedPet, setSelectedPet] = useState(null);
+    const [selectedUser, setSelectedUser] = useState(null);
     const [searchQuery, setSearchQuery] = useState("");
 
-    //Formulario
-    //Creamos los estados del formulario
-    const initialFormState: PetFormI = {
-        specie: "",
+    //Creamos los estados iniciales del formulario
+    const initialFormState: UserFormI = {
         name: "",
-        breed: "",
-        birth_date: new Date(),
-        gender: "",
-        color: "",
-        weight: "",
-        photo: "",
-        medicalNotes: "",
+        surname: "",
+        email: "",
+        phone: "",
+        role: "",
     }
-    //Creamos un useState de tipo PetFormI
-    const [form, setForm] = useState<PetFormI>(initialFormState);
+    //Creamos un useState de tipo UserFormI
+    const [form, setForm] = useState<UserFormI>(initialFormState);
 
     //Reseteamos el formulario
     const resetForm = () => {
         setForm(initialFormState);
-        setSelectedPet(null);
+        setSelectedUser(null);
         setIsEditMode(false);
     }
 
-    const fetchPets = async () => {
+    const fetchUsers = async () => {
         setLoading(true);
         try {
-            const petList = await getPets();
-            setPets(petList || []);
+            const userList = await getUsersForSuperAdmin();
+            setUsers(userList);
             setError(null);
         } catch (error) {
-            setError("Error al cargar los dueños");
+            setError("Error al cargar los usuarios");
         } finally {
             setLoading(false);
         }
     }
-// Guardar o actualizar mascota
-    const handleSavePets = async () => {
-        if (!form.name || !form.specie || !form.breed) {
+
+    //Guardar o actualizar usuario
+    const handleSaveUsers = async () => {
+        if (!form.name || !form.email || !form.phone || !form.surname) {
             Alert.alert(
                 "Campos Incompletos",
-                "Por favor, completa los campos obligatorios: Nombre, Especie, Raza."
+                "Por favor, completa los campos obligatorios: Nombre, Apellidos, Email, Celular."
             );
             return;
         }
         setLoading(true);
         try {
-            if (isEditMode && selectedPet)
-                await updatePet(selectedPet.id, form);
+            if (isEditMode && selectedUser)
+                await updateUser(selectedUser.id, form)
 
-            //codigo agregado
-            await fetchPets();
+            await fetchUsers();
             resetForm();
             setModalVisible(false);
-            //codigo agregado
         } catch (error) {
-            setError(`Error al ${isEditMode ? "actualizar" : "crear"} el dueño`);
+            setError(`Error al ${isEditMode ? "actualizar" : "crear"} el usuario`);
         } finally {
             setLoading(false);
         }
     }
 
-    // Eliminar mascota
-    const handleDeletePets = async (id) => {
-        Alert.alert("Eliminando Mascota" //Titulo
-            , "¿Estás seguro de eliminar esta mascota?",//Mensaje
+    const handleDeleteUser = async (id: number) => {
+        Alert.alert("Eliminando Usuario" //Titulo
+            , "¿Estás seguro de eliminar este usuario?",//Mensaje
             [
                 {
                     text: "Cancelar", //Boton Cancelar
@@ -97,10 +89,10 @@ export const usePetActions = () => {
                     onPress: async () => {
                         setLoading(true);
                         try {
-                            await deletePet(id); //LLamar a la fucnion para eliminar
-                            await fetchPets();//Refrescamos la lista
+                            await deleteUser(id); //LLamar a la fucnion para eliminar
+                            await fetchUsers();//Refrescamos la lista
                         } catch (err) {
-                            setError("Error al eliminar la mascota")
+                            setError("Error al eliminar el usuario")
                         } finally {
                             setLoading(false);
                         }
@@ -109,36 +101,28 @@ export const usePetActions = () => {
             ])
     }
 
-    // Editar mascota
-    const handleEditPet = async (id) => {
-        try {
-            const pet = await getPetById(id);
-            console.log("pet", pet)
-            console.log("Fecha original del backend:", pet.birth_date);
-            setSelectedPet(pet);
+    const handleEditUser = async (id: number) => {
+        try{
+            const user = await getUserById(id)
+            setSelectedUser(user)
             setForm({
-                specie: pet.specie,
-                name: pet.name,
-                breed: pet.breed,
-                birth_date: pet.birth_date ? new Date(pet.birth_date) : null,
-                gender: pet.gender,
-                color: pet.color,
-                weight: pet.weight,
-                photo: pet.photo,
-                medicalNotes: pet.medicalNotes,
-            });
-            console.log("Fecha convertida a Date:", new Date(pet.birth_date));
+                name: user.name,
+                surname: user.surname,
+                email: user.email,
+                phone: user.phone,
+                role: user.name ,
+            })
             setIsEditMode(true);
             setModalVisible(true);
-        } catch (err) {
-            setError("Error al cargar los detalles de la mascota");
+        }
+        catch(err){
+            setError("Error al cargar los detalles de los usuarios");
         }
     }
 
-    // Activar/Desactivar un dueño
-    const handleToggleActivate = async (id: number, isActive: boolean) => {
+    const handleToggleActivate=(id:number,isActive:boolean)=>{
         Alert.alert(
-            isActive ? "Activar Mascota" : "Desactivar Mascota",
+            isActive ? "Activar Usuario" : "Desactivar Usuario",
             `¿Estás seguro de que quieres ${isActive ? "desactivar" : "activar"} esta mascota?`,
             [
                 {text: "Cancelar", style: "cancel",},
@@ -148,22 +132,22 @@ export const usePetActions = () => {
                     onPress: async () => {
                         setLoading(true);
                         try {
-                            const success = await toggleActivatePet(id, isActive);
+                            const success = await toggleActivateUser(id, isActive);
                             if (success) {
-                                await fetchPets();
-                                Alert.alert("Éxito", `Mascota ${isActive ? "desactivada" : "activada"} correctamente`);
+                                await fetchUsers();
+                                Alert.alert("Éxito", `Usuario ${isActive ? "desactivado" : "activado"} correctamente`);
                             } else {
-                                Alert.alert("Error", "No se pudo cambiar el estado de la mascota");
+                                Alert.alert("Error", "No se pudo cambiar el estado del usuario");
                             }
                         } catch (err) {
-                            setError("Error al actualizar el estado de la mascota");
+                            setError("Error al actualizar el estado del usuario");
                         } finally {
                             setLoading(false);
                         }
                     }
                 },
             ])
-    };
+    }
 
 
     const handleSearch = async () => {
@@ -179,9 +163,9 @@ export const usePetActions = () => {
         setLoading(true);
         setError(null); // Limpiar errores anteriores
         try {
-            const pets = await searchPets(searchQuery);
-            setPets(pets.length > 0 ? pets : []);
-            if (pets.length === 0) {
+            const users = await searchUsers(searchQuery);
+            setUsers(users.length > 0 ? users : []);
+            if (users.length === 0) {
                 setError("No se encontraron resultados");
             }
         } catch (error) {
@@ -194,7 +178,7 @@ export const usePetActions = () => {
     useEffect(() => {
         const debouncedSearch = debounce(() => {
             if (searchQuery === "") {
-                fetchPets();
+                fetchUsers();
             } else {
                 handleSearch();
             }
@@ -208,10 +192,10 @@ export const usePetActions = () => {
 
     return {
         //acciones
-        fetchPets,
-        handleSavePets,
-        handleDeletePets,
-        handleEditPet,
+        fetchUsers,
+        handleSaveUsers,
+        handleDeleteUser,
+        handleEditUser,
         handleToggleActivate,
 
         //form
@@ -223,12 +207,11 @@ export const usePetActions = () => {
         handleSearch,
         //States
         isEditMode,
-        pets,
+        users,
         loading,
         error,
         modalVisible,
         form,
         searchQuery,
     }
-
 }

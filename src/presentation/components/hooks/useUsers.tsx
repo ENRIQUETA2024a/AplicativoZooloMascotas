@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import {UserDashboard} from "../../../core";
 import {getUsersForSuperAdmin} from "../../../actions";
+import {UserDashboard} from "../../../core/dashboard/UserDashboard";
 
 
 export const useUsers = () => {

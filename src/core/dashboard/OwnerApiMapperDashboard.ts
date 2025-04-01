@@ -1,8 +1,8 @@
-import {OwnerApiResponse} from "./OwnerApiResponse";
-import {Owner} from "./Owner";
+import {OwnerApiResponseDashboard} from "./OwnerApiResponseDashboard";
+import {OwnerDashboard} from "./OwnerDashboard";
 
-export class OwnerApiMapper {
-    static mapOwnerApiResponseToModel(ownerApi: OwnerApiResponse): Owner[] {
+export class OwnerApiMapperDashboard {
+    static mapOwnerApiResponseToModel(ownerApi: OwnerApiResponseDashboard): OwnerDashboard[] {
         return ownerApi.data.map(owner =>({
             id: owner.id,
             names: owner.names,
@@ -20,7 +20,7 @@ export class OwnerApiMapper {
         }));
     }
 
-    static mapOwnerModelToApiResponse(owner: Owner) {
+    static mapOwnerModelToApiResponse(owner: OwnerDashboard) {
         return {
             id: owner.id,
             names: owner.names,

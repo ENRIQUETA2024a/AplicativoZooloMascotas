@@ -11,6 +11,7 @@ import {
     PetAdminScreen
 } from "../screens/";
 import {UserList} from "../components/user/UserList";
+import {UserAdminScreen} from "../screens/user/UserAdminScreen";
 
 
 
@@ -61,7 +62,6 @@ export const MyStackNavigator = () => {
             <Stack.Screen name="PetDetailsScreen" component={PetDetailsScreen}
                           options={{title: "Detalles de mascota"}}/>
 
-
             {/*Pantalla Listado de Citas de Mascota*/}
             <Stack.Screen name="AppointmentPetListScreen" component={AppointmentPetListScreen}
                           options={{title: "Listado de Citas"}}/>
@@ -85,7 +85,7 @@ export const MyStackNavigator = () => {
             <Stack.Screen name="PetAdminScreen" component={PetAdminScreen}
                           options={{title: "Gestión Mascotas"}}/>
 
-            <Stack.Screen name="UserList" component={UserList}
+            <Stack.Screen name="UserAdminScreen" component={UserAdminScreen}
                           options={{title: "Gestión Usuarios"}}/>
 
             <Stack.Screen name="VeterinarioScreen" component={VeterinarioScreen}

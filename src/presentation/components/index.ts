@@ -1,8 +1,6 @@
 //Appointments
 export * from './appointment/AppointmentPetCard'
-
 export * from './hooks/owner/useOwnerActions'
-
 
 // User Interfaces
 export * from './ui/MyListCard'
