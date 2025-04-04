@@ -36,15 +36,19 @@ export const PetAdminScreen = () => {
 
     const renderPetItem = ({item}: { item: PetDashboard }) => (
         <MyListCard attributes={[
+            {label: "Foto", value: item.photo, icon: "camera-outline", isImage: true},
             {label: "Nombre", value: item.name, icon: "behance-outline"},
             {label: "Especie", value: item.specie, icon: "copy-outline"},
             {label: "Raza", value: item.breed, icon: "attach-2-outline"},
-            {label: "Fecha Nacimiento", value: new Date(item.birth_date).toLocaleDateString("es-ES"), icon: "calendar-outline"},
+            {
+                label: "Fecha Nacimiento",
+                value: new Date(item.birth_date).toLocaleDateString("es-ES"),
+                icon: "calendar-outline"
+            },
             {label: "Genero", value: item.gender, icon: "cube-outline"},
             {label: "Color", value: item.color, icon: "color-palette-outline"},
             {label: "Peso", value: item.weight, icon: "clipboard-outline"},
-            {label: "Foto", value: item.photo, icon: "camera-outline"},
-            {label: "Notas Meditas", value: item.medicalNotes, icon: "file-text-outline"},
+            {label: "Notas Meditas", value: item.medical_notes, icon: "file-text-outline"},
             {label: "Dueño ", value: item.owner, icon: "person-done-outline"},
             {label: "Celular ", value: item.phone, icon: "phone-call-outline"},
         ]}
@@ -52,8 +56,8 @@ export const PetAdminScreen = () => {
                     iconName={"twitter-outline"}
                     onEdit={() => handleEditPet(item.id)}
                     onDelete={() => handleDeletePets(item.id)}
-                    onToggleActive={() => handleToggleActivate(item.id, !item.deletedAt)}
-                    isActive={!!item.deletedAt}
+                    onToggleActive={() => handleToggleActivate(item.id, !item.deleted_at)}
+                    isActive={!!item.deleted_at}
 
         />
     );
@@ -75,7 +79,7 @@ export const PetAdminScreen = () => {
                         appearance="ghost"
                         status="danger"
                         accessoryLeft={<Icon name="refresh-outline"/>}
-                        onPress={()=>{
+                        onPress={() => {
                             fetchPets();
                             setSearchQuery("");
                         }}
@@ -98,20 +102,20 @@ export const PetAdminScreen = () => {
                     style={StylesAdminScreen.searchInput}
                 />
 
-                <Button
-                    style={StylesAdminScreen.searchButton}
-                    status={"success"}
-                    accessoryLeft={<Icon name="plus-outline"/>}
-                    onPress={() => {
-                        resetForm();
-                        setModalVisible(true);
-                    }}
-                >
-                    Nuevo
-                </Button>
+                {/*<Button*/}
+                {/*    style={StylesAdminScreen.searchButton}*/}
+                {/*    status={"success"}*/}
+                {/*    accessoryLeft={<Icon name="plus-outline"/>}*/}
+                {/*    onPress={() => {*/}
+                {/*        resetForm();*/}
+                {/*        setModalVisible(true);*/}
+                {/*    }}*/}
+                {/*>*/}
+                {/*    Nuevo*/}
+                {/*</Button>*/}
             </View>
 
-            {/* Lista de dueños */}
+            {/* Lista de Mascotas */}
             <FlatList
                 data={pets}
                 renderItem={renderPetItem}
@@ -158,7 +162,7 @@ export const PetAdminScreen = () => {
                             <Card disabled style={StylesAdminScreen.modalCard}>
                                 {/* Título del Modal */}
                                 <Text category="h6" style={StylesAdminScreen.modalTitle}>
-                                    {isEditMode ? "Editar Dueño" : "Nuevo Dueño"}
+                                    {isEditMode ? "Editar Mascota" : "Nueva Mascota"}
                                 </Text>
 
                                 {/* Formulario */}
@@ -166,7 +170,7 @@ export const PetAdminScreen = () => {
                                     form={form}
                                     isEditMode={isEditMode}
                                     onChange={(field, value) =>
-                                        setForm((prevForm) => ({ ...prevForm, [field]: value })) // Usar prevForm en lugar de form
+                                        setForm((prevForm) => ({...prevForm, [field]: value})) // Usar prevForm en lugar de form
                                     }
                                     onSave={handleSavePets}
                                     onCancel={() => setModalVisible(false)}

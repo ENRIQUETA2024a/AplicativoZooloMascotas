@@ -38,11 +38,11 @@ export const UserAdminScreen = () => {
     const renderUserItem = ({item}: { item: UserDashboard }) => (
         <MyListCard
             attributes={[
-                {label: "Nombre", value: item.name, icon: "camera-outline"},
-                {label: "Apellidos", value: item.surname, icon: "camera-outline"},
-                {label: "Email", value: item.email, icon: "camera-outline"},
-                {label: "Celular", value: item.phone , icon: "camera-outline"},
-                {label: "Rol", value: item.role.name , icon: "camera-outline"},
+                {label: "Nombre", value: item.name, icon: "person-outline"},
+                {label: "Apellidos", value: item.surname, icon: "edit-2-outline"},
+                {label: "Email", value: item.email, icon: "email-outline"},
+                {label: "Celular", value: item.phone , icon: "phone-outline"},
+                {label: "Rol", value: item.role.name , icon: "shield-outline"},
             ]}
             iconName={"person-outline"}
             onEdit={() => handleEditUser(item.id)}
@@ -91,17 +91,17 @@ export const UserAdminScreen = () => {
                     style={StylesAdminScreen.searchInput}
                 />
 
-                <Button
-                    style={StylesAdminScreen.searchButton}
-                    status={"success"}
-                    accessoryLeft={<Icon name="plus-outline"/>}
-                    onPress={() => {
-                        resetForm();
-                        setModalVisible(true);
-                    }}
-                >
-                    Nuevo
-                </Button>
+                {/*<Button*/}
+                {/*    style={StylesAdminScreen.searchButton}*/}
+                {/*    status={"success"}*/}
+                {/*    accessoryLeft={<Icon name="plus-outline"/>}*/}
+                {/*    onPress={() => {*/}
+                {/*        resetForm();*/}
+                {/*        setModalVisible(true);*/}
+                {/*    }}*/}
+                {/*>*/}
+                {/*    Nuevo*/}
+                {/*</Button>*/}
             </View>
 
             {/* Lista de dueños */}

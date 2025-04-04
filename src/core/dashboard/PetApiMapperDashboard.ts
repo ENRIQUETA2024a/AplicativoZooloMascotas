@@ -13,9 +13,9 @@ export class PetApiMapperDashboard {
             color: pet.color,
             weight: pet.weight,
             photo: pet.photo,
-            medicalNotes: pet.medicalNotes,
+            medical_notes: pet.medical_notes,
             ownerId: pet.ownerId,
-            deletedAt: pet.deletedAt,
+            deleted_at: pet.deleted_at,
             owner: pet.owner,
             phone: pet.phone
         }) )
@@ -31,9 +31,9 @@ export class PetApiMapperDashboard {
             color: pet.color,
             weight: pet.weight,
             photo: pet.photo,
-            medicalNotes: pet.medicalNotes,
+            medical_notes: pet.medical_notes,
             ownerId: pet.ownerId,
-            deletedAt: pet.deletedAt,
+            deleted_at: pet.deleted_at,
             owner: pet.owner,
             phone: pet.phone
         }

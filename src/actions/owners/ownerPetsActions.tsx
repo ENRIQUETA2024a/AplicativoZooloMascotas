@@ -21,9 +21,7 @@ export const getOwnerPets = async (ownerId: number): Promise<Pet[]> => {
 
         //Realizamos la solicitud
         const {data} = await apiZooloMascotas.get<PetAPIResponse[]>(`/owners/${ownerId}/pets`, config);
-        //Mapateamos la repuesta de la API a nuestro modelo interno
-        const pets = data.map((petRpta) => (PetApiMapper.mapApiResponseToModel(petRpta)))
-        return pets;
+        return data.map((petRpta) => (PetApiMapper.mapApiResponseToModel(petRpta)));
     } catch (error) {
         console.error(`❌ Error obteniendo las mascotas del Owner ID ${ownerId}:`, error);
         // Si el error viene de Axios, muestra la respuesta del servidor

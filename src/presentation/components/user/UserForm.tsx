@@ -9,7 +9,6 @@ interface Props {
     form: UserFormI;
     isEditMode: boolean;
     onChange: (field: keyof UserFormI, value: any) => void;
-    onChangeDate?: (updatedPet: UserFormI) => void;
     onSave: () => void;
     onCancel: () => void;
     borderColorInput?: string;
@@ -18,8 +17,8 @@ interface Props {
 const Roles = [
     {label: "Super-Admin", value: 1},
     {label: "Veterinario", value: 2},
-    {label: "Asistente", value: 3},
-    {label: "Recepción", value: 4},
+    {label: "Asistente", value: 4},
+    {label: "Recepción", value: 5},
 ];
 
 
@@ -35,16 +34,16 @@ export const UserForm = ({
     const defaultBorderColorInput = "#8F9BB3";
 
     const [open, setOpen] = useState(false);
-    const [selectedRole, setSelectedRole] = useState<number | null>(form.role || null); // Tipo explícito: number | null
+    const [selectedRole, setSelectedRole] = useState<number | null>(form.role_id || null); // Tipo explícito: number | null
 
     // Sincroniza el selectedRole con el form.role cuando cambie
     useEffect(() => {
-        setSelectedRole(form.role || null);
-    }, [form.role]);
+        setSelectedRole(form.role_id || null);
+    }, [form.role_id]);
 
 // Actualiza form.role cuando cambia el valor del DropDownPicker
     const handleValueChange = (value: number | null) => {
-        onChange("role", value || undefined); // Actualiza el form con el nuevo valor
+        onChange("role_id", value || undefined); // Actualiza el form con el nuevo valor
     };
 
     const formItems = [
@@ -60,7 +59,7 @@ export const UserForm = ({
             fillColorIcon={focusedField === "name" ? borderColorInput : defaultBorderColorInput}
 
             placeHolderInput={"Ej. Juan Carlos"}
-            iconName={"behance-outline"}
+            iconName={"person-outline"}
         />
         ,
         <MyInput
@@ -74,8 +73,8 @@ export const UserForm = ({
             onBlur={() => setFocusedField("")}
             fillColorIcon={focusedField === "surname" ? borderColorInput : defaultBorderColorInput}
 
-            placeHolderInput={"Ej. Lexy"}
-            iconName={"behance-outline"}
+            placeHolderInput={"Ej. Aranda Diaz"}
+            iconName={"edit-2-outline"}
         />
         ,
         <MyInput
@@ -89,8 +88,8 @@ export const UserForm = ({
             onBlur={() => setFocusedField("")}
             fillColorIcon={focusedField === "email" ? borderColorInput : defaultBorderColorInput}
 
-            placeHolderInput={"Ej. Lexy"}
-            iconName={"behance-outline"}
+            placeHolderInput={"Ej. example@gmail.com"}
+            iconName={"email-outline"}
         />
         ,
         <MyInput
@@ -104,24 +103,36 @@ export const UserForm = ({
             onBlur={() => setFocusedField("")}
             fillColorIcon={focusedField === "phone" ? borderColorInput : defaultBorderColorInput}
 
-            placeHolderInput={"Ej. 950305417"}
-            iconName={"behance-outline"}
+            placeHolderInput={"Ej. 987654321"}
+            iconName={"phone-outline"}
         />
 
         ,
-        <DropDownPicker
-            open={open}
-            value={selectedRole}
-            items={Roles}
-            setOpen={setOpen}
-            setValue={setSelectedRole} // Usa el setter directamente
-            onChangeValue={handleValueChange} // Llama a la lógica adicional después del cambio
-            style={styles.dropdown}
-            dropDownContainerStyle={styles.dropdownContainer}
-            listItemLabelStyle={styles.dropdownItemLabel}
-            placeholder="Selecciona un rol"
-            placeholderStyle={{color: "#aaa"}}
-        />
+        <View style={styles.dropdownViewContainer}>
+            <Text style={styles.label}>Rol *</Text>
+            <DropDownPicker
+                open={open}
+                value={selectedRole}
+                items={Roles}
+                setOpen={setOpen}
+                setValue={setSelectedRole}
+                onChangeValue={handleValueChange}
+                style={[
+                    styles.input,  // Usa el mismo estilo base que tus MyInput
+                    styles.dropdown,
+                    focusedField === "role" && {borderColor: borderColorInput} // Borde dinámico
+                ]}
+                dropDownContainerStyle={styles.dropdownContainer}
+                listItemLabelStyle={styles.dropdownItemLabel}
+                placeholder="Selecciona un rol"
+                placeholderStyle={styles.dropdownPlaceholder}
+                textStyle={styles.inputText} // Usa el mismo estilo de texto que los inputs
+                onOpen={() => setFocusedField("role")}
+                onClose={() => setFocusedField("")}
+                zIndex={1000}
+            />
+        </View>
+
         ,
         <View style={styles.modalActions}>
             <Button
@@ -150,7 +161,7 @@ export const UserForm = ({
     return (
         <FlatList
             data={formItems}
-            renderItem={({ item }) => item}
+            renderItem={({item}) => item}
             keyExtractor={(_, index) => index.toString()}
             contentContainerStyle={styles.container}
             showsVerticalScrollIndicator={false}
@@ -161,7 +172,7 @@ export const UserForm = ({
 
 const styles = StyleSheet.create({
     container: {
-        paddingBottom: 20,
+        paddingBottom: 30,
     },
     modalScroll: {
         paddingBottom: 20,
@@ -197,15 +208,24 @@ const styles = StyleSheet.create({
         height: 50, // Altura fija para los botones
         justifyContent: "center", // Centrar el texto verticalmente
     },
-    dropdown: {
-        backgroundColor: "#f9f9f9",
-        borderColor: "#ddd",
-        borderWidth: 1,
-        borderRadius: 8,
-        marginTop: 5,
-        zIndex: 1000,
-    },
 
+
+    // DropDown
+    label: {
+        fontSize: 14,
+        fontWeight: "bold",
+        color: "#8F9BB3", // Color del label PARA QUE SE VEA IGUAL QUE LOS INPUTS
+        marginBottom: 5, // Espacio entre el label y el dropdown
+    },
+    dropdown: {
+        height: 50, // Altura igual a la de los otros inputs
+        backgroundColor: "#F9FAFB", // Fondo claro
+        borderColor: "#E8ECEF", // Borde suave
+        borderWidth: 1,
+        borderRadius: 12, // Bordes redondeados más pronunciados
+        paddingHorizontal: 15, // Padding horizontal igual que los inputs
+        marginBottom: 30, // Margen inferior igual que los inputs
+    },
     dropdownContainer: {
         backgroundColor: "#fff",
         borderColor: "#ddd",
@@ -215,6 +235,15 @@ const styles = StyleSheet.create({
     },
     dropdownItemLabel: {
         fontSize: 14,
-        color: "#333",
+        color: "#1A2138", // Color de texto igual que inputs
+        paddingVertical: 50, // Espaciado interno items
     },
+    dropdownPlaceholder: {
+        color: "#8F9BB3", // Color placeholder igual que inputs
+        fontSize: 16,
+    },
+    dropdownViewContainer:{
+        maxWidth: "90%",
+        marginHorizontal: "auto", // Centra el formulario automáticamente
+    }
 });

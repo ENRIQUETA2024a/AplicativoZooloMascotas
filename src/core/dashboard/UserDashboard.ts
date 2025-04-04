@@ -21,5 +21,5 @@ export interface UserFormI{
     surname:string;
     email:string;
     phone:string;
-    role:number;
+    role_id:number;
 }

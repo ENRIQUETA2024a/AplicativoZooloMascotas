@@ -1,10 +1,8 @@
 import React, { useState } from "react";
 import { Alert, Image, ScrollView, StyleSheet} from "react-native";
 import { Button, Icon, Input, Layout, Text } from "@ui-kitten/components";
-import { MyIcon } from "../../components/ui/MyIcon";
-import { MyActivityIndicator } from "../../components/ui/MyActivityIndicator";
 import {useUserLoginStore} from "../../../actions";
-//import { useOwnerLoginStore } from "../../../actions";
+import {MyActivityIndicator, MyIcon} from "../../components";
 
 export const LoginScreen = () => {
     const Logo = require("../../../assets/LogoZooloMascotas.png");
@@ -16,6 +14,7 @@ export const LoginScreen = () => {
     const toggleSecureEntry = () => setPasswordView((prev) => !prev);
 
     const [form, setForm] = useState({
+        //email: "Demo1@gmail.com",
         email: "hmora@gmail.com",
         password: "123456",
     });

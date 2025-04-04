@@ -1,12 +1,13 @@
 import React from "react";
-import {StyleProp, StyleSheet, View, ViewStyle} from "react-native";
-import {Button, Card, Icon, Text} from "@ui-kitten/components";
+import {Image, StyleProp, StyleSheet, View, ViewStyle} from "react-native";
+import {Avatar, Button, Card, Icon, Text} from "@ui-kitten/components";
 
 interface Attribute {
     label: string;
-    value: string | number | undefined;
+    value: string | number | undefined | any;
     icon?: string;
     iconColor?: string;
+    isImage?: boolean;
 }
 
 interface MyListCardProps {
@@ -62,16 +63,31 @@ export const MyListCard = ({
                                 <Icon
                                     name={attr.icon}
                                     style={styles.attributeIcon}
-                                    //fill={   attr.iconColor || iconColor}
                                     fill={!isActive ? iconColor : "#A6C1FF"}
                                 />
                             )}
                             <Text category="s2" appearance="hint" style={styles.attributeLabel}>
                                 {attr.label}:
                             </Text>
-                            <Text category="s1" style={styles.attributeValue}>
-                                {attr.value ?? "N/A"}
-                            </Text>
+
+
+                            {attr.isImage && attr.value ?
+                                (
+                                    <Image
+                                        source={{uri: attr.value.toString()}}
+                                        style={styles.imageStyle}
+                                        resizeMode="cover"
+                                    />
+                                    // <Avatar style={styles.avatar} size="giant" source={{ uri: attr.value }}
+                                    // />
+
+                                ) : (
+                                    <Text category="s1" style={styles.attributeValue}>
+                                        {attr.value ?? "N/A"}
+                                    </Text>
+                                )}
+
+
                         </View>
                     ))}
                 </View>
@@ -196,5 +212,19 @@ const styles = StyleSheet.create({
         paddingHorizontal: 8,
         paddingVertical: 4,
         borderRadius: 8,
+    },
+
+    //Imagenes Style
+    imageStyle: {
+        width: 60,
+        height: 60,
+        borderRadius: 8,
+        marginLeft: 8,
+    },
+    avatar: {
+        borderRadius: 50,
+        borderWidth: 3,
+        borderColor: "#4CAF50",
+        marginRight: 15,
     },
 });

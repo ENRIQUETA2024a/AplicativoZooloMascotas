@@ -26,7 +26,7 @@ export const useUserActions = () => {
         surname: "",
         email: "",
         phone: "",
-        role: "",
+        role_id: 5,
     }
     //Creamos un useState de tipo UserFormI
     const [form, setForm] = useState<UserFormI>(initialFormState);
@@ -110,7 +110,7 @@ export const useUserActions = () => {
                 surname: user.surname,
                 email: user.email,
                 phone: user.phone,
-                role: user.name ,
+                role_id: user.role_id ,
             })
             setIsEditMode(true);
             setModalVisible(true);
@@ -122,8 +122,8 @@ export const useUserActions = () => {
 
     const handleToggleActivate=(id:number,isActive:boolean)=>{
         Alert.alert(
-            isActive ? "Activar Usuario" : "Desactivar Usuario",
-            `¿Estás seguro de que quieres ${isActive ? "desactivar" : "activar"} esta mascota?`,
+            isActive ? "Desactivar Usuario" : "Activar Usuario",
+            `¿Estás seguro de que quieres ${isActive ? "desactivar" : "activar"} este usuario?`,
             [
                 {text: "Cancelar", style: "cancel",},
                 {

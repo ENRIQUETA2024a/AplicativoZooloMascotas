@@ -1,4 +1,4 @@
-import {PetDashboard} from './PetDashboard'
+import {PetDashboard} from "./PetDashboard";
 
 export interface PetApiResponseDashboard{
     message: string;

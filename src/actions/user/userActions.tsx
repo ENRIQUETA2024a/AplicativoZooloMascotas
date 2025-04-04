@@ -1,10 +1,6 @@
 import {getAuthToken} from "./userLoginActions";
 import {apiZooloMascotas} from "../../config/api/apiZooloMascotas";
-import {
-    UserApiMapperForDashboard,
-    UserDashboardApiResponse,
-    UserListApiResponse
-} from "../../core";
+import {UserApiMapperForDashboard, UserDashboardApiResponse, UserListApiResponse} from "../../core";
 import {UserDashboard} from "../../core/dashboard/UserDashboard";
 import {UserApiMapperDashboard} from "../../core/dashboard/UserApiMapperDashboard";
 
@@ -25,8 +21,7 @@ export const getUsersForSuperAdmin = async (): Promise<UserDashboard[]> => {
         }
         //Realizamos la solicitud
         const {data} = await apiZooloMascotas.get<UserListApiResponse>(BASE_URL, config);
-        const users = data.users.map((users) => (UserApiMapperForDashboard(users)))
-        return users;
+        return data.users.map((users) => (UserApiMapperForDashboard(users)));
     } catch (error) {
         console.error(`❌ Error obteniendo los usuarios getUsersForSuperAdmin: `, error);
         // Si el error viene de Axios, muestra la respuesta del servidor
@@ -84,7 +79,7 @@ export const updateUser = async (id: number, updatedData: any) => {
             Accept: "application/json",
         }
         //Realizamos la solicitud
-        const {data} = await apiZooloMascotas.put<UserDashboardApiResponse>(`${BASE_URL}${id}`,updatedData, config);
+        const {data} = await apiZooloMascotas.put<UserDashboardApiResponse>(`${BASE_URL}${id}`, updatedData, config);
 
         return data;
 
@@ -132,7 +127,6 @@ export const deleteUser = async (id: number) => {
     }
 }
 
-
 //Activar o Desactivar
 export const toggleActivateUser = async (id: number, isActive: boolean): Promise<boolean> => {
     try {
@@ -149,7 +143,6 @@ export const toggleActivateUser = async (id: number, isActive: boolean): Promise
 
         // Llamamos al endpoint de toggleActive
         await apiZooloMascotas.put(`${BASE_URL}toggle-active/${id}`, {}, config);
-        console.log(`✅ Usuario con ID ${id} ${isActive ? "desactivado" : "activado"} correctamente`);
         return true;
     } catch (error) {
         console.error(`❌ Error cambiando estado del Usuario con ID ${id}: `, error);
@@ -170,12 +163,11 @@ export const searchUsers = async (searchQuery: string): Promise<UserDashboard []
             Accept: "application/json",
         };
 
-        // Llamamos al endpoint de toggleActive
         const {data} = await apiZooloMascotas.get(`${BASE_URL}search?query=${searchQuery}`, config);
         return UserApiMapperDashboard.mapUserApiResponseToModel(data);
 
     } catch (error) {
-        console.error(`❌ Error obteniendo las mascotas searchQuery en searchPets: `, error);
+        console.error(`❌ Error obteniendo los usuarios searchUsers en searchUsers: `, error);
         if (error.response) {
             console.error("📌 Código de estado:", error.response.status);
             console.error("📌 Respuesta del servidor:", error.response.data);

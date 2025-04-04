@@ -12,6 +12,7 @@ import {
 } from "../screens/";
 import {UserList} from "../components/user/UserList";
 import {UserAdminScreen} from "../screens/user/UserAdminScreen";
+import {ChatbotScreen} from "../screens/chatbot/ChatBotScreen";
 
 
 
@@ -96,6 +97,9 @@ export const MyStackNavigator = () => {
 
             <Stack.Screen name="RecepcionScreen" component={RecepcionScreen}
                           options={{title: "RecepcionScreen"}}/>
+
+            <Stack.Screen name="ChatBotScreen" component={ChatbotScreen}
+                          options={{title: "ChatBotScreen"}}/>
 
         </Stack.Navigator>
     );

@@ -20,5 +20,22 @@ export class UserApiMapperDashboard {
                 } : undefined,
         }))
     }
+
+    // static mapUserApiResponseSearchToModel(userApiSearch: UserDashboard):UserDashboard[]{
+    //      return {
+    //          id: userApiSearch.id,
+    //          name: userApiSearch.name,
+    //          surname: userApiSearch.surname,
+    //          email: userApiSearch.email,
+    //          phone: userApiSearch.phone,
+    //          role_id: userApiSearch.role_id,
+    //          avatar: userApiSearch.avatar,
+    //          created_at: userApiSearch.created_at,
+    //          deleted_at: userApiSearch.deleted_at,
+    //          role: {id: userApiSearch.role_id}
+    //      }
+    // }
+
+
 }
 

@@ -27,12 +27,12 @@ export const usePetActions = () => {
         specie: "",
         name: "",
         breed: "",
-        birth_date: new Date(),
+        birth_date: new Date().toISOString(),
         gender: "",
         color: "",
         weight: "",
         photo: "",
-        medicalNotes: "",
+        medical_notes: "",
     }
     //Creamos un useState de tipo PetFormI
     const [form, setForm] = useState<PetFormI>(initialFormState);
@@ -82,6 +82,7 @@ export const usePetActions = () => {
         }
     }
 
+
     // Eliminar mascota
     const handleDeletePets = async (id) => {
         Alert.alert("Eliminando Mascota" //Titulo
@@ -110,27 +111,27 @@ export const usePetActions = () => {
     }
 
     // Editar mascota
-    const handleEditPet = async (id) => {
+    const handleEditPet = async (id: number) => {
         try {
             const pet = await getPetById(id);
-            console.log("pet", pet)
-            console.log("Fecha original del backend:", pet.birth_date);
             setSelectedPet(pet);
+
             setForm({
                 specie: pet.specie,
                 name: pet.name,
                 breed: pet.breed,
-                birth_date: pet.birth_date ? new Date(pet.birth_date) : null,
+                birth_date: pet.birth_date,
                 gender: pet.gender,
                 color: pet.color,
-                weight: pet.weight,
+                weight: pet.weight.toString(),
                 photo: pet.photo,
-                medicalNotes: pet.medicalNotes,
+                medical_notes: pet.medical_notes || "",
             });
-            console.log("Fecha convertida a Date:", new Date(pet.birth_date));
+
             setIsEditMode(true);
             setModalVisible(true);
         } catch (err) {
+            console.error('Error editing pet:', err);
             setError("Error al cargar los detalles de la mascota");
         }
     }

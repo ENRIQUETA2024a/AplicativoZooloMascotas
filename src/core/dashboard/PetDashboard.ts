@@ -4,14 +4,16 @@ export interface PetDashboard{
     specie: string;
     name: string;
     breed: string;
-    birth_date: Date | null;
+    birth_date: string ;
     gender: string;
     color: string;
     weight: string;
     photo: string;
-    medicalNotes: string;
+    // #Nuevo campo para la foto
+    photoFile?:File | null;
+    medical_notes: string;
     ownerId: number;
-    deletedAt: string | null;
+    deleted_at: string | null;
     owner: string;
     phone: string | null;
 }
@@ -20,10 +22,11 @@ export interface PetFormI{
     specie: string;
     name: string;
     breed: string;
-    birth_date: Date | null;
+    birth_date: string;
     gender: string;
     color: string;
     weight: string;
     photo: string;
-    medicalNotes: string;
+    //photoFile?: { uri: string; type: string; name: string } | null;
+    medical_notes: string;
 }

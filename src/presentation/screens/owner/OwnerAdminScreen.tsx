@@ -92,17 +92,17 @@ export const OwnerAdminScreen = () => {
                     style={StylesAdminScreen.searchInput}
                 />
 
-                <Button
-                    style={StylesAdminScreen.searchButton}
-                    status={"success"}
-                    accessoryLeft={<Icon name="plus-outline"/>}
-                    onPress={() => {
-                        resetForm();
-                        setModalVisible(true);
-                    }}
-                >
-                    Nuevo
-                </Button>
+                {/*<Button*/}
+                {/*    style={StylesAdminScreen.searchButton}*/}
+                {/*    status={"success"}*/}
+                {/*    accessoryLeft={<Icon name="plus-outline"/>}*/}
+                {/*    onPress={() => {*/}
+                {/*        resetForm();*/}
+                {/*        setModalVisible(true);*/}
+                {/*    }}*/}
+                {/*>*/}
+                {/*    Nuevo*/}
+                {/*</Button>*/}
             </View>
 
             {/* Lista de dueños */}

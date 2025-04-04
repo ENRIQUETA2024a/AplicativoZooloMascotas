@@ -19,7 +19,6 @@ export const getPets = async (): Promise<PetDashboard[]> => {
         };
 
         const {data} = await apiZooloMascotas.get<PetApiResponseDashboard>(BASE_URL, config);
-
         return PetApiMapperDashboard.mapPetApiResponseToModel(data);
     } catch (error) {
         console.error(`❌ Error obteniendo las mascotas getPets: `, error);
@@ -34,7 +33,7 @@ export const getPets = async (): Promise<PetDashboard[]> => {
 }
 
 // Obtener un Pet por ID
-export const getPetById = async (id: number): Promise<PetDashboard | null> => {
+export const  getPetById = async (id: number): Promise<PetDashboard | null> => {
     try {
         const {token, userType} = await getAuthToken();
         if (!token && userType !== "owner") {

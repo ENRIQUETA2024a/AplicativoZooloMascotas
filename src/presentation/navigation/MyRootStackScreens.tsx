@@ -1,4 +1,5 @@
 import {UserAdminScreen} from "../screens/user/UserAdminScreen";
+import {ChatBotScreen} from "../screens/chatbot/ChatBotScreen";
 
 export type MyRootStackScreens = {
     LoginScreen: undefined;
@@ -21,5 +22,8 @@ export type MyRootStackScreens = {
     VeterinarioScreen: undefined;
     AsistenteScreen: undefined;
     RecepcionScreen: undefined;
+
+    //Chatbot
+    ChatBotScreen: undefined;
 
 }

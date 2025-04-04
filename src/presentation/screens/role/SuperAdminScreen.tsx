@@ -47,16 +47,18 @@ export const SuperAdminScreen = () => {
         { title: "Total Usuarios", value: metrics?.total_users ?? 0, icon: "person-outline", color: "#1ABC9C",screen: "UserAdminScreen" },
         { title: "Total Dueños", value: metrics?.total_owners ?? 0, icon: "people-outline", color: "#3498DB" ,screen: "OwnerAdminScreen"},
         { title: "Total Mascotas", value: metrics?.total_pets ?? 0, icon: "behance-outline", color: "#F39C12" ,screen: "PetAdminScreen"},
-        { title: "Total Citas", value: metrics?.total_appointments ?? 0, icon: "calendar-outline", color: "#9B59B6",screen: "" },
-        { title: "Total Cirugías", value: metrics?.total_surgeries ?? 0, icon: "scissors-outline", color: "#E74C3C" ,screen: ""},
-        { title: "Citas Pagadas", value: metrics?.total_appointment_payments ?? 0, icon: "credit-card-outline", color: "#2ECC71" ,screen: ""},
-        { title: "Cirugías Pagadas", value: metrics?.total_surgerie_payments ?? 0, icon: "credit-card-outline", color: "#27AE60" ,screen: ""},
-        { title: "Vacunaciones Pagadas", value: metrics?.total_vaccination_payments ?? 0, icon: "activity-outline", color: "#16A085" ,screen: ""},
-        { title: "Citas Programadas", value: metrics?.appointments_schedule ?? 0, icon: "clock-outline", color: "#8E44AD" ,screen: ""},
-        { title: "Citas Reprogramadas", value: metrics?.appointments_reschedule ?? 0, icon: "refresh-outline", color: "#D35400" ,screen: ""},
-        { title: "Pagos Pendientes", value: metrics?.appointments_statepayment_pending ?? 0, icon: "alert-circle-outline", color: "#E67E22" ,screen: ""},
-        { title: "Pagos Parciales", value: metrics?.appointments_statepayment_partial ?? 0, icon: "pie-chart-outline", color: "#F1C40F" ,screen: ""},
-        { title: "Pagos Completos", value: metrics?.appointments_statepayment_complete ?? 0, icon: "checkmark-circle-outline", color: "#27AE60" ,screen: ""},
+         { title: "Chat Bot", value:  0, icon: "calendar-outline", color: "#9B59B6",screen: "ChatBotScreen" },
+        // { title: "Total Cirugías", value: metrics?.total_surgeries ?? 0, icon: "scissors-outline", color: "#E74C3C" ,screen: ""},
+        // { title: "Citas Pagadas", value: metrics?.total_appointment_payments ?? 0, icon: "credit-card-outline", color: "#2ECC71" ,screen: ""},
+        // { title: "Cirugías Pagadas", value: metrics?.total_surgerie_payments ?? 0, icon: "credit-card-outline", color: "#27AE60" ,screen: ""},
+        // { title: "Vacunaciones Pagadas", value: metrics?.total_vaccination_payments ?? 0, icon: "activity-outline", color: "#16A085" ,screen: ""},
+        // { title: "Citas Programadas", value: metrics?.appointments_schedule ?? 0, icon: "clock-outline", color: "#8E44AD" ,screen: ""},
+        // { title: "Citas Reprogramadas", value: metrics?.appointments_reschedule ?? 0, icon: "refresh-outline", color: "#D35400" ,screen: ""},
+        // { title: "Pagos Pendientes", value: metrics?.appointments_statepayment_pending ?? 0, icon: "alert-circle-outline", color: "#E67E22" ,screen: ""},
+        // { title: "Pagos Parciales", value: metrics?.appointments_statepayment_partial ?? 0, icon: "pie-chart-outline", color: "#F1C40F" ,screen: ""},
+        // { title: "Pagos Completos", value: metrics?.appointments_statepayment_complete ?? 0, icon: "checkmark-circle-outline", color: "#27AE60" ,screen: ""},
+        //
+
     ];
 
     const renderMetricItem = ({ item }) => (
@@ -81,6 +83,7 @@ export const SuperAdminScreen = () => {
                 contentContainerStyle={styles.listContent}
                 showsVerticalScrollIndicator={false}
             />
+
         </Layout>
     );
 };
