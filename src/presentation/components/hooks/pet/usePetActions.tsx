@@ -194,9 +194,7 @@ export const usePetActions = () => {
 
     useEffect(() => {
         const debouncedSearch = debounce(() => {
-            if (searchQuery === "") {
-                fetchPets();
-            } else {
+            if (searchQuery !== "") {
                 handleSearch();
             }
         }, 500); // Retraso de 500ms

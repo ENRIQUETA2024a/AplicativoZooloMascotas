@@ -69,7 +69,6 @@ export const UserAdminScreen = () => {
                         status="danger"
                         accessoryLeft={<Icon name="refresh-outline"/>}
                         onPress={()=>{
-                            fetchUsers();
                             setSearchQuery("");
                         }}
                     />
@@ -113,7 +112,7 @@ export const UserAdminScreen = () => {
                 ListEmptyComponent={
                     <View style={StylesAdminScreen.emptyContainer}>
                         <Icon
-                            name="people-outline"
+                            name="person-outline"
                             fill="#8F9BB3"
                             style={StylesAdminScreen.emptyIcon}
                         />

@@ -70,7 +70,6 @@ export const OwnerAdminScreen = () => {
                         status="danger"
                         accessoryLeft={<Icon name="refresh-outline"/>}
                         onPress={()=>{
-                            fetchOwners();
                             setSearchQuery("");
                         }}
                     />

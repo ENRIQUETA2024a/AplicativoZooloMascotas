@@ -53,7 +53,7 @@ export const PetAdminScreen = () => {
             {label: "Celular ", value: item.phone, icon: "phone-call-outline"},
         ]}
 
-                    iconName={"twitter-outline"}
+                    iconName={"heart-outline"}
                     onEdit={() => handleEditPet(item.id)}
                     onDelete={() => handleDeletePets(item.id)}
                     onToggleActive={() => handleToggleActivate(item.id, !item.deleted_at)}
@@ -80,7 +80,6 @@ export const PetAdminScreen = () => {
                         status="danger"
                         accessoryLeft={<Icon name="refresh-outline"/>}
                         onPress={() => {
-                            fetchPets();
                             setSearchQuery("");
                         }}
                     />
@@ -124,7 +123,7 @@ export const PetAdminScreen = () => {
                 ListEmptyComponent={
                     <View style={StylesAdminScreen.emptyContainer}>
                         <Icon
-                            name="people-outline"
+                            name="heart-outline"
                             fill="#8F9BB3"
                             style={StylesAdminScreen.emptyIcon}
                         />
