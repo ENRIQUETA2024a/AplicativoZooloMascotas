@@ -26,3 +26,5 @@ export * from './role/AsistenteScreen'
 export * from './role/VeterinarioScreen'
 export * from './role/RecepcionScreen'
 
+//
+export * from './chatbot/ChatBotScreen'

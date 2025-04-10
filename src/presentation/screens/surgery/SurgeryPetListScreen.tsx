@@ -2,9 +2,9 @@ import {ScrollView, StyleSheet, Text, View} from "react-native";
 import {RouteProp, useRoute} from "@react-navigation/native";
 import {useEffect, useState} from "react";
 import {getSurgeriesByPetId} from "../../../actions";
-import {MyActivityIndicator} from "../../components/ui/MyActivityIndicator";
 import {MyRootStackScreens} from "../../navigation/MyRootStackScreens";
 import {SurgeryPetCard} from "../../components/surgery/SurgeryPetCard";
+import {MyActivityIndicator} from "../../components";
 
 type PetDetailsScreenRouteProp = RouteProp<MyRootStackScreens, "PetDetailsScreen">
 

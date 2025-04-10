@@ -3,8 +3,7 @@ import {RouteProp, useRoute} from "@react-navigation/native";
 import {useEffect, useState} from "react";
 import {MyRootStackScreens} from "../../navigation/MyRootStackScreens";
 import {getAppointmentsByPetId} from "../../../actions";
-import {MyActivityIndicator} from "../../components/ui/MyActivityIndicator";
-import {AppointmentPetCard} from "../../components/appointment/AppointmentPetCard";
+import {AppointmentPetCard, MyActivityIndicator} from "../../components";
 
 type PetDetailsScreenRouteProp = RouteProp<MyRootStackScreens, "PetDetailsScreen">
 

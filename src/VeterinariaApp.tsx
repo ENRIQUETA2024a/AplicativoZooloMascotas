@@ -7,7 +7,9 @@ import MyDrawerNavigator from "./presentation/navigation/MyDrawerNavigator";
 import * as eva from "@eva-design/eva";
 import {EvaIconsPack} from "@ui-kitten/eva-icons";
 import {useAuth} from "./presentation/components/hooks/useAuth";
-import {MyActivityIndicator} from "./presentation/components/ui/MyActivityIndicator";
+import {MyActivityIndicator} from "./presentation/components";
+import {navigationRef} from "./presentation/providers/navigationRef";
+
 export const VeterinariaApp = () => {
 
     const {isLoading} = useAuth();
@@ -18,7 +20,7 @@ export const VeterinariaApp = () => {
         <>
             <IconRegistry icons={EvaIconsPack}/>
             <ApplicationProvider {...eva} theme={eva.light}>
-                <NavigationContainer>
+                <NavigationContainer ref={navigationRef}>
                     <LoginProvider>
                         <MyDrawerNavigator/>
                     </LoginProvider>

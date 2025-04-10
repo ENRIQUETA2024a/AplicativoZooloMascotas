@@ -6,6 +6,7 @@ import {PetApiMapperDashboard, PetApiResponseDashboard, PetDashboard} from "../.
 const BASE_URL = 'admin/pets/';
 
 export const getPets = async (): Promise<PetDashboard[]> => {
+
     try {
         const {token, userType} = await getAuthToken();
         if (!token && userType !== "owner") {

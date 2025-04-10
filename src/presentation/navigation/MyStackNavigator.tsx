@@ -8,11 +8,9 @@ import {
     PetScreen, RecepcionScreen, SuperAdminScreen,
     SurgeryPetListScreen, UserHomeScreen,
     VaccinePetListScreen, VeterinarioScreen,
-    PetAdminScreen
+    PetAdminScreen, ChatBotScreen
 } from "../screens/";
-import {UserList} from "../components/user/UserList";
 import {UserAdminScreen} from "../screens/user/UserAdminScreen";
-import {ChatbotScreen} from "../screens/chatbot/ChatBotScreen";
 
 
 
@@ -32,7 +30,7 @@ export const MyStackNavigator = () => {
                 name="OwnerHomeScreen"
                 component={OwnerHomeScreen}
                 options={{
-                    title: "Menu Dueño",
+                    title: "Mis Mascotas",
                     // headerLeft: () => (
                     //     <MaterialCommunityIcons
                     //         name="card-account-details"
@@ -61,7 +59,7 @@ export const MyStackNavigator = () => {
 
             {/*Pantalla detalles de la mascota*/}
             <Stack.Screen name="PetDetailsScreen" component={PetDetailsScreen}
-                          options={{title: "Detalles de mascota"}}/>
+                          options={{title: "Informacion General"}}/>
 
             {/*Pantalla Listado de Citas de Mascota*/}
             <Stack.Screen name="AppointmentPetListScreen" component={AppointmentPetListScreen}
@@ -98,8 +96,8 @@ export const MyStackNavigator = () => {
             <Stack.Screen name="RecepcionScreen" component={RecepcionScreen}
                           options={{title: "RecepcionScreen"}}/>
 
-            <Stack.Screen name="ChatBotScreen" component={ChatbotScreen}
-                          options={{title: "ChatBotScreen"}}/>
+            <Stack.Screen name="ChatBotScreen" component={ChatBotScreen}
+                          options={{title: "ZooloMascotas"}}/>
 
         </Stack.Navigator>
     );

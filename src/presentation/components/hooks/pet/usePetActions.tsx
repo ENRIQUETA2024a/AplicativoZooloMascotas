@@ -51,7 +51,7 @@ export const usePetActions = () => {
             setPets(petList || []);
             setError(null);
         } catch (error) {
-            setError("Error al cargar los dueños");
+            setError("Error al cargar las mascotas");
         } finally {
             setLoading(false);
         }
@@ -194,7 +194,9 @@ export const usePetActions = () => {
 
     useEffect(() => {
         const debouncedSearch = debounce(() => {
-            if (searchQuery !== "") {
+            if (searchQuery === "") {
+                fetchPets();
+            } else {
                 handleSearch();
             }
         }, 500); // Retraso de 500ms

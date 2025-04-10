@@ -1,9 +1,12 @@
 import axios from 'axios'
 import * as url from "node:url";
 
-// TODO ip de la pc donde se ejecuta el backend
-export const urlAPI = "http://192.168.2.3:8888/api/app"
-
+// TODO IP de la pc donde se ejecuta el backend
+const urlIP= "http://192.168.2.3:8888";
+// Rutas para consumir el api
+export const urlAPI = `${urlIP}/api/app`;
+// Ruta para verificar el backend
+export const urlHealth= `${urlIP}/api/health`;
 
 export const apiZooloMascotas = axios.create({
     baseURL: urlAPI,
@@ -11,13 +14,3 @@ export const apiZooloMascotas = axios.create({
         'content-type': 'application/json'
     },
 })
-
-
-export const setAuthToken = (token) => {
-    if(token){
-        apiZooloMascotas.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-    }
-    else {
-        delete apiZooloMascotas.defaults.headers.common['Authorization'];
-    }
-}

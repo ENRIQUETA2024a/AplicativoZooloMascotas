@@ -1,6 +1,3 @@
-import {UserAdminScreen} from "../screens/user/UserAdminScreen";
-import {ChatBotScreen} from "../screens/chatbot/ChatBotScreen";
-
 export type MyRootStackScreens = {
     LoginScreen: undefined;
     HomeScreen: undefined;

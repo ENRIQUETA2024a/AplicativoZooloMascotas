@@ -115,7 +115,7 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
                             />
                         }
                         status={"warning"}
-                        onPress={() => navigation.navigate("UserList")}
+                        onPress={() => navigation.navigate("UserAdminScreen")}
                     >
                         Usuarios
                     </Button>

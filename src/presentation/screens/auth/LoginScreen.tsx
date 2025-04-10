@@ -1,12 +1,13 @@
-import React, { useState } from "react";
-import { Alert, Image, ScrollView, StyleSheet} from "react-native";
-import { Button, Icon, Input, Layout, Text } from "@ui-kitten/components";
+import React, { useState} from "react";
+import {Alert, Image, ScrollView, StyleSheet} from "react-native";
+import {Button, Icon, Input, Layout, Text} from "@ui-kitten/components";
 import {useUserLoginStore} from "../../../actions";
 import {MyActivityIndicator, MyIcon} from "../../components";
 
+
 export const LoginScreen = () => {
     const Logo = require("../../../assets/LogoZooloMascotas.png");
-    const { login } = useUserLoginStore();
+    const {login} = useUserLoginStore();
     const [passwordView, setPasswordView] = useState(false);
     const [imageLoaded, setImageLoaded] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -49,7 +50,7 @@ export const LoginScreen = () => {
                         onLoad={() => setImageLoaded(true)}
                         onError={(e) => console.log("Error cargando la imagen:", e.nativeEvent.error)}
                     />
-                    {!imageLoaded && <MyActivityIndicator style={styles.logoLoader} />}
+                    {!imageLoaded && <MyActivityIndicator style={styles.logoLoader}/>}
                     <Text category="h4" style={styles.title}>
                         Bienvenido
                     </Text>
@@ -65,16 +66,16 @@ export const LoginScreen = () => {
                         style={styles.input}
                         keyboardType="email-address"
                         autoCapitalize="none"
-                        accessoryLeft={<MyIcon name="email-outline" />}
+                        accessoryLeft={<MyIcon name="email-outline"/>}
                         value={form.email}
-                        onChangeText={(email) => setForm({ ...form, email })}
+                        onChangeText={(email) => setForm({...form, email})}
                         disabled={isSubmitting}
                     />
                     <Input
                         placeholder="Contraseña"
                         style={styles.input}
                         secureTextEntry={!passwordView}
-                        accessoryLeft={<MyIcon name="lock-outline" />}
+                        accessoryLeft={<MyIcon name="lock-outline"/>}
                         accessoryRight={
                             <Icon
                                 name={passwordView ? "eye-off" : "eye"}
@@ -83,7 +84,7 @@ export const LoginScreen = () => {
                             />
                         }
                         value={form.password}
-                        onChangeText={(password) => setForm({ ...form, password })}
+                        onChangeText={(password) => setForm({...form, password})}
                         disabled={isSubmitting}
                     />
                     <Button
@@ -95,7 +96,7 @@ export const LoginScreen = () => {
                             isSubmitting ? (
                                 <MyActivityIndicator/>
                             ) : (
-                                <MyIcon name="arrow-forward-outline" white style={styles.buttonIcon} />
+                                <MyIcon name="arrow-forward-outline" white style={styles.buttonIcon}/>
                             )
                         }
                     >
@@ -113,7 +114,7 @@ export const LoginScreen = () => {
                         onPress={() =>
                             Alert.alert(
                                 "¿Cómo tener una cuenta?",
-                                "Recuerda que debes tener al menos una atención en nuestra veterinaria, luego se te dará tu usuario y contraseña."
+                                "Recuerda que debes tener al menos una atención en nuestra veterinaria, luego se te informara tu usuario y contraseña."
                             )
                         }
                     >
@@ -148,7 +149,7 @@ const styles = StyleSheet.create({
     logoLoader: {
         position: "absolute",
         top: "50%",
-        transform: [{ translateY: -20 }],
+        transform: [{translateY: -20}],
     },
     title: {
         color: "#1A2138",
@@ -165,7 +166,7 @@ const styles = StyleSheet.create({
         borderRadius: 15,
         elevation: 4,
         shadowColor: "#000",
-        shadowOffset: { width: 0, height: 2 },
+        shadowOffset: {width: 0, height: 2},
         shadowOpacity: 0.1,
         shadowRadius: 4,
     },

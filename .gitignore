@@ -2,8 +2,6 @@
 
 # dependencies
 
-/src/actions/chatbot/key.tsx
-
 node_modules/
 
 # Expo
