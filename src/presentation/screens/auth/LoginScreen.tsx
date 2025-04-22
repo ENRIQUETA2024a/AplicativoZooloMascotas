@@ -1,9 +1,8 @@
-import React, { useState} from "react";
+import React, { useEffect, useState} from "react";
 import {Alert, Image, ScrollView, StyleSheet} from "react-native";
 import {Button, Icon, Input, Layout, Text} from "@ui-kitten/components";
 import {useUserLoginStore} from "../../../actions";
 import {MyActivityIndicator, MyIcon} from "../../components";
-
 
 export const LoginScreen = () => {
     const Logo = require("../../../assets/LogoZooloMascotas.png");
@@ -16,8 +15,8 @@ export const LoginScreen = () => {
 
     const [form, setForm] = useState({
         //email: "Demo1@gmail.com",
-        email: "i2220967@continental.edu.pe",
-        password: "12345678",
+        email: "luis_peña@gmail.com",
+        password: "42062845",
     });
 
     const onLogin = async () => {
@@ -34,6 +33,7 @@ export const LoginScreen = () => {
             Alert.alert("Error", "Usuario o contraseña incorrectos");
         }
     };
+
 
     return (
         <Layout style={styles.container}>

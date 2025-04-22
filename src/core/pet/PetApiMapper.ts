@@ -1,4 +1,5 @@
 // Mapper toma datos externos de la API y ajustan para que encajen en el model
+import { urlAvatarPet } from "../../config/api/apiZooloMascotas";
 import {Pet} from "./Pet"; // Modelo
 import {PetAPIResponse} from "./PetApiResponse"; // Modelo de respuesta que nos Enviara la API
 import {Image} from "react-native"
@@ -7,8 +8,8 @@ export class PetApiMapper {
     // #TODO Convierte desde API "JSON" hacia Modelo "Clase", lee los datos de la API y convierte a nuestro modelo
     static mapApiResponseToModel(pet: PetAPIResponse): Pet {
 
-        const defaultImage = Image.resolveAssetSource(require("../../assets/default_pet.jpg")).uri;
-
+        const defaultImage = Image.resolveAssetSource(require("../../assets/default_pet.jpg")).uri;        
+        
         return {
             birth_date: pet.birth_date,
             breed: pet.breed,
@@ -17,7 +18,7 @@ export class PetApiMapper {
             id: pet.id,
             medical_notes: pet.medical_notes,
             name: pet.name,
-            photo: pet.photo || defaultImage,
+            photo:  (urlAvatarPet+ pet.avatar) || defaultImage,
             specie: pet.specie,
             weight: pet.weight,
             owner_id: pet.owner_id,
@@ -34,7 +35,7 @@ export class PetApiMapper {
             id: pet.id,
             medical_notes: pet.medical_notes,
             name: pet.name,
-            photo: pet.photo,
+            avatar: pet.photo,
             specie: pet.specie,
             weight: pet.weight,
             owner_id: pet.owner_id,

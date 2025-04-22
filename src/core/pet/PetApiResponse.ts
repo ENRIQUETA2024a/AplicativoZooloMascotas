@@ -10,7 +10,7 @@ export interface PetAPIResponse {
     medical_notes: string;
     name:          string;
     owner_id:      number;
-    photo:         string;
+    avatar:         string;
     specie:        string;
     updated_at:    Date;
     weight:        string;

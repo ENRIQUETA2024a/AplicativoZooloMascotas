@@ -25,7 +25,7 @@ export const PetScreen = () => {
         fetchPets();
     }, []);
 
-    if (loading) {
+    if (loading|| !user) {
         return (
             <Layout style={styles.loadingContainer}>
                 <MyActivityIndicator/>

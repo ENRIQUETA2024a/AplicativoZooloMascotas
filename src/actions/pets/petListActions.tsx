@@ -21,7 +21,8 @@ export const getPetById = async(petId:number):Promise<Pet | null> =>{
         }
 
         const {data} = await apiZooloMascotas.get(`/pets/${petId}`,config);
-        const pet = PetApiMapper.mapApiResponseToModel(data);
+        console.log(data)
+        const pet = PetApiMapper.mapApiResponseToModel(data);        
         return pet;
     }
     catch (error) {

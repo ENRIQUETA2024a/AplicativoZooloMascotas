@@ -17,7 +17,7 @@ const Drawer = createDrawerNavigator();
 
 export default function MyDrawerNavigator() {
     return (
-        <Drawer.Navigator
+        <Drawer.Navigator id={undefined}
             drawerContent={(props) => <CustomDrawerContent {...props} />}
             screenOptions={{
                 drawerType: "slide",

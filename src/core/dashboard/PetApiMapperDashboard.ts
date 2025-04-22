@@ -1,8 +1,12 @@
+import { urlAvatarPet } from "../../config/api/apiZooloMascotas";
 import {PetApiResponseDashboard} from "./PetApiResponseDashboard";
 import {PetDashboard} from "./PetDashboard";
+import {Image} from "react-native"
 
 export class PetApiMapperDashboard {
     static mapPetApiResponseToModel(petApi: PetApiResponseDashboard): PetDashboard[]{
+        const defaultImage = Image.resolveAssetSource(require("../../assets/default_pet.jpg")).uri;        
+        
         return petApi.data.map( pet=>({
             id: pet.id,
             specie: pet.specie,
@@ -12,7 +16,7 @@ export class PetApiMapperDashboard {
             gender: pet.gender,
             color: pet.color,
             weight: pet.weight,
-            photo: pet.photo,
+            photo: (urlAvatarPet+ pet.avatar) || defaultImage,
             medical_notes: pet.medical_notes,
             ownerId: pet.ownerId,
             deleted_at: pet.deleted_at,

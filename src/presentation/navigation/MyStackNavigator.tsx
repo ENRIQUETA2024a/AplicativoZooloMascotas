@@ -18,7 +18,7 @@ import {UserAdminScreen} from "../screens/user/UserAdminScreen";
 const Stack = createStackNavigator<MyRootStackScreens>();
 export const MyStackNavigator = () => {
     return (
-        <Stack.Navigator>
+        <Stack.Navigator id={undefined}>
             {/*Pantalla Login*/}
             <Stack.Screen
                 name="LoginScreen"
