@@ -22,12 +22,12 @@ export const getPets = async (): Promise<PetDashboard[]> => {
         const {data} = await apiZooloMascotas.get<PetApiResponseDashboard>(BASE_URL, config);
         return PetApiMapperDashboard.mapPetApiResponseToModel(data);
     } catch (error) {
-        console.error(`❌ Error obteniendo las mascotas getPets: `, error);
+        console.warn (`❌ Error obteniendo las mascotas getPets: `, error);
         if (error.response) {
-            console.error("📌 Código de estado:", error.response.status);
-            console.error("📌 Respuesta del servidor:", error.response.data);
+            console.warn ("📌 Código de estado:", error.response.status);
+            console.warn ("📌 Respuesta del servidor:", error.response.data);
         } else {
-            console.error("📌 Error general:", error.message);
+            console.warn ("📌 Error general:", error.message);
         }
         return [];
     }
@@ -51,12 +51,12 @@ export const  getPetById = async (id: number): Promise<PetDashboard | null> => {
         return data;
 
     } catch (error) {
-        console.error(`❌ Error obteniendo las mascotas getPetById: `, error);
+        console.warn(`❌ Error obteniendo las mascotas getPetById: `, error);
         if (error.response) {
-            console.error("📌 Código de estado:", error.response.status);
-            console.error("📌 Respuesta del servidor:", error.response.data);
+            console.warn("📌 Código de estado:", error.response.status);
+            console.warn("📌 Respuesta del servidor:", error.response.data);
         } else {
-            console.error("📌 Error general:", error.message);
+            console.warn("📌 Error general:", error.message);
         }
         return null;
     }
@@ -79,12 +79,12 @@ export const updatePet = async (id: number, petData: any): Promise<boolean> => {
         await apiZooloMascotas.put(`${BASE_URL}${id}`, petData, config);
         return true;
     } catch (error) {
-        console.error(`❌ Error obteniendo actualizando mascota updatePet: `, error);
+        console.warn(`❌ Error obteniendo actualizando mascota updatePet: `, error);
         if (error.response) {
-            console.error("📌 Código de estado:", error.response.status);
-            console.error("📌 Respuesta del servidor:", error.response.data);
+            console.warn("📌 Código de estado:", error.response.status);
+            console.warn("📌 Respuesta del servidor:", error.response.data);
         } else {
-            console.error("📌 Error general:", error.message);
+            console.warn("📌 Error general:", error.message);
         }
         return false;
     }
@@ -106,13 +106,13 @@ export const deletePet = async (id: number): Promise<boolean> => {
         const {data} = await apiZooloMascotas.delete(`${BASE_URL}${id}`, config);
         return true;
     } catch (error) {
-        console.error(`❌ Error eliminando la mascota deletePet: `, error);
+        console.warn(`❌ Error eliminando la mascota deletePet: `, error);
         // Si el error viene de Axios, muestra la respuesta del servidor
         if (error.response) {
-            console.error("📌 Código de estado:", error.response.status);
-            console.error("📌 Respuesta del servidor:", error.response.data);
+            console.warn("📌 Código de estado:", error.response.status);
+            console.warn("📌 Respuesta del servidor:", error.response.data);
         } else {
-            console.error("📌 Error general:", error.message);
+            console.warn("📌 Error general:", error.message);
         }
         return false;
     }
@@ -138,7 +138,7 @@ export const toggleActivatePet = async (id: number, isActive: boolean): Promise<
         console.log(`✅ Mascota con ID ${id} ${isActive ? "desactivado" : "activado"} correctamente`);
         return true;
     } catch (error) {
-        console.error(`❌ Error cambiando estado del dueño con ID ${id}: `, error);
+        console.warn(`❌ Error cambiando estado del dueño con ID ${id}: `, error);
         return false;
     }
 }
@@ -162,12 +162,12 @@ export const searchPets = async (searchQuery: string): Promise<PetDashboard []> 
         return PetApiMapperDashboard.mapPetApiResponseToModel(data);
 
     } catch (error) {
-        console.error(`❌ Error obteniendo las mascotas searchQuery en searchPets: `, error);
+        console.warn(`❌ Error obteniendo las mascotas searchQuery en searchPets: `, error);
         if (error.response) {
-            console.error("📌 Código de estado:", error.response.status);
-            console.error("📌 Respuesta del servidor:", error.response.data);
+            console.warn("📌 Código de estado:", error.response.status);
+            console.warn("📌 Respuesta del servidor:", error.response.data);
         } else {
-            console.error("📌 Error general:", error.message);
+            console.warn("📌 Error general:", error.message);
         }
         return [];
     }

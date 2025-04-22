@@ -14,7 +14,7 @@ export const getAuthToken = async (): Promise<{ token: string | null; userType: 
         }
         return { token: null, userType: null };
     } catch (error) {
-        console.error("❌ Error obteniendo el token:", error);
+        console.warn("❌ Error obteniendo el token:", error);
         return { token: null, userType: null };
     }
 };
@@ -29,7 +29,7 @@ export const checkBackendHealth = async (timeout = 5000): Promise<boolean> => {
         return response.ok && data?.status === "ok";
     } catch (error) {
         clearTimeout(timeoutId);
-        //console.error("❌ Error al verificar el backend:", error.message);
+        //console.warn("❌ Error al verificar el backend:", error.message);
         return false;
     }
 };

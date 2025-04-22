@@ -21,12 +21,12 @@ export const getOwners = async (): Promise<OwnerDashboard []> => {
         const {data} = await apiZooloMascotas.get<OwnerApiResponseDashboard>(BASE_URL, config);
         return OwnerApiMapperDashboard.mapOwnerApiResponseToModel(data);
     } catch (error) {
-        console.error(`❌ Error obteniendo los dueños: `, error);
+        console.warn (`❌ Error obteniendo los dueños: `, error);
         if (error.response) {
-            console.error("📌 Código de estado:", error.response.status);
-            console.error("📌 Respuesta del servidor:", error.response.data);
+            console.warn ("📌 Código de estado:", error.response.status);
+            console.warn ("📌 Respuesta del servidor:", error.response.data);
         } else {
-            console.error("📌 Error general:", error.message);
+            console.warn ("📌 Error general:", error.message);
         }
         return [];
     }
@@ -50,7 +50,7 @@ export const getOwnerById = async (id: number): Promise<OwnerDashboard | null> =
         return data.data;
 
     } catch (error) {
-        console.error(`❌ Error obteniendo el dueño con ID ${id}: `, error);
+        console.warn (`❌ Error obteniendo el dueño con ID ${id}: `, error);
         return null;
     }
 };
@@ -72,7 +72,7 @@ export const createOwner = async (ownerData: any): Promise<boolean> => {
         const message = await apiZooloMascotas.post<{ message: String; status: Number }>(BASE_URL, ownerData, config);
         return true;
     } catch (error) {
-        console.error(`❌ Error creando dueño: `, error);
+        console.warn (`❌ Error creando dueño: `, error);
         return false;
     }
 };
@@ -94,7 +94,7 @@ export const updateOwner = async (id: number, ownerData: any): Promise<boolean> 
         await apiZooloMascotas.put(`${BASE_URL}${id}`, ownerData, config);
         return true;
     } catch (error) {
-        console.error(`❌ Error actualizando dueño con ID ${id}: `, error);
+        console.warn (`❌ Error actualizando dueño con ID ${id}: `, error);
         return false;
     }
 };
@@ -114,13 +114,13 @@ export const deleteOwner = async (id: number): Promise<boolean> => {
         const {data} = await apiZooloMascotas.delete(`${BASE_URL}${id}`, config);
         return true;
     } catch (error) {
-        console.error(`❌ Error eliminando el dueño deleteOwner: `, error);
+        console.warn (`❌ Error eliminando el dueño deleteOwner: `, error);
         // Si el error viene de Axios, muestra la respuesta del servidor
         if (error.response) {
-            console.error("📌 Código de estado:", error.response.status);
-            console.error("📌 Respuesta del servidor:", error.response.data);
+            console.warn ("📌 Código de estado:", error.response.status);
+            console.warn ("📌 Respuesta del servidor:", error.response.data);
         } else {
-            console.error("📌 Error general:", error.message);
+            console.warn ("📌 Error general:", error.message);
         }
         return false;
     }
@@ -146,7 +146,7 @@ export const toggleActivateOwner = async (id: number, isActive: boolean): Promis
         console.log(`✅ Dueño con ID ${id} ${isActive ? "desactivado" : "activado"} correctamente`);
         return true;
     } catch (error) {
-        console.error(`❌ Error cambiando estado del dueño con ID ${id}: `, error);
+        console.warn (`❌ Error cambiando estado del dueño con ID ${id}: `, error);
         return false;
     }
 }
@@ -170,12 +170,12 @@ export const searchOwners = async (searchQuery: string): Promise<OwnerDashboard 
         return OwnerApiMapperDashboard.mapOwnerApiResponseToModel(data);
 
     } catch (error) {
-        console.error(`❌ Error obteniendo los dueños searchQuery en searchOwners: `, error);
+        console.warn (`❌ Error obteniendo los dueños searchQuery en searchOwners: `, error);
         if (error.response) {
-            console.error("📌 Código de estado:", error.response.status);
-            console.error("📌 Respuesta del servidor:", error.response.data);
+            console.warn ("📌 Código de estado:", error.response.status);
+            console.warn ("📌 Respuesta del servidor:", error.response.data);
         } else {
-            console.error("📌 Error general:", error.message);
+            console.warn ("📌 Error general:", error.message);
         }
         return [];
     }

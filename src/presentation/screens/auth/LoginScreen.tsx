@@ -15,8 +15,8 @@ export const LoginScreen = () => {
 
     const [form, setForm] = useState({
         //email: "Demo1@gmail.com",
-        email: "luis_peña@gmail.com",
-        password: "42062845",
+        email: "cami@hotmail.com",
+        password: "72347327",
     });
 
     const onLogin = async () => {

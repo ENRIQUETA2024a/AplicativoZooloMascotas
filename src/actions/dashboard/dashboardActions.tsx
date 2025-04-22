@@ -20,13 +20,13 @@ export const getDashboardAppMetrics = async (): Promise<Metric> => {
         const metrics  = MetricApiMapper.mapMetricsApiResponseToModel(data);
         return metrics;
     } catch (error) {
-        console.error(`❌ Error obteniendo las metricas  getDashboardAppMetrics: `, error);
+        console.warn (`❌ Error obteniendo las metricas  getDashboardAppMetrics: `, error);
         // Si el error viene de Axios, muestra la respuesta del servidor
         if (error.response) {
-            console.error("📌 Código de estado:", error.response.status);
-            console.error("📌 Respuesta del servidor:", error.response.data);
+            console.warn ("📌 Código de estado:", error.response.status);
+            console.warn ("📌 Respuesta del servidor:", error.response.data);
         } else {
-            console.error("📌 Error general:", error.message);
+            console.warn ("📌 Error general:", error.message);
         }
         //  Devolvemos un array vacío para evitar que la app se rompa
         return null;

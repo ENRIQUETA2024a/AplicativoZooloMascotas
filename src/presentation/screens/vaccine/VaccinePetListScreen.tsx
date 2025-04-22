@@ -2,7 +2,7 @@ import {RouteProp, useRoute} from "@react-navigation/native";
 import {MyRootStackScreens} from "../../navigation/MyRootStackScreens";
 import {useEffect, useState} from "react";
 import {MyActivityIndicator} from "../../components/ui/MyActivityIndicator";
-import {ScrollView, StyleSheet, Text} from "react-native";
+import {ScrollView, StyleSheet, Text, View} from "react-native";
 import {getVaccinationsByPetId} from "../../../actions/vaccine/vaccinesListActions";
 import {VaccinePetCard} from "../../components/vaccine/VaccinePetCard";
 
@@ -22,7 +22,7 @@ export const VaccinePetListScreen=() =>{
                 const petData = await getVaccinationsByPetId(idPet);
                 setVaccine(petData);
             } catch (error) {
-                console.error("Error al obtener las vacunas:", error);
+                console.warn("Error al obtener las vacunas:", error);
             } finally {
                 setLoading(false);
             }
@@ -32,7 +32,11 @@ export const VaccinePetListScreen=() =>{
     }, [idPet]);
 
     if (loading) return <MyActivityIndicator/>;
-    if (!vaccines) return <Text>No se encontró vacunas</Text>;
+    if (vaccines.length ===0) return(<View style={styles.container}>
+        <Text style={styles.noVaccineText}>
+            No hay vacunas registradas para esta mascota.
+        </Text>
+    </View>);
 
     return (
         <ScrollView contentContainerStyle={styles.container}>
@@ -47,5 +51,11 @@ export const VaccinePetListScreen=() =>{
 const styles = StyleSheet.create({
     container: {
         padding: 15,
+    },
+    noVaccineText: {
+        textAlign: "center",
+        fontSize: 16,
+        marginTop: 30,
+        color: "gray",
     }
 });

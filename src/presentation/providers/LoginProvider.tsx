@@ -28,7 +28,7 @@ export const LoginProvider = ({children}: PropsWithChildren) => {
                 }
                 //await checkAuth(); // Verificamos la autenticación
             } catch (error) {
-                console.error("❌ Error en la autenticación:", error);
+                console.warn("❌ Error en la autenticación:", error);
             } finally {
                 setAppReady(true);
             }

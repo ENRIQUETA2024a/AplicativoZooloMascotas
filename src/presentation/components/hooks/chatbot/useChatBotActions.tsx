@@ -60,7 +60,7 @@ export const useChatBotActions = () => {
             };
             addMessage(assistantMessage);
         } catch (error) {
-            console.error('Error al enviar mensaje:', error);
+            console.warn('Error al enviar mensaje:', error);
             addMessage({
                 role: 'assistant',
                 content: '❌ Error al procesar la solicitud',

@@ -23,13 +23,13 @@ export const getUsersForSuperAdmin = async (): Promise<UserDashboard[]> => {
         const {data} = await apiZooloMascotas.get<UserListApiResponse>(BASE_URL, config);
         return data.users.map((users) => (UserApiMapperForDashboard(users)));
     } catch (error) {
-        console.error(`❌ Error obteniendo los usuarios getUsersForSuperAdmin: `, error);
+        console.warn(`❌ Error obteniendo los usuarios getUsersForSuperAdmin: `, error);
         // Si el error viene de Axios, muestra la respuesta del servidor
         if (error.response) {
-            console.error("📌 Código de estado:", error.response.status);
-            console.error("📌 Respuesta del servidor:", error.response.data);
+            console.warn("📌 Código de estado:", error.response.status);
+            console.warn("📌 Respuesta del servidor:", error.response.data);
         } else {
-            console.error("📌 Error general:", error.message);
+            console.warn("📌 Error general:", error.message);
         }
         //  Devolvemos un array vacío para evitar que la app no se rompa
         return [];
@@ -54,12 +54,12 @@ export const getUserById = async (id: number): Promise<UserDashboard | null> => 
         return data;
 
     } catch (error) {
-        console.error(`❌ Error obteniendo los usuarios getUserById: `, error);
+        console.warn(`❌ Error obteniendo los usuarios getUserById: `, error);
         if (error.response) {
-            console.error("📌 Código de estado:", error.response.status);
-            console.error("📌 Respuesta del servidor:", error.response.data);
+            console.warn("📌 Código de estado:", error.response.status);
+            console.warn("📌 Respuesta del servidor:", error.response.data);
         } else {
-            console.error("📌 Error general:", error.message);
+            console.warn("📌 Error general:", error.message);
         }
         return null;
     }
@@ -84,13 +84,13 @@ export const updateUser = async (id: number, updatedData: any) => {
         return data;
 
     } catch (error) {
-        console.error(`❌ Error actualizando los usuarios updateUser: `, error);
+        console.warn(`❌ Error actualizando los usuarios updateUser: `, error);
         // Si el error viene de Axios, muestra la respuesta del servidor
         if (error.response) {
-            console.error("📌 Código de estado:", error.response.status);
-            console.error("📌 Respuesta del servidor:", error.response.data);
+            console.warn("📌 Código de estado:", error.response.status);
+            console.warn("📌 Respuesta del servidor:", error.response.data);
         } else {
-            console.error("📌 Error general:", error.message);
+            console.warn("📌 Error general:", error.message);
         }
         //  Devolvemos un array vacío para evitar que la app no se rompa
         return null;
@@ -114,13 +114,13 @@ export const deleteUser = async (id: number) => {
         const {data} = await apiZooloMascotas.delete<UserDashboardApiResponse>(`${BASE_URL}${id}`, config);
         return data;
     } catch (error) {
-        console.error(`❌ Error eliminando el usuario destroyUser: `, error);
+        console.warn(`❌ Error eliminando el usuario destroyUser: `, error);
         // Si el error viene de Axios, muestra la respuesta del servidor
         if (error.response) {
-            console.error("📌 Código de estado:", error.response.status);
-            console.error("📌 Respuesta del servidor:", error.response.data);
+            console.warn("📌 Código de estado:", error.response.status);
+            console.warn("📌 Respuesta del servidor:", error.response.data);
         } else {
-            console.error("📌 Error general:", error.message);
+            console.warn("📌 Error general:", error.message);
         }
         //  Devolvemos un array vacío para evitar que la app no se rompa
         return [];
@@ -145,7 +145,7 @@ export const toggleActivateUser = async (id: number, isActive: boolean): Promise
         await apiZooloMascotas.put(`${BASE_URL}toggle-active/${id}`, {}, config);
         return true;
     } catch (error) {
-        console.error(`❌ Error cambiando estado del Usuario con ID ${id}: `, error);
+        console.warn(`❌ Error cambiando estado del Usuario con ID ${id}: `, error);
         return false;
     }
 }
@@ -167,12 +167,12 @@ export const searchUsers = async (searchQuery: string): Promise<UserDashboard []
         return UserApiMapperDashboard.mapUserApiResponseToModel(data);
 
     } catch (error) {
-        console.error(`❌ Error obteniendo los usuarios searchUsers en searchUsers: `, error);
+        console.warn(`❌ Error obteniendo los usuarios searchUsers en searchUsers: `, error);
         if (error.response) {
-            console.error("📌 Código de estado:", error.response.status);
-            console.error("📌 Respuesta del servidor:", error.response.data);
+            console.warn("📌 Código de estado:", error.response.status);
+            console.warn("📌 Respuesta del servidor:", error.response.data);
         } else {
-            console.error("📌 Error general:", error.message);
+            console.warn("📌 Error general:", error.message);
         }
         return [];
     }

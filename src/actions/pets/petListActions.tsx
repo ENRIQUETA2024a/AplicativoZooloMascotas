@@ -21,18 +21,17 @@ export const getPetById = async(petId:number):Promise<Pet | null> =>{
         }
 
         const {data} = await apiZooloMascotas.get(`/pets/${petId}`,config);
-        console.log(data)
         const pet = PetApiMapper.mapApiResponseToModel(data);        
         return pet;
     }
     catch (error) {
-        console.error(`❌ Error obteniendo las mascotas getPetById del Owner ID ${petId}:`, error);
+        console.warn (`❌ Error obteniendo las mascotas getPetById del Owner ID ${petId}:`, error);
         // Si el error viene de Axios, muestra la respuesta del servidor
         if (error.response) {
-            console.error("📌 Código de estado:", error.response.status);
-            console.error("📌 Respuesta del servidor:", error.response.data);
+            console.warn ("📌 Código de estado:", error.response.status);
+            console.warn ("📌 Respuesta del servidor:", error.response.data);
         } else {
-            console.error("📌 Error general:", error.message);
+            console.warn ("📌 Error general:", error.message);
         }
         //  Devolvemos un array vacío para evitar que la app se rompa
         return null;

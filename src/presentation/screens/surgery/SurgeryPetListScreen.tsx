@@ -20,7 +20,7 @@ export const SurgeryPetListScreen = () => {
                 const petData = await getSurgeriesByPetId(idPet);
                 setSurgery(petData);
             } catch (error) {
-                console.error("Error al obtener las cirugias:", error);
+                console.warn("Error al obtener las cirugias:", error);
             } finally {
                 setLoading(false);
             }
@@ -30,7 +30,11 @@ export const SurgeryPetListScreen = () => {
     }, [idPet]);
 
     if (loading) return <MyActivityIndicator/>;
-    if (!surgeries) return <Text>No se encontró cirugias</Text>;
+    if (surgeries.length === 0) return (<View style={styles.container}>
+        <Text style={styles.noSurgeryText}>
+            No hay cirugias registradas para esta mascota.
+        </Text>
+    </View>);
 
 
     return (
@@ -46,5 +50,11 @@ export const SurgeryPetListScreen = () => {
 const styles = StyleSheet.create({
     container: {
         padding: 15,
+    },
+    noSurgeryText: {
+        textAlign: "center",
+        fontSize: 16,
+        marginTop: 30,
+        color: "gray",
     }
 });

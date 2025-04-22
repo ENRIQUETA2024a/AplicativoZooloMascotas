@@ -50,7 +50,7 @@ export const useAuth = () => {
                 //await SecureStore.deleteItemAsync("authToken"); #TODO para eliminar el LOGIN QUE SE TENIA
 
             } catch (error) {
-                console.error("❌ Error verificando el token:", error);
+                console.warn("❌ Error verificando el token:", error);
                 setIsAuthenticated(false);
             } finally {
                 setIsLoading(false);

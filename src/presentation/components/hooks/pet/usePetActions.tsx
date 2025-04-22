@@ -131,7 +131,7 @@ export const usePetActions = () => {
             setIsEditMode(true);
             setModalVisible(true);
         } catch (err) {
-            console.error('Error editing pet:', err);
+            console.warn('Error editing pet:', err);
             setError("Error al cargar los detalles de la mascota");
         }
     }

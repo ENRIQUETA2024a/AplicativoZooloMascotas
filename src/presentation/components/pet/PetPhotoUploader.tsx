@@ -40,7 +40,7 @@ export const PetPhotoUploader = ({ photo, onPhotoChange }: { photo: string | nul
                 onPhotoChange(selectedAsset.uri, file);
             }
         } catch (error) {
-            console.error('Error al seleccionar la imagen:', error);
+            console.warn('Error al seleccionar la imagen:', error);
             alert('No se pudo cargar la imagen. Intenta de nuevo.');
         } finally {
             setLoading(false);

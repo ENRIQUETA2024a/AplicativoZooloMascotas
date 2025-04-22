@@ -22,7 +22,7 @@ export const PetDetail = () => {
                 const petData = await getPetById(idPet);
                 setPet(petData);
             } catch (error) {
-                console.error("Error al obtener la mascota:", error);
+                console.warn("Error al obtener la mascota:", error);
             } finally {
                 setLoading(false);
             }

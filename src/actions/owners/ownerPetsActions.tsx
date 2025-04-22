@@ -23,13 +23,13 @@ export const getOwnerPets = async (ownerId: number): Promise<Pet[]> => {
         const {data} = await apiZooloMascotas.get<PetAPIResponse[]>(`/owners/${ownerId}/pets`, config);
         return data.map((petRpta) => (PetApiMapper.mapApiResponseToModel(petRpta)));
     } catch (error) {
-        console.error(`❌ Error obteniendo las mascotas del Owner ID ${ownerId}:`, error);
+        console.warn (`❌ Error obteniendo las mascotas del Owner ID ${ownerId}:`, error);
         // Si el error viene de Axios, muestra la respuesta del servidor
         if (error.response) {
-            console.error("📌 Código de estado:", error.response.status);
-            console.error("📌 Respuesta del servidor:", error.response.data);
+            console.warn ("📌 Código de estado:", error.response.status);
+            console.warn ("📌 Respuesta del servidor:", error.response.data);
         } else {
-            console.error("📌 Error general:", error.message);
+            console.warn ("📌 Error general:", error.message);
         }
         //  Devolvemos un array vacío para evitar que la app se rompa
         return [];
